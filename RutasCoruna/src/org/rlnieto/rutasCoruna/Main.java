@@ -32,14 +32,24 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.SQLException;
 import android.database.Cursor;
 
+import android.os.Environment;
+import android.util.Log;
+
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.FileOutputStream;
+
+
 
 public class Main extends MapActivity implements LocationListener{
 
 	private MapView mapa = null;
 	private Button btnSatelite = null;
 	private Button btnCentrar = null;
-	private Button btnAnimar = null;
-	private Button btnMover = null;
+	private Button btnRuta1 = null;
+	private Button btnRuta2 = null;
 	private MapController controlMapa = null;
 	
 	private static final int CODIGO_RUTA_SACRA = 1;
@@ -58,8 +68,8 @@ public class Main extends MapActivity implements LocationListener{
         mapa = (MapView)findViewById(R.id.mapa);
         btnSatelite = (Button)findViewById(R.id.BtnSatelite);
         btnCentrar = (Button)findViewById(R.id.BtnCentrar);
-        btnAnimar = (Button)findViewById(R.id.BtnAnimar);
-        btnMover = (Button)findViewById(R.id.BtnMover);
+        btnRuta1 = (Button)findViewById(R.id.BtnRuta1);
+        btnRuta2 = (Button)findViewById(R.id.BtnRuta2);
         
         // Cargamos una referencia al controlador del mapa
         controlMapa = mapa.getController();
@@ -67,17 +77,25 @@ public class Main extends MapActivity implements LocationListener{
         // Mostramos los controles de zoom sobre el mapa
         mapa.setBuiltInZoomControls(true);
         
-		//Añadimos el overlay
-//		List<Overlay> capas = mapa.getOverlays();
-//		OverlayMapa om = new OverlayMapa();
-//		capas.add(om);
-//		mapa.postInvalidate();
-        mostrarPuntosDeInteres(mapa);
+        centrarMapa();        
+
         
         // Activamos el gps y solicitamos actualizaciones periódicas de la localización
-//        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-//        updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);
+        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			
+			
+		} else {
+            Toast.makeText(getBaseContext(), "El GPS está desactivado", Toast.LENGTH_LONG).show();
+		}
+        
+        
+        //        updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+        //        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);
+        
+        // Copiamos los ficheros html con las rutas a la sd
+        Updater uh = new Updater(this);
+        uh.copiarHtmlTarjetaSD(this, "web");
         
         
 		//--------------------------------------------------------------------------
@@ -107,43 +125,18 @@ public class Main extends MapActivity implements LocationListener{
         btnCentrar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				//Double latitud = 37.40*1E6;
-				//Double longitud = -5.99*1E6;
-
-				Double latitud = 43.371334*1E6;
-				Double longitud = -8.396001*1E6;
-
-				GeoPoint loc = 
-					new GeoPoint(latitud.intValue(), longitud.intValue());
-				
-				controlMapa.setCenter(loc);
-				controlMapa.setZoom(14);
+				centrarMapa();
 			}
 		});
-        
 
+        
 		//--------------------------------------------------------------------------
 		// Centra el mapa con animación
         //--------------------------------------------------------------------------
-        btnAnimar.setOnClickListener(new OnClickListener() {
+        btnRuta1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				//Double latitud = 37.40*1E6;
-				//Double longitud = -5.99*1E6;
-
-				Double latitud = 43.371334*1E6;
-				Double longitud = -8.396001*1E6;
-				
-				GeoPoint loc = 
-					new GeoPoint(latitud.intValue(), longitud.intValue());
-				
-				controlMapa.animateTo(loc);
-				
-				int zoomActual = mapa.getZoomLevel();
-				for(int i=zoomActual; i<14; i++)
-				{
-					controlMapa.zoomIn();
-				}
+		        mostrarPuntosDeInteres(mapa, 1);
 			}
 		});
         
@@ -151,17 +144,39 @@ public class Main extends MapActivity implements LocationListener{
 		//--------------------------------------------------------------------------
         // Mueve un poco el mapa
         //--------------------------------------------------------------------------
-        btnMover.setOnClickListener(new OnClickListener() {
+        btnRuta2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				
-				controlMapa.scrollBy(40, 40);
+		        mostrarPuntosDeInteres(mapa, 2);
 			}
 		});
     
 	}   // onCreate
         
 	
+	
+	//--------------------------------------------------------------------------
+	// Centra el mapa con animación
+    //--------------------------------------------------------------------------
+    private void centrarMapa(){
+
+		Double latitud = 43.371334*1E6;
+		Double longitud = -8.396001*1E6;
+		
+		GeoPoint loc = 
+			new GeoPoint(latitud.intValue(), longitud.intValue());
+		
+		controlMapa.animateTo(loc);
+		
+		int zoomActual = mapa.getZoomLevel();
+		for(int i=zoomActual; i<14; i++)
+		{
+			controlMapa.zoomIn();
+		}
+
+    }
+    
+
 	
 	//--------------------------------------------------------------------------
 	// Al heredar de mapActivity hay que implementar el método isRouteDisplayed 
@@ -227,7 +242,7 @@ public class Main extends MapActivity implements LocationListener{
 	//--------------------------------------------------------------------------------------------------
     // Muestra los puntos turísticos
     //--------------------------------------------------------------------------------------------------
-	protected void mostrarPuntosDeInteres(MapView mapa){
+	protected void mostrarPuntosDeInteres(MapView mapa, int codigoRuta){
         
         Drawable marker = getResources().getDrawable(R.drawable.marcador_google_maps);
         int markerWidth = marker.getIntrinsicWidth();
@@ -241,7 +256,7 @@ public class Main extends MapActivity implements LocationListener{
 		
 		try{
 			dbh.createDataBase();
-		}catch (IOException ioe) {throw new Error("Unable to create database");}
+		}catch (IOException ioe) {throw new Error("No se pudo crear la base de datos");}
 		
 		try {
 	 		dbh.openDataBase();
@@ -251,17 +266,19 @@ public class Main extends MapActivity implements LocationListener{
 		
 		// Tenemos la bd disponible, recuperamos los pois de la ruta. Le pasamos el _id
 		// de la tabla ruta
-		Cursor c = dbh.recuperarRuta(1);
+		Cursor c = dbh.recuperarRuta(codigoRuta);
 
 		marker.setBounds(0, markerHeight, markerWidth, 0);
         MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
+        mapa.getOverlays().clear();   // borramos los overlays para limpiar el mapa
         mapa.getOverlays().add(myItemizedOverlay);
 
+        // Recorremos el cursor añadiendo marcadores al mapa
         while(c.moveToNext()){
-        	Double latitud = c.getDouble(0)*1E6;
-        	Double longitud = c.getDouble(1)*1E6;
-        	String nombrePoi = c.getString(2);
-        	String datosPoi = c.getString(3);
+        	Double latitud = c.getDouble(c.getColumnIndex("latitud"))*1E6;
+        	Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
+        	String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
+        	String datosPoi = c.getString(c.getColumnIndex("descPoi"));
         	
             point = new GeoPoint(latitud.intValue(), longitud.intValue());
             myItemizedOverlay.addItem(point, nombrePoi, datosPoi);
@@ -274,6 +291,8 @@ public class Main extends MapActivity implements LocationListener{
         mapController.setZoom(15);
         
         mapa.invalidate();   // forzamos que el mapa se redibuje
+        
+        centrarMapa();
         
 	}
 
@@ -314,5 +333,17 @@ public class Main extends MapActivity implements LocationListener{
         mapOverlays.add(marker);  
         mapView.invalidate();		
 	}
+
+
+	
+	
+	
+	
+	
+	//--------------------------------------------------------------------------------------------------
+	// Copia los fichero html con los datos de los poi a la tarjeta SD
+	//--------------------------------------------------------------------------------------------------
+
+	
 	
 }

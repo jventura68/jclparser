@@ -18,15 +18,15 @@
 			android:layout_height="wrap_content"
 			android:text="Centrar" />
 			
-		<Button android:id="@+id/BtnAnimar"
+		<Button android:id="@+id/BtnRuta1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Animar" />
+			android:text="Ruta sacra" />
 			
-		<Button android:id="@+id/BtnMover"
+		<Button android:id="@+id/BtnRuta2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Mover" />
+			android:text="Todo" />
 	    
 	</LinearLayout>
 	

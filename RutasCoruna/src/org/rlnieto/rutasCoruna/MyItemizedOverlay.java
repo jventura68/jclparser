@@ -63,11 +63,11 @@ public class MyItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 //		myIntent.putExtra("lugar", overlaySeleccionado.getSnippet());
 //		context.startActivity(myIntent);
 
-		
-		
 		return true;
 		
 	}
+
+	
 
 	//--------------------------------------------------------------------------------------------------
 	// Se añade un nuevo marcador al overlay

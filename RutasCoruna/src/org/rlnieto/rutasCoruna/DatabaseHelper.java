@@ -99,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     		// La bd no existe
  
     	}
-    	// La bd existe => no hacemos nada
+    	// La bd existe => la cerramos y no hacemos nada
     	if(checkDB != null){
     		checkDB.close();
     	}
