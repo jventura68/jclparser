@@ -1,8 +1,11 @@
 * Solucionar el casque que se produce cuando se arranca la aplicación con el gps apagado
-* Enlazar con una bd para cargar las coordenadas de las rutas
 * Cargar el control de navegación con ficheros almacenados en la sd en lugar de acceder a inet
 * Ver cómo hacer que los "globos" cambien de forma al tocarlos
 * ¿Se puede abrir una ventanita con un resumen de cada poi al tocarlo y que desde ahí se pueda
   acceder a una pantalla con esa información ampliada?
-* Ver cómo hacer la aplicación multiidioma
+* Multiidioma
 * Ver cómo enlazar con fb y twitter
+* Asociar un icono distinto a cada poi ¿indicador en la tabla de pois?
+* Controlar cuándo hay que actualizar la bd ¿tabla de preferencias con número de versión? 
+  ¿preferencias xml de android?
+* ¿Se pueden crear cuadros de diálogo personalizados con html o texto con formato y fotografías?
