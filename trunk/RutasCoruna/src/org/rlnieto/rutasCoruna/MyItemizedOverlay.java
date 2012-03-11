@@ -2,10 +2,12 @@ package org.rlnieto.rutasCoruna;
 
 import java.util.ArrayList;
 
+import android.R.integer;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -72,8 +74,10 @@ public class MyItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	//--------------------------------------------------------------------------------------------------
 	// Se añade un nuevo marcador al overlay
 	//--------------------------------------------------------------------------------------------------
-	public void addItem(GeoPoint p, String title, String snippet){
+	public void addItem(GeoPoint p, String title, String snippet, Drawable marker){
 		OverlayItem newItem = new OverlayItem(p, title, snippet);
+
+		newItem.setMarker(marker);
 		overlayItemList.add(newItem);
 		populate();
 	}
