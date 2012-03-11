@@ -18,12 +18,14 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
+import com.google.android.maps.OverlayItem;
 
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.LocationProvider;
 
 import android.graphics.drawable.Drawable;
 import android.widget.Toast;
@@ -51,6 +53,8 @@ public class Main extends MapActivity implements LocationListener{
 	private Button btnRuta1 = null;
 	private Button btnRuta2 = null;
 	private MapController controlMapa = null;
+
+	private LocationManager locationManager = null;
 	
 	private static final int CODIGO_RUTA_SACRA = 1;
 	private static final int CODIGO_RUTA_COMPLETA = 1;
@@ -79,23 +83,25 @@ public class Main extends MapActivity implements LocationListener{
         
         centrarMapa();        
 
-        
+
         // Activamos el gps y solicitamos actualizaciones periódicas de la localización
-        LocationManager locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			
-			
-		} else {
-            Toast.makeText(getBaseContext(), "El GPS está desactivado", Toast.LENGTH_LONG).show();
-		}
+//        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        
+//        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//        	updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);	
+//			
+//		} else {
+//            Toast.makeText(getBaseContext(), "El GPS está desactivado", Toast.LENGTH_LONG).show();
+//		}
         
         
         //        updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
         //        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);
         
         // Copiamos los ficheros html con las rutas a la sd
-        Updater uh = new Updater(this);
-        uh.copiarHtmlTarjetaSD(this, "web");
+//        Updater uh = new Updater(this);
+//        uh.copiarHtmlTarjetaSD(this, "web");
         
         
 		//--------------------------------------------------------------------------
@@ -218,8 +224,11 @@ public class Main extends MapActivity implements LocationListener{
 	public void onProviderDisabled(String provider) { 
 		Toast.makeText(this, "GPS desactivado", Toast.LENGTH_SHORT).show();
 
-		Intent intent = new Intent( android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-		startActivity(intent);
+		//Intent intent = new Intent( android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+		//startActivity(intent);
+		
+		locationManager.removeUpdates(this);
+		
 	}
 	
 	@Override
@@ -268,7 +277,7 @@ public class Main extends MapActivity implements LocationListener{
 		// de la tabla ruta
 		Cursor c = dbh.recuperarRuta(codigoRuta);
 
-		marker.setBounds(0, markerHeight, markerWidth, 0);
+		marker.setBounds(0, 0, markerHeight, markerWidth);
         MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
         mapa.getOverlays().clear();   // borramos los overlays para limpiar el mapa
         mapa.getOverlays().add(myItemizedOverlay);
@@ -279,9 +288,42 @@ public class Main extends MapActivity implements LocationListener{
         	Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
         	String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
         	String datosPoi = c.getString(c.getColumnIndex("descPoi"));
+        	int iconoPoi = c.getInt(c.getColumnIndex("categoria"));
+
+        	Log.v("Icono poi", String.valueOf(iconoPoi));
         	
-            point = new GeoPoint(latitud.intValue(), longitud.intValue());
-            myItemizedOverlay.addItem(point, nombrePoi, datosPoi);
+        	
+        	//TODO: asignar el icono al marker de una manera más limpia y a través de la tabla "categoria", 
+        	// que es la que contiene el nombre del icono ¿lo hacemos en otra clase?
+        	switch(iconoPoi){
+        		case 1: marker = getResources().getDrawable(R.drawable.red_pushpin);   // general
+        				break;
+        		case 2: marker = getResources().getDrawable(R.drawable.hiker);		 	// senderismo
+        				break;
+        		case 3: marker = getResources().getDrawable(R.drawable.cycling);		// ruta en bicicleta
+				 		break;
+        		case 4: marker = getResources().getDrawable(R.drawable.camera);			// paisaje
+				 		break;
+        		case 5: marker = getResources().getDrawable(R.drawable.red_pushpin);	// pubs
+				 		break;
+        		case 6: marker = getResources().getDrawable(R.drawable.red_pushpin);  	// restaurantes
+        				break;
+        		case 7: marker = getResources().getDrawable(R.drawable.red_pushpin);	// shopping
+				 		break;
+        		case 8: marker = getResources().getDrawable(R.drawable.red_pushpin);	// monumento
+				 		break;
+				 default: marker = getResources().getDrawable(R.drawable.marcador_google_maps);	// no hay coincidencia
+				 		break;
+        	}
+
+        	markerWidth = marker.getIntrinsicWidth();
+            markerHeight = marker.getIntrinsicHeight();
+        	marker.setBounds(0, 0, markerHeight, markerWidth);
+        	
+        	point = new GeoPoint(latitud.intValue(), longitud.intValue());
+            myItemizedOverlay.addItem(point, nombrePoi, datosPoi, marker);
+
+
         }
 		
         c.close();
@@ -295,7 +337,6 @@ public class Main extends MapActivity implements LocationListener{
         centrarMapa();
         
 	}
-
 
 	
 	//--------------------------------------------------------------------------------------------------
@@ -335,15 +376,10 @@ public class Main extends MapActivity implements LocationListener{
 	}
 
 
-	
-	
-	
-	
-	
 	//--------------------------------------------------------------------------------------------------
 	// Copia los fichero html con los datos de los poi a la tarjeta SD
 	//--------------------------------------------------------------------------------------------------
-
 	
 	
 }
+

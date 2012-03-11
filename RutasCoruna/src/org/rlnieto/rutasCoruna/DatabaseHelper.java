@@ -46,7 +46,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public Cursor recuperarRuta(int idRuta){
 
 		// Query para recuperar los pois de lar ruta completa
-		Cursor c = myDb.rawQuery("select a.latitud, a.longitud, a.nombrePoi, a.descPoi " +
+		Cursor c = myDb.rawQuery("select a.latitud, a.longitud, a.nombrePoi, a.descPoi, a.categoria " +
 								"from poi a, poiruta c " +
 								"where c.idRuta = " + idRuta + " and " +
 								"c.idPoi = a._id " +
