@@ -65,7 +65,14 @@ public class Main extends MapActivity implements LocationListener{
 	// Punto de entrada a la aplicación
 	//-----------------------------------------------------------------------------------
 	public void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
+        
+		// Comprobamos si hay que actualizar la bd
+		Updater updater = new Updater(this);
+		updater.actualizarBd();
+		
+		
+		
+		super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
         // Obtenemos una referencia a los controles desde el fichero de recursos
@@ -81,7 +88,7 @@ public class Main extends MapActivity implements LocationListener{
         // Mostramos los controles de zoom sobre el mapa
         mapa.setBuiltInZoomControls(true);
         
-        centrarMapa();        
+//        centrarMapa();        
 
 
         // Activamos el gps y solicitamos actualizaciones periódicas de la localización
@@ -376,10 +383,14 @@ public class Main extends MapActivity implements LocationListener{
 	}
 
 
-	//--------------------------------------------------------------------------------------------------
-	// Copia los fichero html con los datos de los poi a la tarjeta SD
-	//--------------------------------------------------------------------------------------------------
-	
-	
+	/**
+	 * Compara la versión de la bd del paquete con la versión de la bd del dispositivo
+	 * y si son distintas actualiza la del dispositivo.
+	 * 
+	 */
+	protected void actualizarBd(){
+		
+	}
+
 }
 

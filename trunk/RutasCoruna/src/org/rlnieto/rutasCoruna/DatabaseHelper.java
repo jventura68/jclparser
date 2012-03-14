@@ -1,9 +1,9 @@
+/**
+ * Carga los pois de una ruta desde la bd
+ * 
+ */
 package org.rlnieto.rutasCoruna;
 
-//--------------------------------------------------------------------------------------------------
-// Clase para cargar los poi de una ruta
-//
-//--------------------------------------------------------------------------------------------------
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.widget.Toast;
 
 
 import java.io.IOException;
@@ -23,6 +24,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 	private static String DB_PATH = "/data/data/org.rlnieto.rutasCoruna/databases/";
 	private static final String DATABASE_NAME="rutasCoruna.sqlite";
+	private static final int VERSION_BD = 1;
+	
 	private SQLiteDatabase myDb = null;
 	private Context miContexto = null;
 	
@@ -35,14 +38,17 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	}
 
 	
-	//-----------------------------------------------------------------------------------
-	// Recupera los pois de la ruta que se le envía como parámetro (le enviamos el 
-	// código numérico que tenemos en el campo _id de la tabla ruta en la bd)
-	//
-	//-----------------------------------------------------------------------------------
-	// TODO: devolver una lista en lugar de un cursor? Así evitamos dependencias del sqlite
-	// en la clase llamadora, pero quizá sea un trabajo inútil porque al final vamos a volcar
-	// los datos en el mapa y no volveremos a usarlos
+	/**
+	 * Recupera los pois de la ruta que se le envía como parámetro (le enviamos el
+	 * código numérico que tenemos en el campo _id de la tabla ruta en la bd).
+	 * 
+	 * @param idRuta: clave de la ruta, entero
+	 * @return Cursor con los pois que componen la ruta
+	 */
+	/* TODO: devolver una lista en lugar de un cursor? Así evitamos dependencias del sqlite
+	   en la clase llamadora, pero quizá sea un trabajo inútil porque al final vamos a volcar
+	   los datos en el mapa y no volveremos a usarlos 
+	*/
 	public Cursor recuperarRuta(int idRuta){
 
 		// Query para recuperar los pois de lar ruta completa
@@ -79,7 +85,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
  
         	}
     	}
- 
     }
 	
 	//-----------------------------------------------------------------------------------
