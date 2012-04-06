@@ -28,7 +28,6 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 
 import android.graphics.drawable.Drawable;
-import android.widget.Toast;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.database.SQLException;
@@ -66,12 +65,6 @@ public class Main extends MapActivity implements LocationListener{
 	//-----------------------------------------------------------------------------------
 	public void onCreate(Bundle savedInstanceState){
         
-		// Comprobamos si hay que actualizar la bd
-		Updater updater = new Updater(this);
-		updater.actualizarBd();
-		
-		
-		
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
@@ -88,7 +81,7 @@ public class Main extends MapActivity implements LocationListener{
         // Mostramos los controles de zoom sobre el mapa
         mapa.setBuiltInZoomControls(true);
         
-//        centrarMapa();        
+        centrarMapa();        
 
 
         // Activamos el gps y solicitamos actualizaciones periódicas de la localización
@@ -180,12 +173,13 @@ public class Main extends MapActivity implements LocationListener{
 			new GeoPoint(latitud.intValue(), longitud.intValue());
 		
 		controlMapa.animateTo(loc);
+		controlMapa.setZoom(14);
 		
-		int zoomActual = mapa.getZoomLevel();
+/*		int zoomActual = mapa.getZoomLevel();
 		for(int i=zoomActual; i<14; i++)
 		{
 			controlMapa.zoomIn();
-		}
+		}*/
 
     }
     
@@ -255,9 +249,17 @@ public class Main extends MapActivity implements LocationListener{
 	}	
 
 	
-	//--------------------------------------------------------------------------------------------------
-    // Muestra los puntos turísticos
-    //--------------------------------------------------------------------------------------------------
+	/**
+	 * mostrarPuntosDeInteres
+	 * 
+	 * Carga desde la base de datos los pois correspondientes al código de ruta que se le pasa
+	 * como parámetro y los muestra en el mapa. Se utiliza un ItemizedBalloonOverlay para que 
+	 * los textos aparezcan de manera similar a gmaps en web.
+	 * 
+	 * @param mapa => MapView que vamos a utilizar para mostrar los pois
+	 * @param codigoRuta => clave de la ruta en la bd
+	 * 
+	 */
 	protected void mostrarPuntosDeInteres(MapView mapa, int codigoRuta){
         
         Drawable marker = getResources().getDrawable(R.drawable.marcador_google_maps);
@@ -285,9 +287,11 @@ public class Main extends MapActivity implements LocationListener{
 		Cursor c = dbh.recuperarRuta(codigoRuta);
 
 		marker.setBounds(0, 0, markerHeight, markerWidth);
-        MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
+        //MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
+		MyItemizedBalloonOverlay myItemizedBalloonOverlay = new MyItemizedBalloonOverlay(marker, mapa);
+		
         mapa.getOverlays().clear();   // borramos los overlays para limpiar el mapa
-        mapa.getOverlays().add(myItemizedOverlay);
+        mapa.getOverlays().add(myItemizedBalloonOverlay);
 
         // Recorremos el cursor añadiendo marcadores al mapa
         while(c.moveToNext()){
@@ -328,7 +332,7 @@ public class Main extends MapActivity implements LocationListener{
         	marker.setBounds(0, 0, markerHeight, markerWidth);
         	
         	point = new GeoPoint(latitud.intValue(), longitud.intValue());
-            myItemizedOverlay.addItem(point, nombrePoi, datosPoi, marker);
+            myItemizedBalloonOverlay.addItem(point, nombrePoi, datosPoi, marker);
 
 
         }
@@ -345,6 +349,100 @@ public class Main extends MapActivity implements LocationListener{
         
 	}
 
+	
+	/**
+	 * 
+	 * @param mapa
+	 * @param codigoRuta
+	 */
+	protected void mostrarPuntosDeInteresOriginal(MapView mapa, int codigoRuta){
+        
+        Drawable marker = getResources().getDrawable(R.drawable.marcador_google_maps);
+        int markerWidth = marker.getIntrinsicWidth();
+        int markerHeight = marker.getIntrinsicHeight();
+
+        MapController mapController = mapa.getController();
+        GeoPoint point = null;
+        
+		// Copiamos la bd al dispositivo si no existe y la abrimos
+		DatabaseHelper dbh = new DatabaseHelper(this);
+		
+		try{
+			dbh.createDataBase();
+		}catch (IOException ioe) {throw new Error("No se pudo crear la base de datos");}
+		
+		try {
+	 		dbh.openDataBase();
+	 
+	 	}catch(SQLException sqle){throw sqle;}
+		
+		
+		// Tenemos la bd disponible, recuperamos los pois de la ruta. Le pasamos el _id
+		// de la tabla ruta
+		Cursor c = dbh.recuperarRuta(codigoRuta);
+
+		marker.setBounds(0, 0, markerHeight, markerWidth);
+        //MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
+		MyItemizedBalloonOverlay myItemizedBalloonOverlay = new MyItemizedBalloonOverlay(marker, mapa);
+		
+        mapa.getOverlays().clear();   // borramos los overlays para limpiar el mapa
+        mapa.getOverlays().add(myItemizedBalloonOverlay);
+
+        // Recorremos el cursor añadiendo marcadores al mapa
+        while(c.moveToNext()){
+        	Double latitud = c.getDouble(c.getColumnIndex("latitud"))*1E6;
+        	Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
+        	String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
+        	String datosPoi = c.getString(c.getColumnIndex("descPoi"));
+        	int iconoPoi = c.getInt(c.getColumnIndex("categoria"));
+
+        	Log.v("Icono poi", String.valueOf(iconoPoi));
+        	
+        	
+        	//TODO: asignar el icono al marker de una manera más limpia y a través de la tabla "categoria", 
+        	// que es la que contiene el nombre del icono ¿lo hacemos en otra clase?
+        	switch(iconoPoi){
+        		case 1: marker = getResources().getDrawable(R.drawable.red_pushpin);   // general
+        				break;
+        		case 2: marker = getResources().getDrawable(R.drawable.hiker);		 	// senderismo
+        				break;
+        		case 3: marker = getResources().getDrawable(R.drawable.cycling);		// ruta en bicicleta
+				 		break;
+        		case 4: marker = getResources().getDrawable(R.drawable.camera);			// paisaje
+				 		break;
+        		case 5: marker = getResources().getDrawable(R.drawable.red_pushpin);	// pubs
+				 		break;
+        		case 6: marker = getResources().getDrawable(R.drawable.red_pushpin);  	// restaurantes
+        				break;
+        		case 7: marker = getResources().getDrawable(R.drawable.red_pushpin);	// shopping
+				 		break;
+        		case 8: marker = getResources().getDrawable(R.drawable.red_pushpin);	// monumento
+				 		break;
+				 default: marker = getResources().getDrawable(R.drawable.marcador_google_maps);	// no hay coincidencia
+				 		break;
+        	}
+
+        	markerWidth = marker.getIntrinsicWidth();
+            markerHeight = marker.getIntrinsicHeight();
+        	marker.setBounds(0, 0, markerHeight, markerWidth);
+        	
+        	point = new GeoPoint(latitud.intValue(), longitud.intValue());
+            myItemizedBalloonOverlay.addItem(point, nombrePoi, datosPoi, marker);
+
+
+        }
+		
+        c.close();
+        dbh.close();
+                
+        mapController.animateTo(point);        
+        mapController.setZoom(15);
+        
+        mapa.invalidate();   // forzamos que el mapa se redibuje
+        
+        centrarMapa();
+        
+	}
 	
 	//--------------------------------------------------------------------------------------------------
 	// Actualiza la localización actual
@@ -380,16 +478,6 @@ public class Main extends MapActivity implements LocationListener{
         MyOverlay marker = new MyOverlay(point);
         mapOverlays.add(marker);  
         mapView.invalidate();		
-	}
-
-
-	/**
-	 * Compara la versión de la bd del paquete con la versión de la bd del dispositivo
-	 * y si son distintas actualiza la del dispositivo.
-	 * 
-	 */
-	protected void actualizarBd(){
-		
 	}
 
 }
