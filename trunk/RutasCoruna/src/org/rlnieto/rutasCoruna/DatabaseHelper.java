@@ -11,7 +11,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 
 import java.io.IOException;
@@ -24,7 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 	private static String DB_PATH = "/data/data/org.rlnieto.rutasCoruna/databases/";
 	private static final String DATABASE_NAME="rutasCoruna.sqlite";
-	private static final int VERSION_BD = 1;
+	//private static final int VERSION_BD = 1;
 	
 	private SQLiteDatabase myDb = null;
 	private Context miContexto = null;
@@ -52,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public Cursor recuperarRuta(int idRuta){
 
 		// Query para recuperar los pois de lar ruta completa
-		Cursor c = myDb.rawQuery("select a.latitud, a.longitud, a.nombrePoi, a.descPoi, a.categoria " +
+		Cursor c = myDb.rawQuery("select a._id, a.latitud, a.longitud, a.nombrePoi, a.descPoi, a.categoria " +
 								"from poi a, poiruta c " +
 								"where c.idRuta = " + idRuta + " and " +
 								"c.idPoi = a._id " +

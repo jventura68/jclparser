@@ -10,10 +10,10 @@ import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
-import android.content.res.AssetManager;
+//import android.content.res.AssetManager;
 import android.content.Context;
 
-import android.widget.Toast;
+//import android.widget.Toast;
 
 //------------------------------------------------------------------------------------------------------
 // Actualiza la base de datos y/o las páginas html con los datos de los pois
@@ -23,7 +23,7 @@ public class Updater {
 
 	private Context contexto;
 
-	private final String RUTA_DESTINO_HTML = "data/data/org.rlnieto.rutasCoruna/html"; // directorio
+	//private final String RUTA_DESTINO_HTML = "data/data/org.rlnieto.rutasCoruna/html"; // directorio
 																						// con
 																						// los
 																						// ficheros
@@ -93,15 +93,15 @@ public class Updater {
 
 	}
 
-	private Updater getResources() {
+	//private Updater getResources() {
 		// TODO Auto-generated method stub
-		return null;
-	}
+	//	return null;
+	//}
 
-	private int getInteger(int versionbd) {
+	//private int getInteger(int versionbd) {
 		// TODO Auto-generated method stub
-		return 0;
-	}
+	//	return 0;
+	//}
 
 	/**
 	 * Copia los ficheros html desde el directorio de assets a la tarjeta sd
