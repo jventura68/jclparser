@@ -94,9 +94,8 @@ public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayIte
 		*/
 		
     	Intent myIntent = new Intent(contexto, PageVisualizer.class);
-		myIntent.putExtra("lugar", "http://www.gmail.com");
+		myIntent.putExtra("clave_poi", ((PoiOverlayItem)item).getClavePoi());
     	contexto.startActivity(myIntent);
-
 		
 		return true;
 	}
