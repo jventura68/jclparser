@@ -1,5 +1,5 @@
 /**
- * Carga los pois de una ruta desde la bd
+ * Accesos a la bd
  * 
  */
 package org.rlnieto.rutasCoruna;
@@ -14,6 +14,7 @@ import android.database.sqlite.SQLiteException;
 //import android.widget.Toast;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -57,10 +58,27 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 								"where c.idRuta = " + idRuta + " and " +
 								"c.idPoi = a._id " +
 								"order by descPoi", null); 
-		
-		return(c);
+
+		return c;
 		
 	}
+	
+	/**
+	 * Devuelve el nombre de la carpeta de documentación asociada a un poi
+	 * 
+	 * @param clavePoi
+	 * @return
+	 */
+	public String obtenerCarpetaDocsPoi(int clavePoi){
+		
+		Cursor c = myDb.rawQuery("select carpetaDocs from poi where _id = " + clavePoi, null);
+		
+		c.moveToFirst();
+		String ruta = c.getString(c.getColumnIndex("carpetaDocs"));
+		return ruta;
+		
+	}
+	
 	
 	
 	//-----------------------------------------------------------------------------------
@@ -72,19 +90,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     	boolean dbExist = checkDataBase();   // comprueba si existe la bd en el dispositivo
  
     	if(dbExist){
-    		// no se hace nada, la bd ya existe
-    	}else{
-    		// Crea una bd vacia en la ruta adecuada para que la encuentre la aplicación
-        	this.getReadableDatabase();
-
-        	try {
-    			copyDataBase();
-    		} catch (IOException e) {
- 
-        		throw new Error("Error copiando la base de datos");
- 
-        	}
+    		// la borramos
+        	String outFileName = DB_PATH + DATABASE_NAME;
+        	File fichero = new File(outFileName);
+        	fichero.delete();
     	}
+ 
+    	// Crea una bd vacia en la ruta adecuada para que la encuentre la aplicación
+        this.getReadableDatabase();
+
+        try {
+    		copyDataBase();
+    	} catch (IOException e) {
+    			throw new Error("Error copiando la base de datos");
+    	  }
+   	
     }
 	
 	//-----------------------------------------------------------------------------------

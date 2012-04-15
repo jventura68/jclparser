@@ -74,8 +74,8 @@ public class Updater {
 		Resources res = contexto.getResources();
 		int versionBdRecursos = res.getInteger(R.integer.versionBd);
 
-		Toast.makeText(contexto, "Versión bd en el dispositivo: " + versionBdDispositivo, Toast.LENGTH_LONG).show();
-		Toast.makeText(contexto, "Versión bd en el paquete: " + versionBdRecursos, Toast.LENGTH_LONG).show();
+		//Toast.makeText(contexto, "Versión bd en el dispositivo: " + versionBdDispositivo, Toast.LENGTH_SHORT).show();
+		//Toast.makeText(contexto, "Versión bd en el paquete: " + versionBdRecursos, Toast.LENGTH_SHORT).show();
 
 		if (versionBdDispositivo != versionBdRecursos) {
 			DatabaseHelper dbh = new DatabaseHelper(contexto);

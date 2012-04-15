@@ -46,7 +46,7 @@ import org.rlnieto.rutasCoruna.overlays.*;
 
 
 
-public class Main extends MapActivity implements LocationListener{
+public class PantallaMapa extends MapActivity implements LocationListener{
 
 	private MapView mapa = null;
 	private Button btnSatelite = null;
@@ -68,7 +68,7 @@ public class Main extends MapActivity implements LocationListener{
 	public void onCreate(Bundle savedInstanceState){
         
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.pantalla_mapa);
         
         // Obtenemos una referencia a los controles desde el fichero de recursos
         mapa = (MapView)findViewById(R.id.mapa);
@@ -139,7 +139,7 @@ public class Main extends MapActivity implements LocationListener{
 
         
 		//--------------------------------------------------------------------------
-		// Centra el mapa con animación
+		// Muestra la ruta con algunos pois ("ruta sacra")
         //--------------------------------------------------------------------------
         btnRuta1.setOnClickListener(new OnClickListener() {
 			@Override
@@ -148,9 +148,8 @@ public class Main extends MapActivity implements LocationListener{
 			}
 		});
         
-
 		//--------------------------------------------------------------------------
-        // Mueve un poco el mapa
+		// Muestra la ruta con todos los pois         
         //--------------------------------------------------------------------------
         btnRuta2.setOnClickListener(new OnClickListener() {
 			@Override
@@ -171,8 +170,7 @@ public class Main extends MapActivity implements LocationListener{
 		Double latitud = 43.371334*1E6;
 		Double longitud = -8.396001*1E6;
 		
-		GeoPoint loc = 
-			new GeoPoint(latitud.intValue(), longitud.intValue());
+		GeoPoint loc = new GeoPoint(latitud.intValue(), longitud.intValue());
 		
 		controlMapa.animateTo(loc);
 		controlMapa.setZoom(14);
@@ -274,9 +272,10 @@ public class Main extends MapActivity implements LocationListener{
 		// Copiamos la bd al dispositivo si no existe y la abrimos
 		DatabaseHelper dbh = new DatabaseHelper(this);
 		
-		try{
+		/*try{
 			dbh.createDataBase();
 		}catch (IOException ioe) {throw new Error("No se pudo crear la base de datos");}
+		*/
 		
 		try {
 	 		dbh.openDataBase();
@@ -342,7 +341,7 @@ public class Main extends MapActivity implements LocationListener{
 		
         c.close();
         dbh.close();
-                
+        
         mapController.animateTo(point);        
         mapController.setZoom(15);
         
@@ -391,4 +390,3 @@ public class Main extends MapActivity implements LocationListener{
 	}
 
 }
-

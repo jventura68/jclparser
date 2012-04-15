@@ -50,7 +50,7 @@ public class PantallaInicial extends Activity{
 			public void onClick(View arg0) {
 		    	Toast.makeText(contexto, "Cargando ruta...", Toast.LENGTH_SHORT).show();
 
-		    	Intent myIntent = new Intent(contexto, Main.class);
+		    	Intent myIntent = new Intent(contexto, PantallaMapa.class);
 				contexto.startActivity(myIntent);
 			}
 		});
