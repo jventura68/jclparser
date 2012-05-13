@@ -1,9 +1,11 @@
-package org.rlnieto.rutasCoruna;
+package org.rlnieto.rutasCoruna.core;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+
+import org.rlnieto.rutasCoruna.R;
 
 import android.content.res.AssetManager;
 import android.content.res.Resources;

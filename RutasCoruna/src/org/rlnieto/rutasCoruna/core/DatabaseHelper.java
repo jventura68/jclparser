@@ -2,7 +2,7 @@
  * Accesos a la bd
  * 
  */
-package org.rlnieto.rutasCoruna;
+package org.rlnieto.rutasCoruna.core;
 
 
 import android.content.Context;

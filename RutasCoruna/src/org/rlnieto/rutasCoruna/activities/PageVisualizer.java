@@ -1,4 +1,4 @@
-package org.rlnieto.rutasCoruna;
+package org.rlnieto.rutasCoruna.activities;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+
+import org.rlnieto.rutasCoruna.R;
+import org.rlnieto.rutasCoruna.R.id;
+import org.rlnieto.rutasCoruna.R.layout;
+import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 
 import android.text.Html;
 import android.text.Spanned;

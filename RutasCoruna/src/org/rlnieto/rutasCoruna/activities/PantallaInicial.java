@@ -1,4 +1,10 @@
-package org.rlnieto.rutasCoruna;
+package org.rlnieto.rutasCoruna.activities;
+
+import org.rlnieto.rutasCoruna.R;
+import org.rlnieto.rutasCoruna.R.id;
+import org.rlnieto.rutasCoruna.R.layout;
+import org.rlnieto.rutasCoruna.core.Example;
+import org.rlnieto.rutasCoruna.core.Updater;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,7 +20,7 @@ public class PantallaInicial extends Activity{
 
 	private Context contexto = null;
 	private Button cmdRuta = null;
-
+	private Button cmdAbout = null;
 		
 	@Override
 	//-----------------------------------------------------------------------------------
@@ -32,19 +38,23 @@ public class PantallaInicial extends Activity{
     	//Toast.makeText(getBaseContext(), "Thread activado", Toast.LENGTH_LONG).show();
 
         cmdRuta = (Button)findViewById(R.id.cmdRuta);
+        cmdAbout = (Button)findViewById(R.id.cmdCreditos);
         contexto = this;
         
         
         
-		//--------------------------------------------------------------------------
-		//
-		// listeners
-		//
-		//--------------------------------------------------------------------------
+        /**-------------------------------------------------------------------------
+         * 
+         * Listeners
+         * 
+         * 
+         *---------------------------------------------------------------------------
+         **/
         
-		//--------------------------------------------------------------------------
-		// Abrimos la actividad del mapa
-		//--------------------------------------------------------------------------
+        /**
+         * Abre la actividad del mapa
+         * 
+         */
         cmdRuta.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
@@ -54,5 +64,30 @@ public class PantallaInicial extends Activity{
 				contexto.startActivity(myIntent);
 			}
 		});
+        
+        
+        /**
+         * De momento abre las pantallas de pruebas
+         * 
+         */
+        cmdAbout.setOnClickListener(new OnClickListener() {
+        	@Override
+        	public void onClick(View arg0) {
+/*        		Intent myIntent = new Intent(contexto, PantallaPruebas.class);
+        		contexto.startActivity(myIntent);
+  */
+        		Intent myIntent = new Intent(contexto, Example.class);
+        		contexto.startActivity(myIntent);
+  	
+        	
+        	
+        	}
+        	
+        });
+        
+        
+        
+        
+        
 	}        
 }
