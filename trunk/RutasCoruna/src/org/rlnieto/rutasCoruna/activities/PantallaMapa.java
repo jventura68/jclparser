@@ -1,4 +1,4 @@
-package org.rlnieto.rutasCoruna;
+package org.rlnieto.rutasCoruna.activities;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,6 +42,11 @@ import android.util.Log;
 //import java.io.OutputStreamWriter;
 //import java.io.FileOutputStream;
 
+import org.rlnieto.rutasCoruna.R;
+import org.rlnieto.rutasCoruna.R.drawable;
+import org.rlnieto.rutasCoruna.R.id;
+import org.rlnieto.rutasCoruna.R.layout;
+import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 import org.rlnieto.rutasCoruna.overlays.*;
 
 
@@ -139,7 +144,7 @@ public class PantallaMapa extends MapActivity implements LocationListener{
 
         
 		//--------------------------------------------------------------------------
-		// Muestra la ruta con algunos pois ("ruta sacra")
+		// Ruta modernista
         //--------------------------------------------------------------------------
         btnRuta1.setOnClickListener(new OnClickListener() {
 			@Override
@@ -149,7 +154,7 @@ public class PantallaMapa extends MapActivity implements LocationListener{
 		});
         
 		//--------------------------------------------------------------------------
-		// Muestra la ruta con todos los pois         
+		// Ruta Picasso         
         //--------------------------------------------------------------------------
         btnRuta2.setOnClickListener(new OnClickListener() {
 			@Override
@@ -325,7 +330,7 @@ public class PantallaMapa extends MapActivity implements LocationListener{
 				 		break;
         		case 8: marker = getResources().getDrawable(R.drawable.red_pushpin);	// monumento
 				 		break;
-				 default: marker = getResources().getDrawable(R.drawable.marcador_google_maps);	// no hay coincidencia
+				 default: marker = getResources().getDrawable(R.drawable.knob_record_on);	// no hay coincidencia
 				 		break;
         	}
 

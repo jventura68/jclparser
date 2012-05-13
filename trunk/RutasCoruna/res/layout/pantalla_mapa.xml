@@ -1,40 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-	
-	<LinearLayout android:orientation="horizontal"
-	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content">
-	    
-	    <Button android:id="@+id/BtnSatelite"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" 
-			android:text="Satelite" />
-			
-		<Button android:id="@+id/BtnCentrar"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Centrar" />
-			
-		<Button android:id="@+id/BtnRuta1"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Ruta sacra" />
-			
-		<Button android:id="@+id/BtnRuta2"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="Todo" />
-	    
-	</LinearLayout>
-	
-	<com.google.android.maps.MapView
-		android:id="@+id/mapa"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:apiKey="0sBMymGQEY2gEnWHkKCiwQxswKpJuXitbBRYWnw"
-		android:clickable="true" />
-		
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/BtnRuta1"
+                android:background="@drawable/red_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				style="@style/ButtonText"
+                android:text="Modernista" />	
+
+            <Button
+                android:id="@+id/BtnRuta2"
+                android:background="@drawable/red_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				style="@style/ButtonText"
+                android:text="Picasso" />
+            
+            <Button
+                android:id="@+id/BtnSatelite"
+                android:background="@drawable/red_button"
+                android:text="Satelite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				style="@style/ButtonText"/>
+
+            <Button
+                android:id="@+id/BtnCentrar"
+                android:background="@drawable/red_button"
+                android:text="Centrar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+				style="@style/ButtonText"/>
+
+            </LinearLayout>
+
+        
+        
+        
+    <com.google.android.maps.MapView
+        android:id="@+id/mapa"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:apiKey="0sBMymGQEY2h9zr4MlePBPl39SV60yKoGZ-QbXQ"
+        android:clickable="true" >
+    </com.google.android.maps.MapView>
+
+
+
 </LinearLayout>

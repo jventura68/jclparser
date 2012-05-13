@@ -15,7 +15,8 @@ import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
 import android.database.Cursor;
-import org.rlnieto.rutasCoruna.*;
+import org.rlnieto.rutasCoruna.activities.PageVisualizer;
+import org.rlnieto.rutasCoruna.core.*;
 
 
 public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayItem>{
