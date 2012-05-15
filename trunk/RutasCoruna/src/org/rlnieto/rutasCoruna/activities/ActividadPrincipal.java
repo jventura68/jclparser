@@ -15,11 +15,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class PantallaInicial extends Activity{
+public class ActividadPrincipal extends Activity{
 
 	private Context contexto = null;
-	private Button cmdRuta = null;
-	private Button cmdAbout = null;
+	private Button btnRutas = null;
+	private Button btnConfiguracion = null;
+	private Button btnSalir = null;
+	private Button btnAcercaDe = null;
 		
 	@Override
 	//-----------------------------------------------------------------------------------
@@ -32,12 +34,16 @@ public class PantallaInicial extends Activity{
 		updater.actualizarBd();
 		
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.pantalla_inicial);
+        setContentView(R.layout.pantalla_principal);
 
     	//Toast.makeText(getBaseContext(), "Thread activado", Toast.LENGTH_LONG).show();
 
-        cmdRuta = (Button)findViewById(R.id.cmdRuta);
-        cmdAbout = (Button)findViewById(R.id.cmdCreditos);
+        btnRutas = (Button)findViewById(R.id.BtnRutas);
+        btnConfiguracion = (Button)findViewById(R.id.BtnConfiguracion);
+        btnSalir = (Button)findViewById(R.id.BtnSalir);
+        btnAcercaDe = (Button)findViewById(R.id.BtnAcercaDe);
+        
+        
         contexto = this;
         
         
@@ -54,7 +60,7 @@ public class PantallaInicial extends Activity{
          * Abre la actividad del mapa
          * 
          */
-        cmdRuta.setOnClickListener(new OnClickListener() {
+        btnRutas.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 		    	Toast.makeText(contexto, "Cargando ruta...", Toast.LENGTH_SHORT).show();
@@ -66,24 +72,29 @@ public class PantallaInicial extends Activity{
         
         
         /**
-         * De momento abre las pantallas de pruebas
+         * Diálogo con datos de la empresa y accesos a facebook y twitter
          * 
          */
-        cmdAbout.setOnClickListener(new OnClickListener() {
+        btnAcercaDe.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View arg0) {
-/*        		Intent myIntent = new Intent(contexto, PantallaPruebas.class);
-        		contexto.startActivity(myIntent);
-  */
         		Intent myIntent = new Intent(contexto, ActividadAcercaDe.class);
         		contexto.startActivity(myIntent);
-  	
-        	
         	
         	}
         	
         });
         
+        /**
+         * Cierra la aplicación
+         *         
+         */
+        btnSalir.setOnClickListener(new OnClickListener(){
+        	public void onClick(View arg0){
+        		finish();
+        	}
+        	
+        });
         
         
         

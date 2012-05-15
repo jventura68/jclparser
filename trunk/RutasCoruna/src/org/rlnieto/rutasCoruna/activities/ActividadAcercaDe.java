@@ -1,4 +1,4 @@
-package org.rlnieto.rutasCoruna.core;
+package org.rlnieto.rutasCoruna.activities;
 
 import org.rlnieto.rutasCoruna.R;
 
@@ -12,7 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
-public class Example extends Activity{
+public class ActividadAcercaDe extends Activity{
 	
 	@Override
 	//-----------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ public class Example extends Activity{
 	public void onCreate(Bundle savedInstanceState){
         
 		super.onCreate(savedInstanceState);
-        setContentView(R.layout.design);
+        setContentView(R.layout.pantalla_acerca_de);
 
 	}
 
