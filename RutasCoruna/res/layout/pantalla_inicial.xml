@@ -4,22 +4,14 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <ImageView
-        android:id="@+id/imageView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/torre_por_la_noche" />
+    <ListView
+        android:id="@+id/add_journalentry_menuitem"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/cmdRuta"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/cmdRuta" />
-
-    <Button
-        android:id="@+id/cmdCreditos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/cmdCreditos" />
+    <ListView
+        android:id="@+id/list_journal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

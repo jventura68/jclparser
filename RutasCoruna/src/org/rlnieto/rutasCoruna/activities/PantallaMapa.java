@@ -90,6 +90,13 @@ public class PantallaMapa extends MapActivity implements LocationListener{
         
         centrarMapa();        
 
+        
+        // Cargamos la ruta elegida en la actividad anterior
+        Bundle bundle = getIntent().getExtras();
+        mostrarPuntosDeInteres(mapa, bundle.getInt("idRuta"));
+        
+
+        
 
         // Activamos el gps y solicitamos actualizaciones periódicas de la localización
 //        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);

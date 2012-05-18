@@ -45,8 +45,7 @@ public class ActividadPrincipal extends Activity{
         
         
         contexto = this;
-        
-        
+       
         
         /**-------------------------------------------------------------------------
          * 
@@ -63,9 +62,9 @@ public class ActividadPrincipal extends Activity{
         btnRutas.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-		    	Toast.makeText(contexto, "Cargando ruta...", Toast.LENGTH_SHORT).show();
 
-		    	Intent myIntent = new Intent(contexto, PantallaMapa.class);
+		    	Intent myIntent = new Intent(contexto, ActividadRutas.class);
+//		    	Intent myIntent = new Intent(contexto, PantallaMapa.class);
 				contexto.startActivity(myIntent);
 			}
 		});
@@ -97,6 +96,18 @@ public class ActividadPrincipal extends Activity{
         });
         
         
+        
+        /**
+         * Abre la pantalla de configuración
+         * 
+         */
+        btnConfiguracion.setOnClickListener(new OnClickListener(){
+        	
+        	public void onClick(View arg0){
+        		Intent myIntent = new Intent(contexto, ActividadRutas.class);
+        		contexto.startActivity(myIntent);
+        	}
+        });
         
         
 	}        
