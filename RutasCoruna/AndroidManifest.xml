@@ -24,7 +24,7 @@
 		    </intent-filter>
 		</activity>
         
-        <activity android:name=".activities.PantallaMapa"
+        <activity android:name=".activities.ActividadMapa"
                   android:label="@string/app_name">
         </activity>
 		
