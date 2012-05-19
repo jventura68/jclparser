@@ -3,57 +3,48 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    
-        <LinearLayout
-            android:layout_width="fill_parent"
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/BtnSatelite"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:background="@drawable/blue_button"
+            android:src="@drawable/parabolica" />
 
-            <Button
-                android:id="@+id/BtnRuta1"
-                android:background="@drawable/red_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-				style="@style/ButtonText"
-                android:text="Modernista" />	
-
-            <Button
-                android:id="@+id/BtnRuta2"
-                android:background="@drawable/red_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-				style="@style/ButtonText"
-                android:text="Picasso" />
-            
-            <Button
-                android:id="@+id/BtnSatelite"
-                android:background="@drawable/red_button"
-                android:text="Satelite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-				style="@style/ButtonText"/>
-
-            <Button
-                android:id="@+id/BtnCentrar"
-                android:background="@drawable/red_button"
-                android:text="Centrar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-				style="@style/ButtonText"/>
-
-            </LinearLayout>
-
+        <ImageButton
+            android:id="@+id/BtnCentrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_button"
+            android:src="@drawable/home" />
         
+        <ImageButton
+            android:id="@+id/BtnRestaurantes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_button"
+            android:src="@drawable/restaurante_inverso" />
         
+        <ImageButton
+            android:id="@+id/BtnCopas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/blue_button"
+            android:src="@drawable/martini" />
         
+        </LinearLayout>
+
     <com.google.android.maps.MapView
         android:id="@+id/mapa"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:apiKey="0sBMymGQEY2h9zr4MlePBPl39SV60yKoGZ-QbXQ"
-        android:clickable="true" >
-    </com.google.android.maps.MapView>
-
+        android:clickable="true" />
 
 
 </LinearLayout>

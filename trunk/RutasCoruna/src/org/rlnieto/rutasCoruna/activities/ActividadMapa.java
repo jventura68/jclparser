@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -51,16 +52,19 @@ import org.rlnieto.rutasCoruna.overlays.*;
 
 
 
-public class PantallaMapa extends MapActivity implements LocationListener{
+public class ActividadMapa extends MapActivity implements LocationListener{
 
 	private MapView mapa = null;
-	private Button btnSatelite = null;
-	private Button btnCentrar = null;
-	private Button btnRuta1 = null;
-	private Button btnRuta2 = null;
+	private ImageButton btnSatelite = null;
+	private ImageButton btnCentrar = null;
+	private ImageButton btnRestaurantes = null;
+	
 	private MapController controlMapa = null;
 
 	private LocationManager locationManager = null;
+
+	private MyItemizedBalloonOverlay overlayRestaurantes = null;
+	
 	
 //	private static final int CODIGO_RUTA_SACRA = 1;
 //	private static final int CODIGO_RUTA_COMPLETA = 1;
@@ -77,10 +81,9 @@ public class PantallaMapa extends MapActivity implements LocationListener{
         
         // Obtenemos una referencia a los controles desde el fichero de recursos
         mapa = (MapView)findViewById(R.id.mapa);
-        btnSatelite = (Button)findViewById(R.id.BtnSatelite);
-        btnCentrar = (Button)findViewById(R.id.BtnCentrar);
-        btnRuta1 = (Button)findViewById(R.id.BtnRuta1);
-        btnRuta2 = (Button)findViewById(R.id.BtnRuta2);
+        btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
+        btnCentrar = (ImageButton)findViewById(R.id.BtnCentrar);
+        btnRestaurantes = (ImageButton)findViewById(R.id.BtnRestaurantes);
         
         // Cargamos una referencia al controlador del mapa
         controlMapa = mapa.getController();
@@ -124,10 +127,11 @@ public class PantallaMapa extends MapActivity implements LocationListener{
 		//
 		//--------------------------------------------------------------------------
         
-		//--------------------------------------------------------------------------
-		// Pasa a modo satelite
-		//--------------------------------------------------------------------------
-		btnSatelite.setOnClickListener(new OnClickListener() {
+        /**
+         * Conmuta entre el modo mapa y el modo satélite
+         * 
+         */
+        btnSatelite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(mapa.isSatellite())
@@ -139,10 +143,11 @@ public class PantallaMapa extends MapActivity implements LocationListener{
         
 		
 
-		//--------------------------------------------------------------------------
-		// Centra el mapa
-		//--------------------------------------------------------------------------
-        btnCentrar.setOnClickListener(new OnClickListener() {
+		/**
+		 * Centra el mapa en el origen de coordenadas
+		 * 
+		 */
+		btnCentrar.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				centrarMapa();
@@ -150,25 +155,20 @@ public class PantallaMapa extends MapActivity implements LocationListener{
 		});
 
         
-		//--------------------------------------------------------------------------
-		// Ruta modernista
-        //--------------------------------------------------------------------------
-        btnRuta1.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-		        mostrarPuntosDeInteres(mapa, 1);
-			}
-		});
+        /**
+         * Manejador de evento click para el botón que muestra los restaurantes
+         * 
+         */
+        btnRestaurantes.setOnClickListener(new OnClickListener(){
+        	@Override
+        	public void onClick(View arg0){
+        		mostrarRestaurantes(mapa);
+        	}
+        	
+        	
+        });
         
-		//--------------------------------------------------------------------------
-		// Ruta Picasso         
-        //--------------------------------------------------------------------------
-        btnRuta2.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-		        mostrarPuntosDeInteres(mapa, 2);
-			}
-		});
+
     
 	}   // onCreate
         
@@ -185,7 +185,7 @@ public class PantallaMapa extends MapActivity implements LocationListener{
 		GeoPoint loc = new GeoPoint(latitud.intValue(), longitud.intValue());
 		
 		controlMapa.animateTo(loc);
-		controlMapa.setZoom(14);
+		controlMapa.setZoom(15);
 		
 /*		int zoomActual = mapa.getZoomLevel();
 		for(int i=zoomActual; i<14; i++)
@@ -261,6 +261,79 @@ public class PantallaMapa extends MapActivity implements LocationListener{
 	}	
 
 	
+	
+	
+	
+	
+	/**
+	 * mostrarRestaurantes
+	 * 
+	 * Carga desde la base de datos los pois correspondientes a los restaurantes y los muestra
+	 * en un nuevo overlay 
+	 * 
+	 * @param mapa => MapView que vamos a utilizar para mostrar los pois
+	 * @param codigoRuta => clave de la ruta en la bd
+	 * 
+	 */
+	protected void mostrarRestaurantes(MapView mapa){
+        
+        Drawable marker = getResources().getDrawable(R.drawable.marcador_google_maps);
+        int markerWidth = marker.getIntrinsicWidth();
+        int markerHeight = marker.getIntrinsicHeight();
+
+        MapController mapController = mapa.getController();
+        GeoPoint point = null;
+        
+		// Abrimos la bd
+		DatabaseHelper dbh = new DatabaseHelper(this);
+		
+		try {
+	 		dbh.openDataBase();
+	 
+	 	}catch(SQLException sqle){throw sqle;}
+		
+		
+		// Recuperamos los restaurantes
+		Cursor c = dbh.recuperarRestaurantes();
+
+		marker.setBounds(0, 0, markerHeight, markerWidth);
+        //MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
+		if(overlayRestaurantes == null){
+			overlayRestaurantes = new MyItemizedBalloonOverlay(marker, mapa);
+	        mapa.getOverlays().add(overlayRestaurantes);
+		
+	        // Recorremos el cursor añadiendo marcadores al mapa
+	        while(c.moveToNext()){
+	        	int clavePoi = c.getInt(c.getColumnIndex("_id"));
+	        	Double latitud = c.getDouble(c.getColumnIndex("latitud"))*1E6;
+	        	Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
+	        	String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
+	        	String datosPoi = c.getString(c.getColumnIndex("descPoi"));
+
+	        	marker = getResources().getDrawable(R.drawable.restaurante);
+        	
+	        	markerWidth = marker.getIntrinsicWidth();
+	        	markerHeight = marker.getIntrinsicHeight();
+	        	marker.setBounds(0, 0, markerHeight, markerWidth);
+	        	
+	        	point = new GeoPoint(latitud.intValue(), longitud.intValue());
+	        	overlayRestaurantes.addItem(point, nombrePoi, datosPoi, marker, clavePoi);
+
+	        }
+		
+	        c.close();
+	        dbh.close();
+        
+		}else{   // el overlay ya existe => lo borramos
+	        mapa.getOverlays().remove(overlayRestaurantes);    
+	        overlayRestaurantes = null;
+		}
+
+		mapa.invalidate();   // forzamos que el mapa se redibuje
+	}
+
+	
+	
 	/**
 	 * mostrarPuntosDeInteres
 	 * 
@@ -281,13 +354,8 @@ public class PantallaMapa extends MapActivity implements LocationListener{
         MapController mapController = mapa.getController();
         GeoPoint point = null;
         
-		// Copiamos la bd al dispositivo si no existe y la abrimos
+		// Abrimos la bd
 		DatabaseHelper dbh = new DatabaseHelper(this);
-		
-		/*try{
-			dbh.createDataBase();
-		}catch (IOException ioe) {throw new Error("No se pudo crear la base de datos");}
-		*/
 		
 		try {
 	 		dbh.openDataBase();
@@ -337,7 +405,7 @@ public class PantallaMapa extends MapActivity implements LocationListener{
 				 		break;
         		case 8: marker = getResources().getDrawable(R.drawable.red_pushpin);	// monumento
 				 		break;
-				 default: marker = getResources().getDrawable(R.drawable.knob_record_on);	// no hay coincidencia
+				 default: marker = getResources().getDrawable(android.R.drawable.star_big_on);	// no hay coincidencia
 				 		break;
         	}
 

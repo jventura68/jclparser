@@ -62,6 +62,28 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		return c;
 		
 	}
+
+
+	/**
+	 * Recupera los pois asociados a los restaurantes en la bd
+	 * 
+	 * @return
+	 */
+	public Cursor recuperarRestaurantes(){
+
+		// Query para recuperar los pois de lar ruta completa
+		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria " +
+								"from poi " +
+								"where comercial = 1", null); 
+
+		return c;
+		
+	}
+	
+
+	
+	
+	
 	
 	/**
 	 * Devuelve el nombre de la carpeta de documentación asociada a un poi

@@ -91,7 +91,7 @@ public class ActividadRutas extends ListActivity {
 		// Abrimos la pantalla del mapa cargando la ruta elegida
 		Toast.makeText(contexto, "Cargando ruta ...", Toast.LENGTH_SHORT).show();
 		
-    	Intent myIntent = new Intent(contexto, PantallaMapa.class);
+    	Intent myIntent = new Intent(contexto, ActividadMapa.class);
     	myIntent.putExtra("idRuta", position + 1);
     	
     	contexto.startActivity(myIntent);
