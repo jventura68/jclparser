@@ -65,16 +65,67 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 
 	/**
+	 * Recupera los pois asociados a los pubs en la bd
+	 * 
+	 * @return
+	 */
+	public Cursor recuperarPubs(){
+
+		/* TODO: pendientes de definir las categorías. Esta es la propuesta inicial:
+		   Comerciales (>= 100):
+		     - Hotel => 100
+		     - Restaurante => 101
+		     - Ocio nocturno => 102
+		     - Shopping => 103
+		     - Espectáculo => 104
+		     - Cafetería (para tomar un refresco con la familia) => 105
+		     - Cervecería => 106
+		
+			No comerciales (< 100):
+			  - Museo => 1
+			  - Iglesia => 2
+			  - Monumento => 3
+			  - Paisaje => 4
+		*/
+		
+		// Query para recuperar los pois de lar ruta completa
+		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria " +
+								"from poi " +
+								"where categoria = 106", null); 
+
+		return c;
+		
+	}
+	
+
+	/**
 	 * Recupera los pois asociados a los restaurantes en la bd
 	 * 
 	 * @return
 	 */
 	public Cursor recuperarRestaurantes(){
 
+		/* TODO: pendientes de definir las categorías. Esta es la propuesta inicial:
+		   Comerciales (>= 100):
+		     - Hotel => 100
+		     - Restaurante => 101
+		     - Ocio nocturno => 102
+		     - Shopping => 103
+		     - Espectáculo => 104
+		     - Cafetería (para tomar un refresco con la familia) => 105
+		     - Cervecería => 106
+		
+			No comerciales (< 100):
+			  - Museo => 1
+			  - Iglesia => 2
+			  - Monumento => 3
+			  - Paisaje => 4
+		*/
+		
 		// Query para recuperar los pois de lar ruta completa
 		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria " +
 								"from poi " +
-								"where comercial = 1", null); 
+								"where categoria = 101", null); 
 
 		return c;
 		
