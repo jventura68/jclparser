@@ -64,7 +64,6 @@ public class ActividadPrincipal extends Activity{
 			public void onClick(View arg0) {
 
 		    	Intent myIntent = new Intent(contexto, ActividadRutas.class);
-//		    	Intent myIntent = new Intent(contexto, PantallaMapa.class);
 				contexto.startActivity(myIntent);
 			}
 		});
@@ -104,8 +103,10 @@ public class ActividadPrincipal extends Activity{
         btnConfiguracion.setOnClickListener(new OnClickListener(){
         	
         	public void onClick(View arg0){
-        		Intent myIntent = new Intent(contexto, ActividadRutas.class);
-        		contexto.startActivity(myIntent);
+        		Toast.makeText(getBaseContext(), "En construcción!!", Toast.LENGTH_SHORT).show();
+        		
+        		//Intent myIntent = new Intent(contexto, ActividadRutas.class);
+        		//contexto.startActivity(myIntent);
         	}
         });
         
