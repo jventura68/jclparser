@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/torre_por_la_noche"
-    android:gravity="bottom"
-    android:stretchColumns="1" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/torre2"
+ 	android:paddingTop="60dip"
+ 	android:paddingLeft="110dip"
+ 	android:paddingRight="20dip"
+    android:orientation="vertical" >
 
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_width="50dip"
-        android:layout_height="250dip" >
-    </TableRow>
-
-    <TableRow>
         <Button
             android:id="@+id/BtnRutas"
             style="@style/ButtonText"
@@ -30,17 +25,6 @@
             android:background="@drawable/red_button"
             android:layout_gravity="center"
             android:text="Configurar" />
-    </TableRow>
-
-    <TableRow>
-        <Button
-            android:id="@+id/BtnSalir"
-            style="@style/ButtonText"
-            android:width="150dip"
-            android:layout_height="wrap_content"
-            android:background="@drawable/red_button"
-            android:layout_gravity="center"
-            android:text="Salir" />
 
         <Button
             android:id="@+id/BtnAcercaDe"
@@ -50,6 +34,14 @@
             android:background="@drawable/red_button"
             android:layout_gravity="center"
             android:text="Nosotros" />
-    </TableRow>
 
-</TableLayout>
+        <Button
+            android:id="@+id/BtnSalir"
+            style="@style/ButtonText"
+            android:width="150dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/red_button"
+            android:layout_gravity="center"
+            android:text="Salir" />
+        
+</LinearLayout>

@@ -278,8 +278,6 @@ public class ActividadMapa extends MapActivity implements LocationListener{
 	
 	
 	
-	
-	
 	/**
 	 * mostrarPubs
 	 * 
@@ -345,6 +343,7 @@ public class ActividadMapa extends MapActivity implements LocationListener{
 	        dbh.close();
         
 		}else{   // el overlay ya existe => lo borramos
+			overlayPubs.hideAllBalloons();
 	        mapa.getOverlays().remove(overlayPubs);    
 	        overlayPubs = null;
 		}
@@ -414,6 +413,7 @@ public class ActividadMapa extends MapActivity implements LocationListener{
 	        dbh.close();
         
 		}else{   // el overlay ya existe => lo borramos
+			overlayRestaurantes.hideAllBalloons();
 	        mapa.getOverlays().remove(overlayRestaurantes);    
 	        overlayRestaurantes = null;
 		}
