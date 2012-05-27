@@ -33,7 +33,7 @@ public class MyOverlay extends Overlay {
         Point scrnPoint = new Point();
         mapView.getProjection().toPixels(this.point, scrnPoint);
 
-        Bitmap marker = BitmapFactory.decodeResource(mapView.getResources(), R.drawable.icon);
+        Bitmap marker = BitmapFactory.decodeResource(mapView.getResources(), R.drawable.marcador_google_maps);
         canvas.drawBitmap(marker,
         		scrnPoint.x - marker.getWidth() / 2,
         		scrnPoint.y - marker.getHeight() / 2, null);
