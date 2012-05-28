@@ -23,6 +23,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 
 //import com.google.android.maps.OverlayItem;
@@ -543,7 +544,28 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	// Actualiza la localización actual
 	//--------------------------------------------------------------------------------------------------
 	protected void updateLocation(Location location){
-	
+		
+		MapView mapView = (MapView) findViewById(R.id.mapa);
+		MapController mapController = mapView.getController();
+		GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
+		mapController.animateTo(point);        
+		mapController.setZoom(15);
+
+
+		List<Overlay> mapOverlays = mapView.getOverlays();
+
+		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this, mapView);
+		myLocationOverlay.enableCompass();
+		myLocationOverlay.enableMyLocation();
+		
+		mapOverlays.add(myLocationOverlay);
+		
+		mapView.invalidate();		
+	}
+
+
+	protected void updateLocation_original(Location location){
+		
 		MapView mapView = (MapView) findViewById(R.id.mapa);
 		MapController mapController = mapView.getController();
 		GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
@@ -605,8 +627,14 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		
 	}
 
-
-
+	/**
+	 * Desactivamos las notificaciones del location manager cuando cierran la ventana
+	 * 
+	 */
+	public void onPause(){
+		super.onPause();
+		locationManager.removeUpdates(this);			
+	}
 
 
 }
