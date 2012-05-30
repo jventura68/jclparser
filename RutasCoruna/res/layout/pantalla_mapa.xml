@@ -10,32 +10,25 @@
         android:orientation="horizontal" >
 
         <ImageButton
-            android:id="@+id/BtnSatelite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/blue_button"
-            android:src="@drawable/parabolica" />
-
-        <ImageButton
             android:id="@+id/BtnCentrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_button"
+            android:background="@color/negro_avenue"
             android:src="@drawable/home" />
         
         <ImageButton
             android:id="@+id/BtnRestaurantes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_button"
-            android:src="@drawable/restaurante_inverso" />
+            android:background="@color/negro_avenue"
+            android:src="@drawable/restauracion" />
         
         <ImageButton
             android:id="@+id/BtnCopas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/blue_button"
-            android:src="@drawable/martini" />
+            android:background="@color/negro_avenue"
+            android:src="@drawable/bar" />
         
         </LinearLayout>
 

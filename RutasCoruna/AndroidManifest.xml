@@ -10,12 +10,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
         
-    <application android:icon="@drawable/fantasma_comecocos" android:label="@string/app_name">
-        
+    <application android:icon="@drawable/logo_avenue" android:label="@string/nombre_aplicacion">
+        		 
         <uses-library android:name="com.google.android.maps" />
 
         <activity android:name=".activities.ActividadPrincipal"
-		    	  android:label="@string/pantalla_inicial">
+		    	  android:label="@string/nombre_aplicacion">
 		    <intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />

@@ -12,16 +12,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 
 public class ActividadPrincipal extends Activity{
 
 	private Context contexto = null;
-	private Button btnRutas = null;
-	private Button btnConfiguracion = null;
-	private Button btnSalir = null;
-	private Button btnAcercaDe = null;
+	private ImageButton btnRutas = null;
+	private ImageButton btnConfiguracion = null;
+	private ImageButton btnSalir = null;
+	private ImageButton btnAcercaDe = null;
 		
 	@Override
 	//-----------------------------------------------------------------------------------
@@ -38,11 +39,15 @@ public class ActividadPrincipal extends Activity{
 
     	//Toast.makeText(getBaseContext(), "Thread activado", Toast.LENGTH_LONG).show();
 
-        btnRutas = (Button)findViewById(R.id.BtnRutas);
-        btnConfiguracion = (Button)findViewById(R.id.BtnConfiguracion);
-        btnSalir = (Button)findViewById(R.id.BtnSalir);
-        btnAcercaDe = (Button)findViewById(R.id.BtnAcercaDe);
+        btnRutas = (ImageButton)findViewById(R.id.BtnRutas);
+        btnConfiguracion = (ImageButton)findViewById(R.id.BtnConfiguracion);
+        btnSalir = (ImageButton)findViewById(R.id.BtnSalir);
+        btnAcercaDe = (ImageButton)findViewById(R.id.BtnAcercaDe);
         
+        btnRutas.getBackground().setAlpha(185);
+        btnConfiguracion.getBackground().setAlpha(185);
+        btnSalir.getBackground().setAlpha(185);
+        btnAcercaDe.getBackground().setAlpha(185);
         
         contexto = this;
        

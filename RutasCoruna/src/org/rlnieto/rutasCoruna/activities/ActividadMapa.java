@@ -95,7 +95,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 
 		// Obtenemos una referencia a los controles desde el fichero de recursos
 		mapa = (MapView)findViewById(R.id.mapa);
-		btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
+//		btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
 		btnCentrar = (ImageButton)findViewById(R.id.BtnCentrar);
 		btnRestaurantes = (ImageButton)findViewById(R.id.BtnRestaurantes);
 		btnCopas = (ImageButton)findViewById(R.id.BtnCopas);
@@ -152,7 +152,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		 * Conmuta entre el modo mapa y el modo satélite
 		 * 
 		 */
-		btnSatelite.setOnClickListener(new OnClickListener() {
+/*		btnSatelite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(mapa.isSatellite())
@@ -161,7 +161,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 					mapa.setSatellite(true);
 			}
 		});
-
+*/
 
 
 		/**
@@ -346,7 +346,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 				String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 				String datosPoi = c.getString(c.getColumnIndex("descPoi"));
 
-				marker = getResources().getDrawable(R.drawable.martini);
+				marker = getResources().getDrawable(R.drawable.bar);
 
 				markerWidth = marker.getIntrinsicWidth();
 				markerHeight = marker.getIntrinsicHeight();
@@ -416,7 +416,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 				String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 				String datosPoi = c.getString(c.getColumnIndex("descPoi"));
 
-				marker = getResources().getDrawable(R.drawable.restaurante);
+				marker = getResources().getDrawable(R.drawable.restauracion);
 
 				markerWidth = marker.getIntrinsicWidth();
 				markerHeight = marker.getIntrinsicHeight();
@@ -496,9 +496,9 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			//TODO: asignar el icono al marker de una manera más limpia y a través de la tabla "categoria", 
 			// que es la que contiene el nombre del icono ¿lo hacemos en otra clase?
 			switch(iconoPoi){
-			case 1: marker = getResources().getDrawable(R.drawable.red_pushpin);   // general
+			case 1: marker = getResources().getDrawable(R.drawable.modernismo);   	// ruta modernista
 			break;
-			case 2: marker = getResources().getDrawable(R.drawable.hiker);		 	// senderismo
+			case 2: marker = getResources().getDrawable(R.drawable.picasso);		// picasso
 			break;
 			case 3: marker = getResources().getDrawable(R.drawable.cycling);		// ruta en bicicleta
 			break;
@@ -512,7 +512,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			break;
 			case 8: marker = getResources().getDrawable(R.drawable.red_pushpin);	// monumento
 			break;
-			default: marker = getResources().getDrawable(android.R.drawable.star_big_on);	// no hay coincidencia
+			default: marker = getResources().getDrawable(R.drawable.historica);	// no hay coincidencia
 			break;
 			}
 
