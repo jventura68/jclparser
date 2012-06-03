@@ -94,7 +94,9 @@ public class ActividadPrincipal extends Activity{
          */
         btnSalir.setOnClickListener(new OnClickListener(){
         	public void onClick(View arg0){
-        		finish();
+//        		finish();
+        		Toast.makeText(getBaseContext(), "En construcción!!", Toast.LENGTH_SHORT).show();
+
         	}
         	
         });

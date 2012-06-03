@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
         
-    <application android:icon="@drawable/logo_avenue" android:label="@string/nombre_aplicacion">
+    <application android:icon="@drawable/ic_launcher_logo_avenue" android:label="@string/nombre_aplicacion">
         		 
         <uses-library android:name="com.google.android.maps" />
 

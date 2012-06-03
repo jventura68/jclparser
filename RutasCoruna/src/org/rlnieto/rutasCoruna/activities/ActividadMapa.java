@@ -8,6 +8,7 @@ import java.util.Locale;
 //import android.content.Context;
 //import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
@@ -95,7 +96,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 
 		// Obtenemos una referencia a los controles desde el fichero de recursos
 		mapa = (MapView)findViewById(R.id.mapa);
-//		btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
+		//		btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
 		btnCentrar = (ImageButton)findViewById(R.id.BtnCentrar);
 		btnRestaurantes = (ImageButton)findViewById(R.id.BtnRestaurantes);
 		btnCopas = (ImageButton)findViewById(R.id.BtnCopas);
@@ -114,16 +115,54 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		mostrarPuntosDeInteres(mapa, bundle.getInt("idRuta"));
 
 
-		// Activamos el gps y solicitamos actualizaciones periódicas de la localización
-		        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		// Añadimos el overlay que muestra nuestra posicion 
+		MyLocationOverlay locationOverlay = new MyLocationOverlay(this, mapa);		
+		mapa.getOverlays().add(locationOverlay);
+		locationOverlay.enableCompass();
+		locationOverlay.enableMyLocation();
+		mapa.postInvalidate();
 
-		        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-		//        	updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-		            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);	
-					
-				} else {
-		            Toast.makeText(getBaseContext(), "El GPS está desactivado", Toast.LENGTH_LONG).show();
-				}
+
+
+
+
+		// Activamos el gps y solicitamos actualizaciones periódicas de la localización
+		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+
+		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			//        	updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);	
+
+		} else {
+			//Toast.makeText(getBaseContext(), "El GPS está desactivado", Toast.LENGTH_LONG).show();
+			
+			
+			// preguntamos al usuario si quiere activar el gps y si quiere abrimos el diálogo de configuración
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("El GPS está desactivado").setMessage(
+					"¿Desea activar el GPS ahora? Si decide no hacerlo podrá seguir utilizando la aplicación, pero no se mostrará su posición actual")
+					.setCancelable(true)
+					.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							startActivity(
+									new Intent(Settings.ACTION_SECURITY_SETTINGS));
+						}
+					})
+					.setNegativeButton("No",
+							new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							dialog.cancel();
+							//finish();
+						}
+					});
+			AlertDialog alert = builder.create();
+			alert.show();
+
+			
+			
+			
+			
+		}
 
 
 		//        updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
@@ -152,7 +191,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		 * Conmuta entre el modo mapa y el modo satélite
 		 * 
 		 */
-/*		btnSatelite.setOnClickListener(new OnClickListener() {
+		/*		btnSatelite.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(mapa.isSatellite())
@@ -161,7 +200,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 					mapa.setSatellite(true);
 			}
 		});
-*/
+		 */
 
 
 		/**
@@ -255,11 +294,12 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	//--------------------------------------------------------------------------
 
 	//--------------------------------------------------------------------------------------------------
-    // Cuando se activa el proveedor de localización
-    //--------------------------------------------------------------------------------------------------
+	// Cuando se activa el proveedor de localización
+	//--------------------------------------------------------------------------------------------------
 	@Override
 	public void onProviderEnabled(String provider) {
 		Toast.makeText(this, "GPS activado", Toast.LENGTH_SHORT).show();
+
 	}
 
 
@@ -270,9 +310,6 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	public void onProviderDisabled(String provider) { 
 		Toast.makeText(this, "GPS desactivado", Toast.LENGTH_SHORT).show();
 
-		//Intent intent = new Intent( android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-		//startActivity(intent);
-
 		locationManager.removeUpdates(this);
 
 	}
@@ -281,8 +318,11 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	// Actualiza la localización cuando nos movemos
 	//--------------------------------------------------------------------------------------------------
 	@Override
-		public void onLocationChanged(Location location) {
-		updateLocation(location);
+	public void onLocationChanged(Location location) {
+		//updateLocation(location);
+
+		mapa.invalidate();		
+
 	}
 
 	@Override
@@ -346,7 +386,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 				String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 				String datosPoi = c.getString(c.getColumnIndex("descPoi"));
 
-				marker = getResources().getDrawable(R.drawable.bar);
+				marker = getResources().getDrawable(R.drawable.ic_bar);
 
 				markerWidth = marker.getIntrinsicWidth();
 				markerHeight = marker.getIntrinsicHeight();
@@ -416,7 +456,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 				String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 				String datosPoi = c.getString(c.getColumnIndex("descPoi"));
 
-				marker = getResources().getDrawable(R.drawable.restauracion);
+				marker = getResources().getDrawable(R.drawable.ic_restauracion);
 
 				markerWidth = marker.getIntrinsicWidth();
 				markerHeight = marker.getIntrinsicHeight();
@@ -496,9 +536,9 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			//TODO: asignar el icono al marker de una manera más limpia y a través de la tabla "categoria", 
 			// que es la que contiene el nombre del icono ¿lo hacemos en otra clase?
 			switch(iconoPoi){
-			case 1: marker = getResources().getDrawable(R.drawable.modernismo);   	// ruta modernista
+			case 1: marker = getResources().getDrawable(R.drawable.ic_modernismo);   	// ruta modernista
 			break;
-			case 2: marker = getResources().getDrawable(R.drawable.picasso);		// picasso
+			case 2: marker = getResources().getDrawable(R.drawable.ic_picasso);		// picasso
 			break;
 			case 3: marker = getResources().getDrawable(R.drawable.cycling);		// ruta en bicicleta
 			break;
@@ -512,7 +552,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			break;
 			case 8: marker = getResources().getDrawable(R.drawable.red_pushpin);	// monumento
 			break;
-			default: marker = getResources().getDrawable(R.drawable.historica);	// no hay coincidencia
+			default: marker = getResources().getDrawable(R.drawable.ic_historica);	// no hay coincidencia
 			break;
 			}
 
@@ -529,6 +569,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		c.close();
 		dbh.close();
 
+
 		mapController.animateTo(point);        
 		mapController.setZoom(15);
 
@@ -539,68 +580,6 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	}
 
 
-
-	//--------------------------------------------------------------------------------------------------
-	// Actualiza la localización actual
-	//--------------------------------------------------------------------------------------------------
-	protected void updateLocation(Location location){
-		
-		MapView mapView = (MapView) findViewById(R.id.mapa);
-		MapController mapController = mapView.getController();
-		GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
-		mapController.animateTo(point);        
-		mapController.setZoom(15);
-
-
-		List<Overlay> mapOverlays = mapView.getOverlays();
-
-		MyLocationOverlay myLocationOverlay = new MyLocationOverlay(this, mapView);
-		myLocationOverlay.enableCompass();
-		myLocationOverlay.enableMyLocation();
-		
-		mapOverlays.add(myLocationOverlay);
-		
-		mapView.invalidate();		
-	}
-
-
-	protected void updateLocation_original(Location location){
-		
-		MapView mapView = (MapView) findViewById(R.id.mapa);
-		MapController mapController = mapView.getController();
-		GeoPoint point = new GeoPoint((int) (location.getLatitude() * 1E6), (int) (location.getLongitude() * 1E6));
-		mapController.animateTo(point);        
-		mapController.setZoom(15);
-
-/*		Geocoder geoCoder = new Geocoder(this, Locale.getDefault());
-
-		try {
-			List<Address> addresses = geoCoder.getFromLocation(
-					point.getLatitudeE6()  / 1E6, 
-					point.getLongitudeE6() / 1E6, 1);
-
-			String address = "";
-			if (addresses.size() > 0) {
-				for (int i = 0; i < addresses.get(0).getMaxAddressLineIndex(); i++)
-					address += addresses.get(0).getAddressLine(i) + "\n";
-			}
-
-			Toast.makeText(getBaseContext(), address, Toast.LENGTH_SHORT).show();
-		}
-		catch (IOException e) {                
-			e.printStackTrace();
-		}      */     
-
-
-		List<Overlay> mapOverlays = mapView.getOverlays();
-		MyOverlay marker = new MyOverlay(point);
-		mapOverlays.add(marker);  
-		mapView.invalidate();		
-	}
-
-
-
-
 	/*-------------------------------------------------------------------------------------------------------------*/
 	/*-------------------------------------------------------------------------------------------------------------*/
 
@@ -609,22 +588,22 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	{
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(mensajeAMostrar)
-		       .setCancelable(false)
-		       .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		                ActividadMapa.this.finish();
-		           }
-		       })
-		       .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-		           public void onClick(DialogInterface dialog, int id) {
-		                dialog.cancel();
-		           }
-		       });
+		.setCancelable(false)
+		.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				ActividadMapa.this.finish();
+			}
+		})
+		.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.cancel();
+			}
+		});
 		AlertDialog alert = builder.create();
-		
+
 		return alert;
-		
-		
+
+
 	}
 
 	/**
