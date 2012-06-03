@@ -14,21 +14,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
-            android:src="@drawable/home" />
+            android:src="@drawable/ic_home" />
         
         <ImageButton
             android:id="@+id/BtnRestaurantes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
-            android:src="@drawable/restauracion" />
+            android:src="@drawable/ic_restauracion" />
         
         <ImageButton
             android:id="@+id/BtnCopas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
-            android:src="@drawable/bar" />
+            android:src="@drawable/ic_bar" />
         
         </LinearLayout>
 

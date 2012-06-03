@@ -3,36 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tranvia"
-    android:orientation="horizontal"
-    android:gravity="bottom">
+    android:gravity="bottom"
+    android:orientation="vertical" >
 
-    <ImageButton
-        android:id="@+id/BtnRutas"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/negro_avenue"
-        android:fadingEdge="vertical"
-        android:src="@drawable/quever" />
+        android:gravity="bottom"
+        android:orientation="horizontal" >
 
-    <ImageButton
-        android:id="@+id/BtnConfiguracion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/negro_avenue"
-        android:src="@drawable/dondecomer" />
+        <ImageButton
+            android:id="@+id/BtnRutas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/negro_avenue"
+	        android:layout_weight="1"
+            android:src="@drawable/ic_quever" />
 
-    <ImageButton
-        android:id="@+id/BtnSalir"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/negro_avenue"
-        android:src="@drawable/dondedormir" />
+        <ImageButton
+            android:id="@+id/BtnConfiguracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/negro_avenue"
+	        android:layout_weight="1"
+            android:src="@drawable/ic_comer" />
 
-    <ImageButton
-        android:id="@+id/BtnAcercaDe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/negro_avenue"
-        android:src="@drawable/qs" />
+        <ImageButton
+            android:id="@+id/BtnSalir"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/negro_avenue"
+	        android:layout_weight="1"
+            android:src="@drawable/ic_dormir" />
+
+        <ImageButton
+            android:id="@+id/BtnAcercaDe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/negro_avenue"
+	        android:layout_weight="1"
+            android:src="@drawable/ic_qs" />
+    </LinearLayout>
 
 </LinearLayout>

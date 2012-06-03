@@ -46,13 +46,13 @@
                 android:id="@+id/imageView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/facebook_creatures_32x32" />
+                android:src="@drawable/ic_facebook_creatures_32x32" />
 
             <ImageView
                 android:id="@+id/imageView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/twitter_creatures_32x32" />
+                android:src="@drawable/ic_twitter_creatures_32x32" />
 
         </TableRow>
     </TableLayout>
