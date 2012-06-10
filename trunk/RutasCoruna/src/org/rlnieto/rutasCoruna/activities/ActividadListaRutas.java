@@ -19,7 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class ActividadRutas extends ListActivity {
+public class ActividadListaRutas extends ListActivity {
 
 	private Context contexto = null;
 	

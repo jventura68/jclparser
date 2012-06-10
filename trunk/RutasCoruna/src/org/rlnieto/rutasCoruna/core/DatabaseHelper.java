@@ -23,6 +23,25 @@ import java.io.FileOutputStream;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
+	
+	// Constantes para las categorías de los pois
+	// TODO: pensar cómo codificar y guardar los códigos de las categorías de los pois
+	private static final int CODIGO_MUSEO = 1;
+	private static final int CODIGO_IGLESIA = 2;
+	private static final int CODIGO_MONUMENTO = 3;
+	private static final int CODIGO_PAISAJE = 4;
+	
+	// Los pois comerciales tienen código >= 100
+	private static final int CODIGO_HOTEL = 100;
+	private static final int CODIGO_RESTAURANTE = 101;
+	private static final int CODIGO_OCIO_NOCTURNO = 102;
+	private static final int CODIGO_SHOPPING = 103;
+	private static final int CODIGO_ESPECTACULO = 104;
+	private static final int CODIGO_CAFETERIA = 105;
+	private static final int CODIGO_CERVECERIA = 106;
+	
+	
+	
 	private static String DB_PATH = "/data/data/org.rlnieto.rutasCoruna/databases/";
 	private static final String DATABASE_NAME="rutasCoruna.sqlite";
 	//private static final int VERSION_BD = 1;
@@ -71,27 +90,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	 */
 	public Cursor recuperarPubs(){
 
-		/* TODO: pendientes de definir las categorías. Esta es la propuesta inicial:
-		   Comerciales (>= 100):
-		     - Hotel => 100
-		     - Restaurante => 101
-		     - Ocio nocturno => 102
-		     - Shopping => 103
-		     - Espectáculo => 104
-		     - Cafetería (para tomar un refresco con la familia) => 105
-		     - Cervecería => 106
-		
-			No comerciales (< 100):
-			  - Museo => 1
-			  - Iglesia => 2
-			  - Monumento => 3
-			  - Paisaje => 4
-		*/
-		
-		// Query para recuperar los pois de lar ruta completa
 		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria " +
 								"from poi " +
-								"where categoria = 106", null); 
+								"where categoria = " + CODIGO_CERVECERIA, null); 
 
 		return c;
 		
@@ -105,33 +106,29 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	 */
 	public Cursor recuperarRestaurantes(){
 
-		/* TODO: pendientes de definir las categorías. Esta es la propuesta inicial:
-		   Comerciales (>= 100):
-		     - Hotel => 100
-		     - Restaurante => 101
-		     - Ocio nocturno => 102
-		     - Shopping => 103
-		     - Espectáculo => 104
-		     - Cafetería (para tomar un refresco con la familia) => 105
-		     - Cervecería => 106
-		
-			No comerciales (< 100):
-			  - Museo => 1
-			  - Iglesia => 2
-			  - Monumento => 3
-			  - Paisaje => 4
-		*/
-		
-		// Query para recuperar los pois de lar ruta completa
 		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria " +
 								"from poi " +
-								"where categoria = 101", null); 
+								"where categoria = " + CODIGO_RESTAURANTE, null); 
 
 		return c;
 		
 	}
 	
 
+	/**
+	 * Recupera los pois asociados a los hoteles en la bd
+	 * 
+	 * @return
+	 */
+	public Cursor recuperarHoteles(){
+
+		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria, direccion, telefono " +
+								"from poi " +
+								"where categoria = " + CODIGO_HOTEL, null); 
+
+		return c;
+		
+	}
 	
 	
 	
