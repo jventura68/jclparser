@@ -36,6 +36,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 //import android.location.LocationProvider;
 
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
 //import android.database.sqlite.SQLiteDatabase;
@@ -373,7 +374,11 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 
 		marker.setBounds(0, 0, markerHeight, markerWidth);
 		//MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
+		
+		// Si no existe el overlay con los pubs => lo creamos. Si ya existe lo borramos.
 		if(overlayPubs == null){
+			
+			btnCopas.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_bar_seleccionado));
 
 			overlayPubs = new MyItemizedBalloonOverlay(marker, mapa);
 			mapa.getOverlays().add(overlayPubs);
@@ -401,6 +406,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			dbh.close();
 
 		}else{   // el overlay ya existe => lo borramos
+			btnCopas.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_bar));
+
 			overlayPubs.hideAllBalloons();
 			mapa.getOverlays().remove(overlayPubs);    
 			overlayPubs = null;
@@ -435,7 +442,10 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		try {
 			dbh.openDataBase();
 
-		}catch(SQLException sqle){throw sqle;}
+		}catch(SQLException sqle){
+			throw sqle;
+//			Toast.makeText(this, "Error al abrir la bd?¿?", Toast.LENGTH_SHORT).show();
+		}
 
 
 		// Recuperamos los restaurantes
@@ -444,6 +454,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		marker.setBounds(0, 0, markerHeight, markerWidth);
 		//MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
 		if(overlayRestaurantes == null){
+
+			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_restauracion_seleccionado));
 
 			overlayRestaurantes = new MyItemizedBalloonOverlay(marker, mapa);
 			mapa.getOverlays().add(overlayRestaurantes);
@@ -470,7 +482,10 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			c.close();
 			dbh.close();
 
+
 		}else{   // el overlay ya existe => lo borramos
+			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_restauracion));
+
 			overlayRestaurantes.hideAllBalloons();
 			mapa.getOverlays().remove(overlayRestaurantes);    
 			overlayRestaurantes = null;
