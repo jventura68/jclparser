@@ -390,7 +390,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 				Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
 				String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 				String datosPoi = c.getString(c.getColumnIndex("descPoi"));
-
+				int categoria =  c.getInt(c.getColumnIndex("categoria"));
+				
 				marker = getResources().getDrawable(R.drawable.ic_bar);
 
 				markerWidth = marker.getIntrinsicWidth();
@@ -398,7 +399,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 				marker.setBounds(0, 0, markerHeight, markerWidth);
 
 				point = new GeoPoint(latitud.intValue(), longitud.intValue());
-				overlayPubs.addItem(point, nombrePoi, datosPoi, marker, clavePoi);
+				overlayPubs.addItem(point, nombrePoi, datosPoi, marker, clavePoi, categoria);
 
 			}
 
@@ -467,6 +468,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 				Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
 				String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 				String datosPoi = c.getString(c.getColumnIndex("descPoi"));
+				int categoria =  c.getInt(c.getColumnIndex("categoria"));
 
 				marker = getResources().getDrawable(R.drawable.ic_restauracion);
 
@@ -475,7 +477,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 				marker.setBounds(0, 0, markerHeight, markerWidth);
 
 				point = new GeoPoint(latitud.intValue(), longitud.intValue());
-				overlayRestaurantes.addItem(point, nombrePoi, datosPoi, marker, clavePoi);
+				overlayRestaurantes.addItem(point, nombrePoi, datosPoi, marker, clavePoi, categoria);
 
 			}
 
@@ -543,14 +545,11 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
 			String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 			String datosPoi = c.getString(c.getColumnIndex("descPoi"));
-			int iconoPoi = c.getInt(c.getColumnIndex("categoria"));
-
-			Log.v("Icono poi", String.valueOf(iconoPoi));
-
+			int categoria = c.getInt(c.getColumnIndex("categoria"));
 
 			//TODO: asignar el icono al marker de una manera más limpia y a través de la tabla "categoria", 
 			// que es la que contiene el nombre del icono ¿lo hacemos en otra clase?
-			switch(iconoPoi){
+			switch(categoria){
 			case 1: marker = getResources().getDrawable(R.drawable.ic_modernismo);   	// ruta modernista
 			break;
 			case 2: marker = getResources().getDrawable(R.drawable.ic_picasso);		// picasso
@@ -567,6 +566,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			break;
 			case 8: marker = getResources().getDrawable(R.drawable.red_pushpin);	// monumento
 			break;
+			case 100: marker = getResources().getDrawable(R.drawable.ic_dormir_mapa);	
+			break;
 			default: marker = getResources().getDrawable(R.drawable.ic_historica);	// no hay coincidencia
 			break;
 			}
@@ -576,7 +577,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			marker.setBounds(0, 0, markerHeight, markerWidth);
 
 			point = new GeoPoint(latitud.intValue(), longitud.intValue());
-			myItemizedBalloonOverlay.addItem(point, nombrePoi, datosPoi, marker, clavePoi);
+			myItemizedBalloonOverlay.addItem(point, nombrePoi, datosPoi, marker, clavePoi, categoria);
 
 
 		}

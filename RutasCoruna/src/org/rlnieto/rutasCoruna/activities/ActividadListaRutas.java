@@ -5,6 +5,7 @@ package org.rlnieto.rutasCoruna.activities;
 import java.util.ArrayList;
 
 import org.rlnieto.rutasCoruna.R;
+import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -85,14 +86,23 @@ public class ActividadListaRutas extends ListActivity {
 	
 	
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		//String item = (String) getListAdapter().getItem(position);
-		//Toast.makeText(this, item + " selected", Toast.LENGTH_LONG).show();
 
+		int idRuta = 0;
+		
 		// Abrimos la pantalla del mapa cargando la ruta elegida
-		Toast.makeText(contexto, "Cargando ruta ...", Toast.LENGTH_SHORT).show();
+		Toast.makeText(contexto, "Cargando datos ...", Toast.LENGTH_SHORT).show();
+
+		
+		switch(position){
+			case 0: idRuta = DatabaseHelper.RUTA_MODERNISTA;
+					break;
+			case 1: idRuta = DatabaseHelper.RUTA_PICASSO;
+					break;
+			default: idRuta = 0;
+		}
 		
     	Intent myIntent = new Intent(contexto, ActividadMapa.class);
-    	myIntent.putExtra("idRuta", position + 1);
+    	myIntent.putExtra("idRuta", idRuta);
     	
     	contexto.startActivity(myIntent);
 		

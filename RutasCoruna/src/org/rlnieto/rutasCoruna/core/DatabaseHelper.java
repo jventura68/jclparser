@@ -23,22 +23,26 @@ import java.io.FileOutputStream;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
+	// OJO OJITO: estos valores tienen que coincidir con la clave de la tabla de rutas
+	public static final int RUTA_MODERNISTA = 1;
+	public static final int RUTA_PICASSO = 2;
+	public static final int LISTA_HOTELES = 3;
 	
 	// Constantes para las categorías de los pois
 	// TODO: pensar cómo codificar y guardar los códigos de las categorías de los pois
-	private static final int CODIGO_MUSEO = 1;
-	private static final int CODIGO_IGLESIA = 2;
-	private static final int CODIGO_MONUMENTO = 3;
-	private static final int CODIGO_PAISAJE = 4;
+	public static final int CODIGO_MUSEO = 1;
+	public static final int CODIGO_IGLESIA = 2;
+	public static final int CODIGO_MONUMENTO = 3;
+	public static final int CODIGO_PAISAJE = 4;
 	
 	// Los pois comerciales tienen código >= 100
-	private static final int CODIGO_HOTEL = 100;
-	private static final int CODIGO_RESTAURANTE = 101;
-	private static final int CODIGO_OCIO_NOCTURNO = 102;
-	private static final int CODIGO_SHOPPING = 103;
-	private static final int CODIGO_ESPECTACULO = 104;
-	private static final int CODIGO_CAFETERIA = 105;
-	private static final int CODIGO_CERVECERIA = 106;
+	public static final int CODIGO_HOTEL = 100;
+	public static final int CODIGO_RESTAURANTE = 101;
+	public static final int CODIGO_OCIO_NOCTURNO = 102;
+	public static final int CODIGO_SHOPPING = 103;
+	public static final int CODIGO_ESPECTACULO = 104;
+	public static final int CODIGO_CAFETERIA = 105;
+	public static final int CODIGO_CERVECERIA = 106;
 	
 	
 	
