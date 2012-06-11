@@ -3,6 +3,7 @@ package org.rlnieto.rutasCoruna.activities;
 import org.rlnieto.rutasCoruna.R;
 import org.rlnieto.rutasCoruna.R.id;
 import org.rlnieto.rutasCoruna.R.layout;
+import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 import org.rlnieto.rutasCoruna.core.Updater;
 
 import android.app.Activity;
@@ -96,7 +97,10 @@ public class ActividadPrincipal extends Activity{
         	public void onClick(View arg0){
 //        		Toast.makeText(getBaseContext(), "En construcción!!", Toast.LENGTH_SHORT).show();
 
-        		Intent myIntent = new Intent(contexto, ActividadListaHoteles.class);
+        		//Intent myIntent = new Intent(contexto, ActividadListaHoteles.class);
+        		
+        		Intent myIntent = new Intent(contexto, ActividadMapa.class);
+        		myIntent.putExtra("idRuta", DatabaseHelper.LISTA_HOTELES);
         		contexto.startActivity(myIntent);
         		
         	}

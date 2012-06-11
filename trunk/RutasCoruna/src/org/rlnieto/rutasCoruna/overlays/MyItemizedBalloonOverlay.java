@@ -15,6 +15,8 @@ import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
 import android.database.Cursor;
+
+import org.rlnieto.rutasCoruna.activities.ActividadNavegador;
 import org.rlnieto.rutasCoruna.activities.PageVisualizer;
 import org.rlnieto.rutasCoruna.core.*;
 
@@ -42,8 +44,8 @@ public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayIte
 	 * @param marker: icono
 	 * @param clavePoi: clave del poi en la tabla de pois
 	 */
-	public void addItem(GeoPoint p, String title, String snippet, Drawable marker, int clavePoi){
-		PoiOverlayItem newItem = new PoiOverlayItem(p, title, snippet, clavePoi);
+	public void addItem(GeoPoint p, String title, String snippet, Drawable marker, int clavePoi, int categoria){
+		PoiOverlayItem newItem = new PoiOverlayItem(p, title, snippet, clavePoi, categoria);
 		
 		newItem.setMarker(marker);
 		overlayItemList.add(newItem);
@@ -84,27 +86,36 @@ public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayIte
 	
 	@Override
 	protected boolean onBalloonTap(int index, OverlayItem item) {
-		
-		/*Toast.makeText(contexto, "onBalloonTap for overlay index " + index,
-				Toast.LENGTH_LONG).show();
-		*/
-		
-		/* ¿Devolvemos la clave del poi o abrimos la pantalla con los datos directamente? */
-		/*Toast.makeText(contexto, "onBalloonTap clave en la tabla de pois: " + ((PoiOverlayItem)item).getClavePoi(),
-				Toast.LENGTH_LONG).show();
-		*/
-		
-    	Intent myIntent = new Intent(contexto, PageVisualizer.class);
-		myIntent.putExtra("clave_poi", ((PoiOverlayItem)item).getClavePoi());
-    	contexto.startActivity(myIntent);
-		
+
+		int categoria = ((PoiOverlayItem)item).getCategoria(); 
+		int idPoi = ((PoiOverlayItem)item).getClavePoi();
+				
+		if(categoria == 100){      // es un hotel => recupermos la url de booking
+		  String url = recuperarUrlBooking();														 // y la abrimos en un webView
+			
+		  Intent myIntent = new Intent(contexto, ActividadNavegador.class);
+		  myIntent.putExtra("url", url);
+
+		  contexto.startActivity(myIntent);
+			
+		}else{   // los datos de los pois no comerciales van en un textView
+			Intent myIntent = new Intent(contexto, PageVisualizer.class);
+			myIntent.putExtra("clave_poi", idPoi);
+			contexto.startActivity(myIntent);
+		}
 		return true;
 	}
 	
 	
 	
-	public void cargarPois(Cursor pois){
-		
+	
+	/**
+	 * Recupera la url de booking asociada a un hotel
+	 * 
+	 * @return
+	 */
+	private String recuperarUrlBooking(){
+		return "http://www.booking.com/hotel/es/acacoruna.html?tab=&error_url=%2Fhotel%2Fes%2Facacoruna.es.html%3Fsid%3D74128f16a675c9d857792fa984497292%3Bdcid%3D1%3Bstid%3D325542%3B&do_availability_check=on&dcid=1&sid=74128f16a675c9d857792fa984497292&stid=325542&rows=10&error_url=http%3A%2F%2Fwww.booking.com%2Fhotel%2Fes%2Facacoruna.es.html%3Fsid%3D74128f16a675c9d857792fa984497292%3Bdcid%3D1%3Bstid%3D325542%3B&dcid=1&sid=74128f16a675c9d857792fa984497292&stid=325542&si=ai%2Cco%2Cci%2Cre%2Cdi&checkin_monthday=&checkin_year_month=&checkout_monthday=&checkout_year_month=&ci_date=&num_nights=1&co_date=";
 	}
 	
 	
