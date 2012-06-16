@@ -549,26 +549,35 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 
 			//TODO: asignar el icono al marker de una manera más limpia y a través de la tabla "categoria", 
 			// que es la que contiene el nombre del icono ¿lo hacemos en otra clase?
+			// Los códigos negativos son para rutas temáticas donde todos los pois tienen el mismo icono
 			switch(categoria){
-			case 1: marker = getResources().getDrawable(R.drawable.ic_modernismo);   	// ruta modernista
+			case -2: marker = getResources().getDrawable(R.drawable.ic_picasso);   		// ruta picasso
 			break;
-			case 2: marker = getResources().getDrawable(R.drawable.ic_picasso);		// picasso
+			case -1: marker = getResources().getDrawable(R.drawable.ic_modernismo);   	// ruta modernista
 			break;
-			case 3: marker = getResources().getDrawable(R.drawable.cycling);		// ruta en bicicleta
+			case 1: marker = getResources().getDrawable(R.drawable.ic_historica);   	// museo
 			break;
-			case 4: marker = getResources().getDrawable(R.drawable.camera);			// paisaje
+			case 2: marker = getResources().getDrawable(R.drawable.ic_historica);		// iglesia
 			break;
-			case 5: marker = getResources().getDrawable(R.drawable.red_pushpin);	// pubs
+			case 3: marker = getResources().getDrawable(R.drawable.ic_historica);		// monumento
 			break;
-			case 6: marker = getResources().getDrawable(R.drawable.red_pushpin);  	// restaurantes
+			case 4: marker = getResources().getDrawable(R.drawable.ic_historica);		// paisaje
 			break;
-			case 7: marker = getResources().getDrawable(R.drawable.red_pushpin);	// shopping
+			case 100: marker = getResources().getDrawable(R.drawable.ic_dormir_mapa);	// hotel
 			break;
-			case 8: marker = getResources().getDrawable(R.drawable.red_pushpin);	// monumento
+			case 101: marker = getResources().getDrawable(R.drawable.ic_comer);  		// restaurante
 			break;
-			case 100: marker = getResources().getDrawable(R.drawable.ic_dormir_mapa);	
+			case 102: marker = getResources().getDrawable(R.drawable.ic_bar);			// ocio nocturno
 			break;
-			default: marker = getResources().getDrawable(R.drawable.ic_historica);	// no hay coincidencia
+			case 103: marker = getResources().getDrawable(R.drawable.red_pushpin);		// centro comercial
+			break;
+			case 104: marker = getResources().getDrawable(R.drawable.red_pushpin);		// espectáculo
+			break;
+			case 105: marker = getResources().getDrawable(R.drawable.red_pushpin);		// cafetería
+			break;
+			case 106: marker = getResources().getDrawable(R.drawable.ic_bar);			// cervecería
+			break;
+			default: marker = getResources().getDrawable(R.drawable.ic_historica);		// no hay coincidencia
 			break;
 			}
 

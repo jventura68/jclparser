@@ -74,8 +74,12 @@ public class ActividadListaRutas extends ListActivity {
 
 		// TODO: cargar etiquetas, descripciones y códigos de ruta desde la base de datos y 
 		// eliminar hardcoding
-		String[] etiquetas = new String[] { "La Coruña modernista", "El joven Picasso" };
-		String[] descripciones = new String[] { "Un recorrido por los edificios emblemáticos de finales del siglo XIX", "Descubra los lugares que ayudaron a forjar el carácter de este genio durante su infancia" };
+		String[] etiquetas = new String[] { "A Coruña monumental",
+											"La Coruña modernista", 
+											"El joven Picasso"};
+		String[] descripciones = new String[] { "Descubra los principales edificios religiosos y militares de parte antigua la ciudad",
+												"Un recorrido por los edificios emblemáticos de finales del siglo XIX", 
+												"Descubra los lugares que ayudaron a forjar el carácter de este genio durante su infancia"};
 
 		 contexto = this;
 		 
@@ -94,9 +98,11 @@ public class ActividadListaRutas extends ListActivity {
 
 		
 		switch(position){
-			case 0: idRuta = DatabaseHelper.RUTA_MODERNISTA;
+			case 0: idRuta = DatabaseHelper.RUTA_GENERICA;
 					break;
-			case 1: idRuta = DatabaseHelper.RUTA_PICASSO;
+			case 1: idRuta = DatabaseHelper.RUTA_MODERNISTA;
+					break;
+			case 2: idRuta = DatabaseHelper.RUTA_PICASSO;
 					break;
 			default: idRuta = 0;
 		}
