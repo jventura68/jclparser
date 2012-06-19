@@ -73,6 +73,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	private ImageButton btnCentrar = null;
 	private ImageButton btnRestaurantes = null;
 	private ImageButton btnCopas = null;
+	private ImageButton btnGps = null;
 
 	private MapController controlMapa = null;
 
@@ -101,7 +102,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		btnCentrar = (ImageButton)findViewById(R.id.BtnCentrar);
 		btnRestaurantes = (ImageButton)findViewById(R.id.BtnRestaurantes);
 		btnCopas = (ImageButton)findViewById(R.id.BtnCopas);
-
+		btnGps = (ImageButton)findViewById(R.id.BtnGps);
+		
 		// Cargamos una referencia al controlador del mapa
 		controlMapa = mapa.getController();
 
@@ -131,55 +133,17 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			//        	updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+			// mostramos el botón del gps como activado
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
+			
 			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);	
 
 		} else {
-			//Toast.makeText(getBaseContext(), "El GPS está desactivado", Toast.LENGTH_LONG).show();
-			
-			
-			// preguntamos al usuario si quiere activar el gps y si quiere abrimos el diálogo de configuración
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle("El GPS está desactivado").setMessage(
-					"¿Desea activar el GPS ahora? Si decide no hacerlo podrá seguir utilizando la aplicación, pero no se mostrará su posición actual")
-					.setCancelable(true)
-					.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							startActivity(
-									new Intent(Settings.ACTION_SECURITY_SETTINGS));
-						}
-					})
-					.setNegativeButton("No",
-							new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							dialog.cancel();
-							//finish();
-						}
-					});
-			AlertDialog alert = builder.create();
-			alert.show();
-
-			
-			
+			// mostramos el botón del gps como desactivado
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
 			
 			
 		}
-
-
-		//        updateLocation(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-		//        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);
-
-		// Copiamos los ficheros html con las rutas a la sd
-		//        Updater uh = new Updater(this);
-		//        uh.copiarHtmlTarjetaSD(this, "web");
-
-
-
-
-
-
-
-
 
 
 		//--------------------------------------------------------------------------
@@ -187,21 +151,6 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		// listeners
 		//
 		//--------------------------------------------------------------------------
-
-		/**
-		 * Conmuta entre el modo mapa y el modo satélite
-		 * 
-		 */
-		/*		btnSatelite.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				if(mapa.isSatellite())
-					mapa.setSatellite(false);
-				else
-					mapa.setSatellite(true);
-			}
-		});
-		 */
 
 
 		/**
@@ -241,8 +190,22 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 
 		});
 
+		
+		
+		/**
+		 * Manejador de evento para activar/desactivar el gps
+		 * 
+		 */
+		btnGps.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// No podemos manipular directamente el gps => abrimos las opciones de seguridad esté o
+				// no habilitado para que modifiquen el estado desde ahí
+				startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
+			}
+		});
 
-
+		
 	}   // onCreate
 
 
@@ -259,12 +222,6 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 
 		controlMapa.animateTo(loc);
 		controlMapa.setZoom(15);
-
-		/*		int zoomActual = mapa.getZoomLevel();
-		for(int i=zoomActual; i<14; i++)
-		{
-			controlMapa.zoomIn();
-		}*/
 
 	}
 
@@ -300,6 +257,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	@Override
 	public void onProviderEnabled(String provider) {
 		Toast.makeText(this, "GPS activado", Toast.LENGTH_SHORT).show();
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);	
+		//btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
 
 	}
 
@@ -310,8 +269,9 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	@Override
 	public void onProviderDisabled(String provider) { 
 		Toast.makeText(this, "GPS desactivado", Toast.LENGTH_SHORT).show();
-
 		locationManager.removeUpdates(this);
+
+		//btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
 
 	}
 
@@ -331,7 +291,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	// Cuando cambia el estado del proveedor de los servicios de localización
 	//--------------------------------------------------------------------------------------------------
 	public void onStatusChanged(String provider, int status, Bundle extras) {
-
+		Toast.makeText(this, "Estado GPS: " + status, Toast.LENGTH_SHORT).show();
+		
 	}	
 
 
@@ -565,7 +526,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			break;
 			case 100: marker = getResources().getDrawable(R.drawable.ic_dormir_mapa);	// hotel
 			break;
-			case 101: marker = getResources().getDrawable(R.drawable.ic_comer);  		// restaurante
+			case 101: marker = getResources().getDrawable(R.drawable.ic_restauracion);  		// restaurante
 			break;
 			case 102: marker = getResources().getDrawable(R.drawable.ic_bar);			// ocio nocturno
 			break;
