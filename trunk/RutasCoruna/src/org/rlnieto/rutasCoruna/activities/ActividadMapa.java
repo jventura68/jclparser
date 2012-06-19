@@ -66,7 +66,7 @@ import org.rlnieto.rutasCoruna.overlays.*;
 
 
 
-public class ActividadMapa extends MapActivity implements LocationListener {
+public class ActividadMapa extends MapActivity {
 
 	private MapView mapa = null;
 	private ImageButton btnSatelite = null;
@@ -74,6 +74,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	private ImageButton btnRestaurantes = null;
 	private ImageButton btnCopas = null;
 	private ImageButton btnGps = null;
+	private Context contexto = null;
 
 	private MapController controlMapa = null;
 
@@ -82,6 +83,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	private MyItemizedBalloonOverlay overlayRestaurantes = null;
 	private MyItemizedBalloonOverlay overlayPubs = null;
 
+	
 
 	//	private static final int CODIGO_RUTA_SACRA = 1;
 	//	private static final int CODIGO_RUTA_COMPLETA = 1;
@@ -95,7 +97,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pantalla_mapa);
-
+		contexto = this;
+		
 		// Obtenemos una referencia a los controles desde el fichero de recursos
 		mapa = (MapView)findViewById(R.id.mapa);
 		//		btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
@@ -127,8 +130,6 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 
 
 
-
-
 		// Activamos el gps y solicitamos actualizaciones periódicas de la localización
 		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
 
@@ -136,13 +137,11 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 			// mostramos el botón del gps como activado
 			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
 			
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);	
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, providerListener);	
 
 		} else {
 			// mostramos el botón del gps como desactivado
 			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
-			
-			
 		}
 
 
@@ -151,7 +150,6 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 		// listeners
 		//
 		//--------------------------------------------------------------------------
-
 
 		/**
 		 * Centra el mapa en el origen de coordenadas
@@ -209,6 +207,35 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	}   // onCreate
 
 
+	
+	
+	/**
+	 * Listener para el gps
+	 * 
+	 */
+	private LocationListener providerListener = new LocationListener() {
+		public void onLocationChanged(Location location) {
+			Toast.makeText(contexto, "Location changed", Toast.LENGTH_SHORT).show();
+		}
+
+		public void onProviderDisabled(String provider) {
+			Toast.makeText(contexto, "GPS desactivado", Toast.LENGTH_SHORT).show();
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
+
+//			locationManager.removeUpdates(providerListener);
+		}
+		
+		public void onProviderEnabled(String provider) {
+			Toast.makeText(contexto, "GPS activado", Toast.LENGTH_SHORT).show();
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
+
+		}
+		
+		public void onStatusChanged(String provider, int status, Bundle extras) {
+			Toast.makeText(contexto, "Status changed", Toast.LENGTH_SHORT).show();
+		}
+	};
+
 
 	//--------------------------------------------------------------------------
 	// Centra el mapa con animación
@@ -241,63 +268,8 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	}
 
 
-	//--------------------------------------------------------------------------
-	// Al implementar la interface locationListener hay que declarar los 
-	// siguientes métodos:
-	// 	- onProviderEnabled
-	//	- onProviderDisabled
-	//  - onStatusChanged
-	//  - onLocationChanged
-	//
-	//--------------------------------------------------------------------------
-
-	//--------------------------------------------------------------------------------------------------
-	// Cuando se activa el proveedor de localización
-	//--------------------------------------------------------------------------------------------------
-	@Override
-	public void onProviderEnabled(String provider) {
-		Toast.makeText(this, "GPS activado", Toast.LENGTH_SHORT).show();
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, this);	
-		//btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
-
-	}
-
-
-	//--------------------------------------------------------------------------------------------------
-	// Si se pierde la señal de gps muestra un dialogo con las opciones de localizacion disponibles
-	//--------------------------------------------------------------------------------------------------
-	@Override
-	public void onProviderDisabled(String provider) { 
-		Toast.makeText(this, "GPS desactivado", Toast.LENGTH_SHORT).show();
-		locationManager.removeUpdates(this);
-
-		//btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
-
-	}
-
-	//--------------------------------------------------------------------------------------------------
-	// Actualiza la localización cuando nos movemos
-	//--------------------------------------------------------------------------------------------------
-	@Override
-	public void onLocationChanged(Location location) {
-		//updateLocation(location);
-
-		mapa.invalidate();		
-
-	}
-
-	@Override
-	//--------------------------------------------------------------------------------------------------
-	// Cuando cambia el estado del proveedor de los servicios de localización
-	//--------------------------------------------------------------------------------------------------
-	public void onStatusChanged(String provider, int status, Bundle extras) {
-		Toast.makeText(this, "Estado GPS: " + status, Toast.LENGTH_SHORT).show();
-		
-	}	
-
-
-
-
+	
+	
 	/**
 	 * mostrarPubs
 	 * 
@@ -598,8 +570,7 @@ public class ActividadMapa extends MapActivity implements LocationListener {
 	 */
 	public void onPause(){
 		super.onPause();
-		locationManager.removeUpdates(this);			
+		locationManager.removeUpdates(providerListener);			
 	}
-
 
 }
