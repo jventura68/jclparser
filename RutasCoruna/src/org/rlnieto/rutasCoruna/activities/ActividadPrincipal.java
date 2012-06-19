@@ -116,10 +116,10 @@ public class ActividadPrincipal extends Activity{
         btnConfiguracion.setOnClickListener(new OnClickListener(){
         	
         	public void onClick(View arg0){
-        		Toast.makeText(getBaseContext(), "En construcción!!", Toast.LENGTH_SHORT).show();
         		
-        		//Intent myIntent = new Intent(contexto, ActividadRutas.class);
-        		//contexto.startActivity(myIntent);
+        		Intent myIntent = new Intent(contexto, ActividadMapa.class);
+        		myIntent.putExtra("idRuta", DatabaseHelper.LISTA_RESTAURANTES);
+        		contexto.startActivity(myIntent);
         	}
         });
         

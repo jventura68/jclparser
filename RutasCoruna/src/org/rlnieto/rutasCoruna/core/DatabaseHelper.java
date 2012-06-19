@@ -28,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public static final int RUTA_PICASSO = 2;
 	public static final int LISTA_HOTELES = 3;
 	public static final int RUTA_GENERICA = 4;
+	public static final int LISTA_RESTAURANTES = 5;
 	
 	// Constantes para las categorías de los pois
 	// TODO: pensar cómo codificar y guardar los códigos de las categorías de los pois
