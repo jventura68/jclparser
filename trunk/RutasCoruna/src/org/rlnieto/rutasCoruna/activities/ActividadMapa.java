@@ -129,22 +129,6 @@ public class ActividadMapa extends MapActivity {
 		mapa.postInvalidate();
 
 
-
-		// Activamos el gps y solicitamos actualizaciones periódicas de la localización
-		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-			// mostramos el botón del gps como activado
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
-			
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, providerListener);	
-
-		} else {
-			// mostramos el botón del gps como desactivado
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
-		}
-
-
 		//--------------------------------------------------------------------------
 		//
 		// listeners
@@ -564,13 +548,41 @@ public class ActividadMapa extends MapActivity {
 
 	}
 
+	
+	
+	
+	
 	/**
-	 * Desactivamos las notificaciones del location manager cuando cierran la ventana
+	 * Desactivamos las notificaciones del location manager cuando la actividad pasa a segundo plano
 	 * 
 	 */
-	public void onPause(){
-		super.onPause();
+	public void onStop(){
+		super.onStop();
 		locationManager.removeUpdates(providerListener);			
 	}
 
+	/**
+	 * Activamos las notificaciones del location manager cuando la actividad pasa a primer plano
+	 *
+	 */
+	public void onStart(){
+		super.onStart();
+		// Activamos el gps y solicitamos actualizaciones periódicas de la localización
+		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, providerListener);	
+
+		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+			// mostramos el botón del gps como activado
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
+			
+			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, providerListener);	
+
+		} else {
+			// mostramos el botón del gps como desactivado
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
+		}
+		
+	}
+	
+	
 }
