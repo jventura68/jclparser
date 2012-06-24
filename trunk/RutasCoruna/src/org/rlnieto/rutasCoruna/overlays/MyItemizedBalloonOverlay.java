@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.widget.Toast;
 //import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -16,6 +18,7 @@ import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
 import android.database.Cursor;
 
+import org.rlnieto.rutasCoruna.activities.ActividadFormularioContacto;
 import org.rlnieto.rutasCoruna.activities.ActividadNavegador;
 import org.rlnieto.rutasCoruna.activities.PageVisualizer;
 import org.rlnieto.rutasCoruna.core.*;
@@ -89,13 +92,13 @@ public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayIte
 
 		int categoria = ((PoiOverlayItem)item).getCategoria(); 
 		int idPoi = ((PoiOverlayItem)item).getClavePoi();
-				
-		if(categoria == 100){      // es un hotel => recupermos la url de booking
-		  String url = recuperarUrlBooking();														 // y la abrimos en un webView
-			
-		  Intent myIntent = new Intent(contexto, ActividadNavegador.class);
-		  myIntent.putExtra("url", url);
 
+		// Si la categoría es >= 100 es un negocio => abrimos la pantalla para llamar o reservar por inet
+		// Si la categoría es < 100 es un poi de una ruta => cargamos la descripción y las fotos
+		if(categoria >= 100){     
+		  Intent myIntent = new Intent(contexto, ActividadFormularioContacto.class);
+
+		  myIntent.putExtra("clave_poi", idPoi);
 		  contexto.startActivity(myIntent);
 			
 		}else{   // los datos de los pois no comerciales van en un textView
@@ -105,22 +108,5 @@ public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayIte
 		}
 		return true;
 	}
-	
-	
-	
-	
-	/**
-	 * Recupera la url de booking asociada a un hotel
-	 * 
-	 * @return
-	 */
-	private String recuperarUrlBooking(){
-		return "http://www.booking.com/hotel/es/acacoruna.html?tab=&error_url=%2Fhotel%2Fes%2Facacoruna.es.html%3Fsid%3D74128f16a675c9d857792fa984497292%3Bdcid%3D1%3Bstid%3D325542%3B&do_availability_check=on&dcid=1&sid=74128f16a675c9d857792fa984497292&stid=325542&rows=10&error_url=http%3A%2F%2Fwww.booking.com%2Fhotel%2Fes%2Facacoruna.es.html%3Fsid%3D74128f16a675c9d857792fa984497292%3Bdcid%3D1%3Bstid%3D325542%3B&dcid=1&sid=74128f16a675c9d857792fa984497292&stid=325542&si=ai%2Cco%2Cci%2Cre%2Cdi&checkin_monthday=&checkin_year_month=&checkout_monthday=&checkout_year_month=&ci_date=&num_nights=1&co_date=";
-	}
-	
-	
-	
-	
-	
 	
 }

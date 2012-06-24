@@ -11,8 +11,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-//import android.widget.Toast;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 
+import org.rlnieto.entidades.*;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
@@ -63,6 +62,51 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		
 	}
 
+
+	
+	
+	/**
+	 * Recupera los datos específicos de un hotel
+	 * 
+	 * @param idPoi
+	 * @return cursor con todos los campos de la tabla
+	 * 
+	 */
+	public Cursor recuperarHotel(int idPoi){
+		
+		Cursor c = myDb.rawQuery("select _id, estrellas, url_booking, url_hotel " +
+				"from hotel " +
+				"where _id = " + idPoi, null); 
+
+		return c;
+		
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	/**
+	 * Recupera los datos de un poi genérico y los devuelve en un objeto de tipo Cursor
+	 * 
+	 * @param idPoi
+	 * @return Cursor
+	 */
+	public Cursor recuperarPoi(int idPoi){
+		
+		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria, direccion, telefono " +
+				"from poi " +
+				"where _id = " + idPoi, null); 
+
+		return c;
+		
+	}
+	
 	
 	/**
 	 * Recupera los pois de la ruta que se le envía como parámetro (le enviamos el
@@ -78,7 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public Cursor recuperarRuta(int idRuta){
 
 		// Query para recuperar los pois de lar ruta completa
-		Cursor c = myDb.rawQuery("select a._id, a.latitud, a.longitud, a.nombrePoi, a.descPoi, a.categoria " +
+		Cursor c = myDb.rawQuery("select a._id, a.latitud, a.longitud, a.nombrePoi, a.descPoi, a.categoria, a.direccion " +
 								"from poi a, poiruta c " +
 								"where c.idRuta = " + idRuta + " and " +
 								"c.idPoi = a._id " +
@@ -96,7 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	 */
 	public Cursor recuperarPubs(){
 
-		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria " +
+		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria, direccion " +
 								"from poi " +
 								"where categoria = " + CODIGO_CERVECERIA, null); 
 
@@ -112,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	 */
 	public Cursor recuperarRestaurantes(){
 
-		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria " +
+		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria, direccion " +
 								"from poi " +
 								"where categoria = " + CODIGO_RESTAURANTE, null); 
 

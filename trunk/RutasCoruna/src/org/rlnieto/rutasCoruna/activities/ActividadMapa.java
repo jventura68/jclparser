@@ -51,7 +51,6 @@ import android.database.Cursor;
 //import android.os.Environment;
 import android.util.Log;
 
-
 //import java.io.File;
 //import java.io.InputStream;
 //import java.io.OutputStreamWriter;
@@ -63,8 +62,6 @@ import org.rlnieto.rutasCoruna.R.id;
 import org.rlnieto.rutasCoruna.R.layout;
 import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 import org.rlnieto.rutasCoruna.overlays.*;
-
-
 
 public class ActividadMapa extends MapActivity {
 
@@ -83,57 +80,51 @@ public class ActividadMapa extends MapActivity {
 	private MyItemizedBalloonOverlay overlayRestaurantes = null;
 	private MyItemizedBalloonOverlay overlayPubs = null;
 
-	
-
-	//	private static final int CODIGO_RUTA_SACRA = 1;
-	//	private static final int CODIGO_RUTA_COMPLETA = 1;
-
+	// private static final int CODIGO_RUTA_SACRA = 1;
+	// private static final int CODIGO_RUTA_COMPLETA = 1;
 
 	@Override
-	//-----------------------------------------------------------------------------------
+	// -----------------------------------------------------------------------------------
 	// Punto de entrada a la aplicación
-	//-----------------------------------------------------------------------------------
-	public void onCreate(Bundle savedInstanceState){
+	// -----------------------------------------------------------------------------------
+	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pantalla_mapa);
 		contexto = this;
-		
+
 		// Obtenemos una referencia a los controles desde el fichero de recursos
-		mapa = (MapView)findViewById(R.id.mapa);
-		//		btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
-		btnCentrar = (ImageButton)findViewById(R.id.BtnCentrar);
-		btnRestaurantes = (ImageButton)findViewById(R.id.BtnRestaurantes);
-		btnCopas = (ImageButton)findViewById(R.id.BtnCopas);
-		btnGps = (ImageButton)findViewById(R.id.BtnGps);
-		
+		mapa = (MapView) findViewById(R.id.mapa);
+		// btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
+		btnCentrar = (ImageButton) findViewById(R.id.BtnCentrar);
+		btnRestaurantes = (ImageButton) findViewById(R.id.BtnRestaurantes);
+		btnCopas = (ImageButton) findViewById(R.id.BtnCopas);
+		btnGps = (ImageButton) findViewById(R.id.BtnGps);
+
 		// Cargamos una referencia al controlador del mapa
 		controlMapa = mapa.getController();
 
 		// Mostramos los controles de zoom sobre el mapa
 		mapa.setBuiltInZoomControls(true);
 
-		centrarMapa();        
-
+		centrarMapa();
 
 		// Cargamos la ruta elegida en la actividad anterior
 		Bundle bundle = getIntent().getExtras();
 		mostrarPuntosDeInteres(mapa, bundle.getInt("idRuta"));
 
-
-		// Añadimos el overlay que muestra nuestra posicion 
-		MyLocationOverlay locationOverlay = new MyLocationOverlay(this, mapa);		
+		// Añadimos el overlay que muestra nuestra posicion
+		MyLocationOverlay locationOverlay = new MyLocationOverlay(this, mapa);
 		mapa.getOverlays().add(locationOverlay);
 		locationOverlay.enableCompass();
 		locationOverlay.enableMyLocation();
 		mapa.postInvalidate();
 
-
-		//--------------------------------------------------------------------------
+		// --------------------------------------------------------------------------
 		//
 		// listeners
 		//
-		//--------------------------------------------------------------------------
+		// --------------------------------------------------------------------------
 
 		/**
 		 * Centra el mapa en el origen de coordenadas
@@ -146,34 +137,31 @@ public class ActividadMapa extends MapActivity {
 			}
 		});
 
-
 		/**
 		 * Manejador de evento click para el botón que muestra los restaurantes
 		 * 
 		 */
-		btnRestaurantes.setOnClickListener(new OnClickListener(){
+		btnRestaurantes.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0){
+			public void onClick(View arg0) {
 				mostrarRestaurantes(mapa);
 			}
 
 		});
 
-
 		/**
-		 * Manejador de evento click para el botón que muestra los sitios de copas
+		 * Manejador de evento click para el botón que muestra los sitios de
+		 * copas
 		 * 
 		 */
-		btnCopas.setOnClickListener(new OnClickListener(){
+		btnCopas.setOnClickListener(new OnClickListener() {
 			@Override
-			public void onClick(View arg0){
+			public void onClick(View arg0) {
 				mostrarPubs(mapa);
 			}
 
 		});
 
-		
-		
 		/**
 		 * Manejador de evento para activar/desactivar el gps
 		 * 
@@ -181,53 +169,52 @@ public class ActividadMapa extends MapActivity {
 		btnGps.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// No podemos manipular directamente el gps => abrimos las opciones de seguridad esté o
+				// No podemos manipular directamente el gps => abrimos las
+				// opciones de seguridad esté o
 				// no habilitado para que modifiquen el estado desde ahí
 				startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
 			}
 		});
 
-		
-	}   // onCreate
+	} // onCreate
 
-
-	
-	
 	/**
 	 * Listener para el gps
 	 * 
 	 */
 	private LocationListener providerListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
-			Toast.makeText(contexto, "Location changed", Toast.LENGTH_SHORT).show();
+			Toast.makeText(contexto, "Location changed", Toast.LENGTH_SHORT)
+					.show();
 		}
 
 		public void onProviderDisabled(String provider) {
-			Toast.makeText(contexto, "GPS desactivado", Toast.LENGTH_SHORT).show();
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
+					R.drawable.ic_gps_desactivado));
 
-//			locationManager.removeUpdates(providerListener);
+			// locationManager.removeUpdates(providerListener);
 		}
-		
+
 		public void onProviderEnabled(String provider) {
 			Toast.makeText(contexto, "GPS activado", Toast.LENGTH_SHORT).show();
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
+					R.drawable.ic_gps_activado));
 
 		}
-		
+
 		public void onStatusChanged(String provider, int status, Bundle extras) {
-			Toast.makeText(contexto, "Status changed", Toast.LENGTH_SHORT).show();
+			Toast.makeText(contexto, "Status changed", Toast.LENGTH_SHORT)
+					.show();
 		}
 	};
 
-
-	//--------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 	// Centra el mapa con animación
-	//--------------------------------------------------------------------------
-	private void centrarMapa(){
+	// --------------------------------------------------------------------------
+	private void centrarMapa() {
 
-		Double latitud = 43.371334*1E6;
-		Double longitud = -8.396001*1E6;
+		Double latitud = 43.371334 * 1E6;
+		Double longitud = -8.396001 * 1E6;
 
 		GeoPoint loc = new GeoPoint(latitud.intValue(), longitud.intValue());
 
@@ -236,41 +223,41 @@ public class ActividadMapa extends MapActivity {
 
 	}
 
-
-
-	//--------------------------------------------------------------------------
-	// Al heredar de mapActivity hay que implementar el método isRouteDisplayed 
+	// --------------------------------------------------------------------------
+	// Al heredar de mapActivity hay que implementar el método isRouteDisplayed
 	//
-	//--------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 
 	@Override
-	//--------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 	// Se muestra o no la ruta (exige implementarlo)
-	//--------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
 	protected boolean isRouteDisplayed() {
-		return false;   // TODO: revisar la licencia, parece que no se puede usar la guía por voz
+		return false; // TODO: revisar la licencia, parece que no se puede usar
+						// la guía por voz
 	}
 
-
-	
-	
 	/**
 	 * mostrarPubs
 	 * 
-	 * Carga desde la base de datos los pois correspondientes a los pubs y los muestra
-	 * en un nuevo overlay 
+	 * Carga desde la base de datos los pois correspondientes a los pubs y los
+	 * muestra en un nuevo overlay
 	 * 
-	 * @param mapa => MapView que vamos a utilizar para mostrar los pois
-	 * @param codigoRuta => clave de la ruta en la bd
+	 * @param mapa
+	 *            => MapView que vamos a utilizar para mostrar los pois
+	 * @param codigoRuta
+	 *            => clave de la ruta en la bd
 	 * 
-	 * TODO: fusionar este método y el de búsqueda de restaurantes para tener sólo uno que 
-	 * haga las búsquedas de "lugares comerciales" pasándole el código de lugar y ¿el overlay 
-	 * en que mostrarlos?
+	 *            TODO: fusionar este método y el de búsqueda de restaurantes
+	 *            para tener sólo uno que haga las búsquedas de
+	 *            "lugares comerciales" pasándole el código de lugar y ¿el
+	 *            overlay en que mostrarlos?
 	 * 
 	 */
-	protected void mostrarPubs(MapView mapa){
+	protected void mostrarPubs(MapView mapa) {
 
-		Drawable marker = getResources().getDrawable(R.drawable.marcador_google_maps);
+		Drawable marker = getResources().getDrawable(
+				R.drawable.marcador_google_maps);
 		int markerWidth = marker.getIntrinsicWidth();
 		int markerHeight = marker.getIntrinsicHeight();
 
@@ -283,32 +270,36 @@ public class ActividadMapa extends MapActivity {
 		try {
 			dbh.openDataBase();
 
-		}catch(SQLException sqle){throw sqle;}
-
+		} catch (SQLException sqle) {
+			throw sqle;
+		}
 
 		// Recuperamos los restaurantes
 		Cursor c = dbh.recuperarPubs();
 
 		marker.setBounds(0, 0, markerHeight, markerWidth);
-		//MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
-		
-		// Si no existe el overlay con los pubs => lo creamos. Si ya existe lo borramos.
-		if(overlayPubs == null){
-			
-			btnCopas.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_bar_seleccionado));
+		// MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker,
+		// Main.this);
+
+		// Si no existe el overlay con los pubs => lo creamos. Si ya existe lo
+		// borramos.
+		if (overlayPubs == null) {
+
+			btnCopas.setImageBitmap(BitmapFactory.decodeResource(
+					getResources(), R.drawable.ic_bar_seleccionado));
 
 			overlayPubs = new MyItemizedBalloonOverlay(marker, mapa);
 			mapa.getOverlays().add(overlayPubs);
 
 			// Recorremos el cursor añadiendo marcadores al mapa
-			while(c.moveToNext()){
+			while (c.moveToNext()) {
 				int clavePoi = c.getInt(c.getColumnIndex("_id"));
-				Double latitud = c.getDouble(c.getColumnIndex("latitud"))*1E6;
-				Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
+				Double latitud = c.getDouble(c.getColumnIndex("latitud")) * 1E6;
+				Double longitud = c.getDouble(c.getColumnIndex("longitud")) * 1E6;
 				String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 				String datosPoi = c.getString(c.getColumnIndex("descPoi"));
-				int categoria =  c.getInt(c.getColumnIndex("categoria"));
-				
+				int categoria = c.getInt(c.getColumnIndex("categoria"));
+				String direccion = c.getString(c.getColumnIndex("direccion"));
 				marker = getResources().getDrawable(R.drawable.ic_bar);
 
 				markerWidth = marker.getIntrinsicWidth();
@@ -316,36 +307,39 @@ public class ActividadMapa extends MapActivity {
 				marker.setBounds(0, 0, markerHeight, markerWidth);
 
 				point = new GeoPoint(latitud.intValue(), longitud.intValue());
-				overlayPubs.addItem(point, nombrePoi, datosPoi, marker, clavePoi, categoria);
+				overlayPubs.addItem(point, nombrePoi, datosPoi + "\\n"
+						+ direccion, marker, clavePoi, categoria);
 
 			}
 
 			c.close();
 			dbh.close();
 
-		}else{   // el overlay ya existe => lo borramos
-			btnCopas.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_bar));
+		} else { // el overlay ya existe => lo borramos
+			btnCopas.setImageBitmap(BitmapFactory.decodeResource(
+					getResources(), R.drawable.ic_bar));
 
 			overlayPubs.hideAllBalloons();
-			mapa.getOverlays().remove(overlayPubs);    
+			mapa.getOverlays().remove(overlayPubs);
 			overlayPubs = null;
 		}
 
-		mapa.invalidate();   // forzamos que el mapa se redibuje
+		mapa.invalidate(); // forzamos que el mapa se redibuje
 	}
-
 
 	/**
 	 * mostrarRestaurantes
 	 * 
-	 * Carga desde la base de datos los pois correspondientes a los restaurantes y los muestra
-	 * en un nuevo overlay 
+	 * Carga desde la base de datos los pois correspondientes a los restaurantes
+	 * y los muestra en un nuevo overlay
 	 * 
-	 * @param mapa => MapView que vamos a utilizar para mostrar los pois
-	 * @param codigoRuta => clave de la ruta en la bd
+	 * @param mapa
+	 *            => MapView que vamos a utilizar para mostrar los pois
+	 * @param codigoRuta
+	 *            => clave de la ruta en la bd
 	 * 
 	 */
-	protected void mostrarRestaurantes(MapView mapa){
+	protected void mostrarRestaurantes(MapView mapa) {
 
 		Drawable marker = getResources().getDrawable(R.drawable.marcador_google_maps);
 		int markerWidth = marker.getIntrinsicWidth();
@@ -360,32 +354,35 @@ public class ActividadMapa extends MapActivity {
 		try {
 			dbh.openDataBase();
 
-		}catch(SQLException sqle){
+		} catch (SQLException sqle) {
 			throw sqle;
-//			Toast.makeText(this, "Error al abrir la bd?¿?", Toast.LENGTH_SHORT).show();
+			// Toast.makeText(this, "Error al abrir la bd?¿?",
+			// Toast.LENGTH_SHORT).show();
 		}
-
 
 		// Recuperamos los restaurantes
 		Cursor c = dbh.recuperarRestaurantes();
 
 		marker.setBounds(0, 0, markerHeight, markerWidth);
-		//MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
-		if(overlayRestaurantes == null){
+		// MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker,
+		// Main.this);
+		if (overlayRestaurantes == null) {
 
-			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_restauracion_seleccionado));
+			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(
+					getResources(), R.drawable.ic_restauracion_seleccionado));
 
 			overlayRestaurantes = new MyItemizedBalloonOverlay(marker, mapa);
 			mapa.getOverlays().add(overlayRestaurantes);
 
 			// Recorremos el cursor añadiendo marcadores al mapa
-			while(c.moveToNext()){
+			while (c.moveToNext()) {
 				int clavePoi = c.getInt(c.getColumnIndex("_id"));
-				Double latitud = c.getDouble(c.getColumnIndex("latitud"))*1E6;
-				Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
+				Double latitud = c.getDouble(c.getColumnIndex("latitud")) * 1E6;
+				Double longitud = c.getDouble(c.getColumnIndex("longitud")) * 1E6;
 				String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 				String datosPoi = c.getString(c.getColumnIndex("descPoi"));
-				int categoria =  c.getInt(c.getColumnIndex("categoria"));
+				int categoria = c.getInt(c.getColumnIndex("categoria"));
+				String direccion = c.getString(c.getColumnIndex("direccion"));
 
 				marker = getResources().getDrawable(R.drawable.ic_restauracion);
 
@@ -394,41 +391,44 @@ public class ActividadMapa extends MapActivity {
 				marker.setBounds(0, 0, markerHeight, markerWidth);
 
 				point = new GeoPoint(latitud.intValue(), longitud.intValue());
-				overlayRestaurantes.addItem(point, nombrePoi, datosPoi, marker, clavePoi, categoria);
+				overlayRestaurantes.addItem(point, nombrePoi + "\\n"
+						+ direccion, datosPoi, marker, clavePoi, categoria);
 
 			}
 
 			c.close();
 			dbh.close();
 
-
-		}else{   // el overlay ya existe => lo borramos
-			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_restauracion));
+		} else { // el overlay ya existe => lo borramos
+			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(
+					getResources(), R.drawable.ic_restauracion));
 
 			overlayRestaurantes.hideAllBalloons();
-			mapa.getOverlays().remove(overlayRestaurantes);    
+			mapa.getOverlays().remove(overlayRestaurantes);
 			overlayRestaurantes = null;
 		}
 
-		mapa.invalidate();   // forzamos que el mapa se redibuje
+		mapa.invalidate(); // forzamos que el mapa se redibuje
 	}
-
-
 
 	/**
 	 * mostrarPuntosDeInteres
 	 * 
-	 * Carga desde la base de datos los pois correspondientes al código de ruta que se le pasa
-	 * como parámetro y los muestra en el mapa. Se utiliza un ItemizedBalloonOverlay para que 
-	 * los textos aparezcan de manera similar a gmaps en web.
+	 * Carga desde la base de datos los pois correspondientes al código de ruta
+	 * que se le pasa como parámetro y los muestra en el mapa. Se utiliza un
+	 * ItemizedBalloonOverlay para que los textos aparezcan de manera similar a
+	 * gmaps en web.
 	 * 
-	 * @param mapa => MapView que vamos a utilizar para mostrar los pois
-	 * @param codigoRuta => clave de la ruta en la bd
+	 * @param mapa
+	 *            => MapView que vamos a utilizar para mostrar los pois
+	 * @param codigoRuta
+	 *            => clave de la ruta en la bd
 	 * 
 	 */
-	protected void mostrarPuntosDeInteres(MapView mapa, int codigoRuta){
+	protected void mostrarPuntosDeInteres(MapView mapa, int codigoRuta) {
 
-		Drawable marker = getResources().getDrawable(R.drawable.marcador_google_maps);
+		Drawable marker = getResources().getDrawable(
+				R.drawable.marcador_google_maps);
 		int markerWidth = marker.getIntrinsicWidth();
 		int markerHeight = marker.getIntrinsicHeight();
 
@@ -441,61 +441,90 @@ public class ActividadMapa extends MapActivity {
 		try {
 			dbh.openDataBase();
 
-		}catch(SQLException sqle){throw sqle;}
+		} catch (SQLException sqle) {
+			throw sqle;
+		}
 
-
-		// Tenemos la bd disponible, recuperamos los pois de la ruta. Le pasamos el _id
+		// Tenemos la bd disponible, recuperamos los pois de la ruta. Le pasamos
+		// el _id
 		// de la tabla ruta
 		Cursor c = dbh.recuperarRuta(codigoRuta);
 
 		marker.setBounds(0, 0, markerHeight, markerWidth);
-		//MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker, Main.this);
-		MyItemizedBalloonOverlay myItemizedBalloonOverlay = new MyItemizedBalloonOverlay(marker, mapa);
+		// MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker,
+		// Main.this);
+		MyItemizedBalloonOverlay myItemizedBalloonOverlay = new MyItemizedBalloonOverlay(
+				marker, mapa);
 
-		mapa.getOverlays().clear();   // borramos los overlays para limpiar el mapa
+		mapa.getOverlays().clear(); // borramos los overlays para limpiar el
+									// mapa
 		mapa.getOverlays().add(myItemizedBalloonOverlay);
 
 		// Recorremos el cursor añadiendo marcadores al mapa
-		while(c.moveToNext()){
+		while (c.moveToNext()) {
 			int clavePoi = c.getInt(c.getColumnIndex("_id"));
-			Double latitud = c.getDouble(c.getColumnIndex("latitud"))*1E6;
-			Double longitud = c.getDouble(c.getColumnIndex("longitud"))*1E6;
+			Double latitud = c.getDouble(c.getColumnIndex("latitud")) * 1E6;
+			Double longitud = c.getDouble(c.getColumnIndex("longitud")) * 1E6;
 			String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 			String datosPoi = c.getString(c.getColumnIndex("descPoi"));
 			int categoria = c.getInt(c.getColumnIndex("categoria"));
+			String direccion = c.getString(c.getColumnIndex("direccion"));
 
-			//TODO: asignar el icono al marker de una manera más limpia y a través de la tabla "categoria", 
-			// que es la que contiene el nombre del icono ¿lo hacemos en otra clase?
-			// Los códigos negativos son para rutas temáticas donde todos los pois tienen el mismo icono
-			switch(categoria){
-			case -2: marker = getResources().getDrawable(R.drawable.ic_picasso);   		// ruta picasso
-			break;
-			case -1: marker = getResources().getDrawable(R.drawable.ic_modernismo);   	// ruta modernista
-			break;
-			case 1: marker = getResources().getDrawable(R.drawable.ic_historica);   	// museo
-			break;
-			case 2: marker = getResources().getDrawable(R.drawable.ic_historica);		// iglesia
-			break;
-			case 3: marker = getResources().getDrawable(R.drawable.ic_historica);		// monumento
-			break;
-			case 4: marker = getResources().getDrawable(R.drawable.ic_historica);		// paisaje
-			break;
-			case 100: marker = getResources().getDrawable(R.drawable.ic_dormir_mapa);	// hotel
-			break;
-			case 101: marker = getResources().getDrawable(R.drawable.ic_restauracion);  		// restaurante
-			break;
-			case 102: marker = getResources().getDrawable(R.drawable.ic_bar);			// ocio nocturno
-			break;
-			case 103: marker = getResources().getDrawable(R.drawable.red_pushpin);		// centro comercial
-			break;
-			case 104: marker = getResources().getDrawable(R.drawable.red_pushpin);		// espectáculo
-			break;
-			case 105: marker = getResources().getDrawable(R.drawable.red_pushpin);		// cafetería
-			break;
-			case 106: marker = getResources().getDrawable(R.drawable.ic_bar);			// cervecería
-			break;
-			default: marker = getResources().getDrawable(R.drawable.ic_historica);		// no hay coincidencia
-			break;
+			// TODO: asignar el icono al marker de una manera más limpia y a
+			// través de la tabla "categoria",
+			// que es la que contiene el nombre del icono ¿lo hacemos en otra
+			// clase?
+			// Los códigos negativos son para rutas temáticas donde todos los
+			// pois tienen el mismo icono
+			switch (categoria) {
+			case -2:
+				marker = getResources().getDrawable(R.drawable.ic_picasso); // ruta
+																			// picasso
+				break;
+			case -1:
+				marker = getResources().getDrawable(R.drawable.ic_modernismo); // ruta
+																				// modernista
+				break;
+			case 1:
+				marker = getResources().getDrawable(R.drawable.ic_historica); // museo
+				break;
+			case 2:
+				marker = getResources().getDrawable(R.drawable.ic_historica); // iglesia
+				break;
+			case 3:
+				marker = getResources().getDrawable(R.drawable.ic_historica); // monumento
+				break;
+			case 4:
+				marker = getResources().getDrawable(R.drawable.ic_historica); // paisaje
+				break;
+			case 100:
+				marker = getResources().getDrawable(R.drawable.ic_dormir_mapa); // hotel
+				break;
+			case 101:
+				marker = getResources().getDrawable(R.drawable.ic_restauracion); // restaurante
+				break;
+			case 102:
+				marker = getResources().getDrawable(R.drawable.ic_bar); // ocio
+																		// nocturno
+				break;
+			case 103:
+				marker = getResources().getDrawable(R.drawable.red_pushpin); // centro
+																				// comercial
+				break;
+			case 104:
+				marker = getResources().getDrawable(R.drawable.red_pushpin); // espectáculo
+				break;
+			case 105:
+				marker = getResources().getDrawable(R.drawable.red_pushpin); // cafetería
+				break;
+			case 106:
+				marker = getResources().getDrawable(R.drawable.ic_bar); // cervecería
+				break;
+			default:
+				marker = getResources().getDrawable(R.drawable.ic_historica); // no
+																				// hay
+																				// coincidencia
+				break;
 			}
 
 			markerWidth = marker.getIntrinsicWidth();
@@ -503,86 +532,87 @@ public class ActividadMapa extends MapActivity {
 			marker.setBounds(0, 0, markerHeight, markerWidth);
 
 			point = new GeoPoint(latitud.intValue(), longitud.intValue());
-			myItemizedBalloonOverlay.addItem(point, nombrePoi, datosPoi, marker, clavePoi, categoria);
-
+//			myItemizedBalloonOverlay.addItem(point, nombrePoi + "\n" + direccion, datosPoi,
+//			marker, clavePoi, categoria);
+			myItemizedBalloonOverlay.addItem(point, nombrePoi, direccion,
+			marker, clavePoi, categoria);
 
 		}
 
 		c.close();
 		dbh.close();
 
-
-		mapController.animateTo(point);        
+		mapController.animateTo(point);
 		mapController.setZoom(15);
 
-		mapa.invalidate();   // forzamos que el mapa se redibuje
+		mapa.invalidate(); // forzamos que el mapa se redibuje
 
 		centrarMapa();
 
 	}
 
-
 	/*-------------------------------------------------------------------------------------------------------------*/
 	/*-------------------------------------------------------------------------------------------------------------*/
 
-
-	private Dialog crearDialogoAlerta(String mensajeAMostrar)
-	{
+	private Dialog crearDialogoAlerta(String mensajeAMostrar) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(mensajeAMostrar)
-		.setCancelable(false)
-		.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				ActividadMapa.this.finish();
-			}
-		})
-		.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				dialog.cancel();
-			}
-		});
+				.setCancelable(false)
+				.setPositiveButton(android.R.string.yes,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								ActividadMapa.this.finish();
+							}
+						})
+				.setNegativeButton(android.R.string.no,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
 		AlertDialog alert = builder.create();
 
 		return alert;
 
-
 	}
 
-	
-	
-	
-	
 	/**
-	 * Desactivamos las notificaciones del location manager cuando la actividad pasa a segundo plano
+	 * Desactivamos las notificaciones del location manager cuando la actividad
+	 * pasa a segundo plano
 	 * 
 	 */
-	public void onStop(){
+	public void onStop() {
 		super.onStop();
-		locationManager.removeUpdates(providerListener);			
+		locationManager.removeUpdates(providerListener);
 	}
 
 	/**
-	 * Activamos las notificaciones del location manager cuando la actividad pasa a primer plano
-	 *
+	 * Activamos las notificaciones del location manager cuando la actividad
+	 * pasa a primer plano
+	 * 
 	 */
-	public void onStart(){
+	public void onStart() {
 		super.onStart();
-		// Activamos el gps y solicitamos actualizaciones periódicas de la localización
-		locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, providerListener);	
+		// Activamos el gps y solicitamos actualizaciones periódicas de la
+		// localización
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				6000, 50, providerListener);
 
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			// mostramos el botón del gps como activado
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_activado));
-			
-			locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000, 50, providerListener);	
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
+					R.drawable.ic_gps_activado));
+
+			locationManager.requestLocationUpdates(
+					LocationManager.GPS_PROVIDER, 6000, 50, providerListener);
 
 		} else {
 			// mostramos el botón del gps como desactivado
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.ic_gps_desactivado));
+			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
+					R.drawable.ic_gps_desactivado));
 		}
-		
+
 	}
-	
-	
+
 }
