@@ -18,6 +18,7 @@ import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
 import android.database.Cursor;
 
+import org.rlnieto.rutasCoruna.activities.ActividadDescripcionPoi;
 import org.rlnieto.rutasCoruna.activities.ActividadFormularioContacto;
 import org.rlnieto.rutasCoruna.activities.ActividadNavegador;
 import org.rlnieto.rutasCoruna.activities.PageVisualizer;
@@ -102,7 +103,7 @@ public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayIte
 		  contexto.startActivity(myIntent);
 			
 		}else{   // los datos de los pois no comerciales van en un textView
-			Intent myIntent = new Intent(contexto, PageVisualizer.class);
+			Intent myIntent = new Intent(contexto, ActividadDescripcionPoi.class);
 			myIntent.putExtra("clave_poi", idPoi);
 			contexto.startActivity(myIntent);
 		}

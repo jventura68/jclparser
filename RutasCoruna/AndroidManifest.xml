@@ -46,7 +46,9 @@
 		
 		<!-- Webkit para abrir links a booking -->
         <activity android:name=".activities.ActividadNavegador" />
-		
+        
+        <activity android:name=".activities.ActividadDescripcionPoi" />
+        		
         <uses-library android:name="com.google.android.maps" />
 
 	 </application>
