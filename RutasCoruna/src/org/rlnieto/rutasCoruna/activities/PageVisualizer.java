@@ -146,7 +146,7 @@ public class PageVisualizer extends Activity{
 			dbh.openDataBase();
 		}catch(SQLException sqle){throw sqle;}
 
-		String nombreCarpeta = dbh.obtenerCarpetaDocsPoi(clavePoi);
+		String nombreCarpeta = dbh.obtenerUriImagenPoi(clavePoi);
 
 		dbh.close();
 
