@@ -182,12 +182,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	 * @param clavePoi
 	 * @return
 	 */
-	public String obtenerCarpetaDocsPoi(int clavePoi){
+	public String obtenerUriImagenPoi(int clavePoi){
 		
-		Cursor c = myDb.rawQuery("select carpetaDocs from poi where _id = " + clavePoi, null);
+		Cursor c = myDb.rawQuery("select uriImagen from poi where _id = " + clavePoi, null);
 		
 		c.moveToFirst();
-		String ruta = c.getString(c.getColumnIndex("carpetaDocs"));
+		String ruta = c.getString(c.getColumnIndex("uriImagen"));
 		return ruta;
 		
 	}

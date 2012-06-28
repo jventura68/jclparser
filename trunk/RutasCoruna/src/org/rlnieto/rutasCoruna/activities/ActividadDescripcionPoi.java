@@ -35,7 +35,7 @@ import android.graphics.drawable.Drawable;
 
 public class ActividadDescripcionPoi extends Activity {
 
-	protected String carpetaDocs = "";
+	protected String uriImagenPoi = "";
 	private Context contexto = null;
 
 	/**
@@ -53,14 +53,17 @@ public class ActividadDescripcionPoi extends Activity {
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			Integer clavePoi = (Integer) extras.get("clave_poi");
-			carpetaDocs = buscarCarpetaDocs(clavePoi); // recuperamos el nombre
+			uriImagenPoi = uriImagenPoi(clavePoi); // recuperamos el nombre
 														// de la carpeta con el
-														// texto
-			// y las fotos
+														// texto y las fotos
 
-			// leemos el texto html a mostrar de la carpeta "assets" y lo
-			// volcamos en el textView
-			html = recuperarDescripcionPoi(clavePoi);
+//uriImagenPoi = "web/" + uriImagenPoi + " "; 	
+uriImagenPoi = "<img src=\"" + uriImagenPoi + "\"/> ";
+
+			
+			
+			// Volcamos el texto en el textView
+			html = uriImagenPoi + recuperarDescripcionPoi(clavePoi);
 
 			Spanned s = Html.fromHtml(html, getImageHTML_assets(), null);
 			TextView txt = (TextView) findViewById(R.id.txtDocumento);
@@ -77,20 +80,21 @@ public class ActividadDescripcionPoi extends Activity {
 	 * @return
 	 */
 	public ImageGetter getImageHTML_assets() {
+
 		ImageGetter ig = new ImageGetter() {
 
 			public Drawable getDrawable(String source) {
 
 				try {
-					String rutaCompleta = ActividadDescripcionPoi.this.carpetaDocs
-							+ source;
-					InputStream is = getAssets().open(rutaCompleta);
+					//String rutaCompleta = ActividadDescripcionPoi.this.uriImagenPoi + source;
+
+					InputStream is = getAssets().open(source);
 					Drawable d = Drawable.createFromStream(is, "src name");
 					d.setBounds(0, 0, d.getIntrinsicWidth(),
 							d.getIntrinsicHeight());
 					return d;
 				} catch (IOException e) {
-					Log.v("IOException", e.getMessage());
+					Log.v("IOException", e.getMessage() + " Buscando: " + source);
 					return null;
 				}
 			}
@@ -143,11 +147,11 @@ public class ActividadDescripcionPoi extends Activity {
 	}
 
 	/**
-	 * Recupera la carpeta donde se guarda la documentación asociada a un poi
+	 * Recupera la uri de la imagen del poi
 	 * 
 	 * @return
 	 */
-	private String buscarCarpetaDocs(int clavePoi) {
+	private String uriImagenPoi(int clavePoi) {
 
 		DatabaseHelper dbh = new DatabaseHelper(this);
 
@@ -157,11 +161,11 @@ public class ActividadDescripcionPoi extends Activity {
 			throw sqle;
 		}
 
-		String nombreCarpeta = dbh.obtenerCarpetaDocsPoi(clavePoi);
+		String uriImagen = dbh.obtenerUriImagenPoi(clavePoi);
 
 		dbh.close();
 
-		return nombreCarpeta;
+		return uriImagen;
 
 	}
 
