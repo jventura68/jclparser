@@ -190,7 +190,7 @@ public class ActividadMapa extends MapActivity {
 
 		public void onProviderDisabled(String provider) {
 			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.ic_gps_desactivado));
+					R.drawable.ic_llamada_verde_off));
 
 			// locationManager.removeUpdates(providerListener);
 		}
@@ -198,7 +198,7 @@ public class ActividadMapa extends MapActivity {
 		public void onProviderEnabled(String provider) {
 			Toast.makeText(contexto, "GPS activado", Toast.LENGTH_SHORT).show();
 			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.ic_gps_activado));
+					R.drawable.ic_llamada_verde));
 
 		}
 
@@ -257,7 +257,7 @@ public class ActividadMapa extends MapActivity {
 	protected void mostrarPubs(MapView mapa) {
 
 		Drawable marker = getResources().getDrawable(
-				R.drawable.marcador_google_maps);
+				R.drawable.ic_pin_bar);
 		int markerWidth = marker.getIntrinsicWidth();
 		int markerHeight = marker.getIntrinsicHeight();
 
@@ -341,7 +341,7 @@ public class ActividadMapa extends MapActivity {
 	 */
 	protected void mostrarRestaurantes(MapView mapa) {
 
-		Drawable marker = getResources().getDrawable(R.drawable.marcador_google_maps);
+		Drawable marker = getResources().getDrawable(R.drawable.ic_pin_comer);
 		int markerWidth = marker.getIntrinsicWidth();
 		int markerHeight = marker.getIntrinsicHeight();
 
@@ -384,7 +384,7 @@ public class ActividadMapa extends MapActivity {
 				int categoria = c.getInt(c.getColumnIndex("categoria"));
 				String direccion = c.getString(c.getColumnIndex("direccion"));
 
-				marker = getResources().getDrawable(R.drawable.ic_restauracion);
+				marker = getResources().getDrawable(R.drawable.ic_pin_comer);
 
 				markerWidth = marker.getIntrinsicWidth();
 				markerHeight = marker.getIntrinsicHeight();
@@ -401,7 +401,7 @@ public class ActividadMapa extends MapActivity {
 
 		} else { // el overlay ya existe => lo borramos
 			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(
-					getResources(), R.drawable.ic_restauracion));
+					getResources(), R.drawable.ic_pin_comer));
 
 			overlayRestaurantes.hideAllBalloons();
 			mapa.getOverlays().remove(overlayRestaurantes);
@@ -428,7 +428,7 @@ public class ActividadMapa extends MapActivity {
 	protected void mostrarPuntosDeInteres(MapView mapa, int codigoRuta) {
 
 		Drawable marker = getResources().getDrawable(
-				R.drawable.marcador_google_maps);
+				R.drawable.ic_pin_historica);
 		int markerWidth = marker.getIntrinsicWidth();
 		int markerHeight = marker.getIntrinsicHeight();
 
@@ -486,42 +486,42 @@ public class ActividadMapa extends MapActivity {
 																				// modernista
 				break;
 			case 1:
-				marker = getResources().getDrawable(R.drawable.ic_historica); // museo
+				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // museo
 				break;
 			case 2:
-				marker = getResources().getDrawable(R.drawable.ic_historica); // iglesia
+				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // iglesia
 				break;
 			case 3:
-				marker = getResources().getDrawable(R.drawable.ic_historica); // monumento
+				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // monumento
 				break;
 			case 4:
-				marker = getResources().getDrawable(R.drawable.ic_historica); // paisaje
+				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // paisaje
 				break;
 			case 100:
-				marker = getResources().getDrawable(R.drawable.ic_dormir_mapa); // hotel
+				marker = getResources().getDrawable(R.drawable.ic_pin_dormir); // hotel
 				break;
 			case 101:
-				marker = getResources().getDrawable(R.drawable.ic_restauracion); // restaurante
+				marker = getResources().getDrawable(R.drawable.ic_pin_comer); // restaurante
 				break;
 			case 102:
-				marker = getResources().getDrawable(R.drawable.ic_bar); // ocio
+				marker = getResources().getDrawable(R.drawable.ic_pin_bar); // ocio
 																		// nocturno
 				break;
 			case 103:
-				marker = getResources().getDrawable(R.drawable.red_pushpin); // centro
+				marker = getResources().getDrawable(R.drawable.ic_llamada_verde); // centro
 																				// comercial
 				break;
 			case 104:
-				marker = getResources().getDrawable(R.drawable.red_pushpin); // espectáculo
+				marker = getResources().getDrawable(R.drawable.ic_llamada_verde); // espectáculo
 				break;
 			case 105:
-				marker = getResources().getDrawable(R.drawable.red_pushpin); // cafetería
+				marker = getResources().getDrawable(R.drawable.ic_llamada_verde); // cafetería
 				break;
 			case 106:
 				marker = getResources().getDrawable(R.drawable.ic_bar); // cervecería
 				break;
 			default:
-				marker = getResources().getDrawable(R.drawable.ic_historica); // no
+				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // no
 																				// hay
 																				// coincidencia
 				break;
@@ -602,7 +602,7 @@ public class ActividadMapa extends MapActivity {
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			// mostramos el botón del gps como activado
 			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.ic_gps_activado));
+					R.drawable.ic_llamada_verde));
 
 			locationManager.requestLocationUpdates(
 					LocationManager.GPS_PROVIDER, 6000, 50, providerListener);
@@ -610,7 +610,7 @@ public class ActividadMapa extends MapActivity {
 		} else {
 			// mostramos el botón del gps como desactivado
 			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.ic_gps_desactivado));
+					R.drawable.ic_llamada_verde_off));
 		}
 
 	}

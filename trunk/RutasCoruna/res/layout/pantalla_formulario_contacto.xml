@@ -95,7 +95,7 @@
                     android:layout_marginRight="10dip"
                     android:layout_marginTop="5dip"
                     android:background="@color/negro_avenue"
-                    android:src="@drawable/ic_auricular" />
+                    android:src="@drawable/ic_llamar" />
             </TableRow>
         </TableLayout>
     </LinearLayout>
