@@ -16,6 +16,7 @@ import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.Html.ImageGetter;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,10 @@ public class ActividadDescripcionPoi extends Activity {
 
 	protected String uriImagenPoi = "";
 	private Context contexto = null;
-
+	private int windowHeight = 320;
+	private int windowWidth = 240;
+	
+	
 	/**
 	 * Punto de entrada a la aplicación
 	 * 
@@ -45,11 +49,27 @@ public class ActividadDescripcionPoi extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		String html = "";
-
+		String[] nombreDescripcion = null;
+		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.visor_html);
 		contexto = this;
+		TextView txt = (TextView) findViewById(R.id.txtDocumento);
 
+		// Consultamos la resolución de la pantalla para redimensionar las fotografías que 
+		// acompañan a la documentación. Lo hacemos aquí y no en el método que carga la fotografía
+		// para no repetir el cálculo para todas las fotografías
+		DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        windowHeight = displaymetrics.heightPixels;
+        windowWidth = displaymetrics.widthPixels;
+        
+Log.w("alto", String.valueOf(windowHeight));
+Log.w("ancho", String.valueOf(windowWidth));
+
+		
+		
+		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			Integer clavePoi = (Integer) extras.get("clave_poi");
@@ -57,16 +77,17 @@ public class ActividadDescripcionPoi extends Activity {
 														// de la carpeta con el
 														// texto y las fotos
 
-//uriImagenPoi = "web/" + uriImagenPoi + " "; 	
-uriImagenPoi = "<img src=\"" + uriImagenPoi + "\"/> ";
-
-			
+			// la imagen debe de ir con su tag html "img"
+			uriImagenPoi = "<img src=\"" + uriImagenPoi + "\"/>";		
 			
 			// Volcamos el texto en el textView
-			html = uriImagenPoi + recuperarDescripcionPoi(clavePoi);
-
+			nombreDescripcion =  recuperarDescripcionPoi2(clavePoi);
+			//html = uriImagenPoi + recuperarDescripcionPoi(clavePoi);
+			String titulo = "<h2>" + nombreDescripcion[0] + "</h2>";
+			html = uriImagenPoi + titulo + nombreDescripcion[1];
+			
+			
 			Spanned s = Html.fromHtml(html, getImageHTML_assets(), null);
-			TextView txt = (TextView) findViewById(R.id.txtDocumento);
 			txt.setText(s);
 
 		}
@@ -90,8 +111,28 @@ uriImagenPoi = "<img src=\"" + uriImagenPoi + "\"/> ";
 
 					InputStream is = getAssets().open(source);
 					Drawable d = Drawable.createFromStream(is, "src name");
-					d.setBounds(0, 0, d.getIntrinsicWidth(),
-							d.getIntrinsicHeight());
+					
+					//d.setBounds(0, 0, d.getIntrinsicWidth(),
+					//		d.getIntrinsicHeight());
+
+					// Redimensionamos y centramos la imagen en función de la resolución de pantalla
+					float anchoImagen = (float)d.getIntrinsicWidth();
+					float largoImagen = (float)d.getIntrinsicHeight(); 
+					
+					float anchoPantalla = (float)ActividadDescripcionPoi.this.windowWidth;
+					float largoPantalla = (float)ActividadDescripcionPoi.this.windowHeight;
+					
+					float relacionX = anchoImagen / anchoPantalla;
+					float relacionY = largoImagen / largoPantalla;
+					
+					float factor = relacionX;
+					if(factor < relacionY) factor = relacionY;
+
+					int nuevoAnchoImagen = (int)((anchoImagen / factor) * 0.95); 
+					int nuevoLargoImagen = (int)((largoImagen / factor) * 0.95);
+
+					
+					d.setBounds((int)((anchoPantalla - nuevoAnchoImagen) / 2), 2, nuevoAnchoImagen, nuevoLargoImagen);
 					return d;
 				} catch (IOException e) {
 					Log.v("IOException", e.getMessage() + " Buscando: " + source);
@@ -249,6 +290,43 @@ Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();
 		dbh.close();
 
 		return datosPoi;
+
+	}
+
+	private String[] recuperarDescripcionPoi2(int clavePoi) {
+
+		// TODO: ver si se puede eliminar el cursor y utilizar un objeto de tipo
+		// poi. Problema: ¿hacemos
+		// uno genérico para hoteles y restaurantes o uno distinto para cada
+		// categoría? Me inclino por la
+		// segunda opción
+		Cursor c = null;
+
+		String[] nombreDescripcion = new String[2];
+		
+Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();			
+		
+		
+		// Recuperamos los datos del poi
+		DatabaseHelper dbh = new DatabaseHelper(this);
+
+		try {
+			dbh.openDataBase();
+
+		} catch (SQLException sqle) {
+			throw sqle;
+		}
+
+		c = dbh.recuperarPoi(clavePoi);
+		c.moveToFirst();
+
+		nombreDescripcion[0] = c.getString(c.getColumnIndex("nombrePoi"));
+		nombreDescripcion[1] = c.getString(c.getColumnIndex("descPoi"));
+
+		c.close();
+		dbh.close();
+
+		return nombreDescripcion;
 
 	}
 

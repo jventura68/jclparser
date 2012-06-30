@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
-            android:src="@drawable/ic_restauracion" />
+            android:src="@drawable/ic_pin_comer" />
         
         <ImageButton
             android:id="@+id/BtnCopas"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
-            android:src="@drawable/llamada_verde_off" />
+            android:src="@drawable/ic_llamada_verde_off" />
         
         </LinearLayout>
 

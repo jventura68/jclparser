@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
 	        android:layout_weight="1"
-            android:src="@drawable/ic_qs" />
+            android:src="@drawable/ic_nos" />
     </LinearLayout>
 
 </LinearLayout>
