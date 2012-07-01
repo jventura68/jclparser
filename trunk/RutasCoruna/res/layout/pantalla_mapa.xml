@@ -4,40 +4,6 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <ImageButton
-            android:id="@+id/BtnCentrar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/negro_avenue"
-            android:src="@drawable/ic_home" />
-        
-        <ImageButton
-            android:id="@+id/BtnRestaurantes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/negro_avenue"
-            android:src="@drawable/ic_pin_comer" />
-        
-        <ImageButton
-            android:id="@+id/BtnCopas"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/negro_avenue"
-            android:src="@drawable/ic_bar" />
-
-        <ImageButton
-            android:id="@+id/BtnGps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/negro_avenue"
-            android:src="@drawable/ic_llamada_verde_off" />
-        
-        </LinearLayout>
 
     <com.google.android.maps.MapView
         android:id="@+id/mapa"

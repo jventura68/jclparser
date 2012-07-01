@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/mnuCentrarMapa"
+        android:title="Centrar mapa">
+    </item>
+    <item
+        android:id="@+id/mnuModoSatelite"
+        android:title="Modo satélite">
+    </item>
+    <item
+        android:id="@+id/mnuGps"
+        android:title="Activar GPS">
+    </item>
+
+</menu>

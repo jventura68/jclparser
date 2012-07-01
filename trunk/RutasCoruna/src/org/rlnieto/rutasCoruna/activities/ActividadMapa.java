@@ -9,6 +9,9 @@ import java.util.Locale;
 //import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView.OnItemClickListener;
@@ -66,11 +69,6 @@ import org.rlnieto.rutasCoruna.overlays.*;
 public class ActividadMapa extends MapActivity {
 
 	private MapView mapa = null;
-	private ImageButton btnSatelite = null;
-	private ImageButton btnCentrar = null;
-	private ImageButton btnRestaurantes = null;
-	private ImageButton btnCopas = null;
-	private ImageButton btnGps = null;
 	private Context contexto = null;
 
 	private MapController controlMapa = null;
@@ -79,7 +77,10 @@ public class ActividadMapa extends MapActivity {
 
 	private MyItemizedBalloonOverlay overlayRestaurantes = null;
 	private MyItemizedBalloonOverlay overlayPubs = null;
-
+	private Menu menuActivity = null;
+	private Boolean gpsActivo = false;
+	
+	
 	// private static final int CODIGO_RUTA_SACRA = 1;
 	// private static final int CODIGO_RUTA_COMPLETA = 1;
 
@@ -96,10 +97,6 @@ public class ActividadMapa extends MapActivity {
 		// Obtenemos una referencia a los controles desde el fichero de recursos
 		mapa = (MapView) findViewById(R.id.mapa);
 		// btnSatelite = (ImageButton)findViewById(R.id.BtnSatelite);
-		btnCentrar = (ImageButton) findViewById(R.id.BtnCentrar);
-		btnRestaurantes = (ImageButton) findViewById(R.id.BtnRestaurantes);
-		btnCopas = (ImageButton) findViewById(R.id.BtnCopas);
-		btnGps = (ImageButton) findViewById(R.id.BtnGps);
 
 		// Cargamos una referencia al controlador del mapa
 		controlMapa = mapa.getController();
@@ -126,56 +123,6 @@ public class ActividadMapa extends MapActivity {
 		//
 		// --------------------------------------------------------------------------
 
-		/**
-		 * Centra el mapa en el origen de coordenadas
-		 * 
-		 */
-		btnCentrar.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				centrarMapa();
-			}
-		});
-
-		/**
-		 * Manejador de evento click para el botón que muestra los restaurantes
-		 * 
-		 */
-		btnRestaurantes.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				mostrarRestaurantes(mapa);
-			}
-
-		});
-
-		/**
-		 * Manejador de evento click para el botón que muestra los sitios de
-		 * copas
-		 * 
-		 */
-		btnCopas.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				mostrarPubs(mapa);
-			}
-
-		});
-
-		/**
-		 * Manejador de evento para activar/desactivar el gps
-		 * 
-		 */
-		btnGps.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				// No podemos manipular directamente el gps => abrimos las
-				// opciones de seguridad esté o
-				// no habilitado para que modifiquen el estado desde ahí
-				startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
-			}
-		});
-
 	} // onCreate
 
 	/**
@@ -189,17 +136,12 @@ public class ActividadMapa extends MapActivity {
 		}
 
 		public void onProviderDisabled(String provider) {
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.ic_llamada_verde_off));
-
+			gpsActivo = false;
 			// locationManager.removeUpdates(providerListener);
 		}
 
 		public void onProviderEnabled(String provider) {
-			Toast.makeText(contexto, "GPS activado", Toast.LENGTH_SHORT).show();
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.ic_llamada_verde));
-
+			gpsActivo = true;
 		}
 
 		public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -285,9 +227,6 @@ public class ActividadMapa extends MapActivity {
 		// borramos.
 		if (overlayPubs == null) {
 
-			btnCopas.setImageBitmap(BitmapFactory.decodeResource(
-					getResources(), R.drawable.ic_bar_seleccionado));
-
 			overlayPubs = new MyItemizedBalloonOverlay(marker, mapa);
 			mapa.getOverlays().add(overlayPubs);
 
@@ -316,9 +255,6 @@ public class ActividadMapa extends MapActivity {
 			dbh.close();
 
 		} else { // el overlay ya existe => lo borramos
-			btnCopas.setImageBitmap(BitmapFactory.decodeResource(
-					getResources(), R.drawable.ic_bar));
-
 			overlayPubs.hideAllBalloons();
 			mapa.getOverlays().remove(overlayPubs);
 			overlayPubs = null;
@@ -368,9 +304,6 @@ public class ActividadMapa extends MapActivity {
 		// Main.this);
 		if (overlayRestaurantes == null) {
 
-			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(
-					getResources(), R.drawable.ic_restauracion_seleccionado));
-
 			overlayRestaurantes = new MyItemizedBalloonOverlay(marker, mapa);
 			mapa.getOverlays().add(overlayRestaurantes);
 
@@ -400,9 +333,6 @@ public class ActividadMapa extends MapActivity {
 			dbh.close();
 
 		} else { // el overlay ya existe => lo borramos
-			btnRestaurantes.setImageBitmap(BitmapFactory.decodeResource(
-					getResources(), R.drawable.ic_pin_comer));
-
 			overlayRestaurantes.hideAllBalloons();
 			mapa.getOverlays().remove(overlayRestaurantes);
 			overlayRestaurantes = null;
@@ -601,18 +531,86 @@ public class ActividadMapa extends MapActivity {
 
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			// mostramos el botón del gps como activado
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.ic_llamada_verde));
-
+			gpsActivo = true;
+			
 			locationManager.requestLocationUpdates(
 					LocationManager.GPS_PROVIDER, 6000, 50, providerListener);
 
 		} else {
 			// mostramos el botón del gps como desactivado
-			btnGps.setImageBitmap(BitmapFactory.decodeResource(getResources(),
-					R.drawable.ic_llamada_verde_off));
+			gpsActivo = true;
+
 		}
 
 	}
 
+	
+	
+	//----------------------------------------------------------------------------------------
+	//
+	// Tratamiento del menú
+	//
+	//
+	//
+	//----------------------------------------------------------------------------------------
+	
+	/**
+	 * Cargamos el menú. Esto es suficiente para "engancharlo" a la tecla de menú
+	 */
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	    //Alternativa 1
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.menu_actividad_mapa, menu);
+	    
+	    this.menuActivity = menu;
+
+	    return true;
+	}
+	
+	
+	/**
+	 * Cuando se muestra el menú comprobamos si el gps está activado o no para mostrar el mensaje adecuado
+	 */
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu){
+		// Comprobamos si el gps está o no activado y establecemos la etiqueta adecuada en el item del menú
+		MenuItem menuItem = menu.findItem(R.id.mnuGps);
+
+Toast.makeText(contexto, String.valueOf(gpsActivo), Toast.LENGTH_SHORT).show();
+
+		if(gpsActivo)			
+			menuItem.setTitle("Desactivar GPS");
+		else
+			menuItem.setTitle("Activar GPS");
+
+		return true;
+	}
+	
+	
+	/**
+	 * Acciones asociadas a las opciones del menú
+	 * 
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.mnuCentrarMapa:
+	        	centrarMapa();
+	            return true;
+	        case R.id.mnuModoSatelite:
+
+	            return true;
+	        case R.id.mnuGps:
+				// No podemos manipular directamente el gps => abrimos las
+				// opciones de seguridad esté o
+				// no habilitado para que modifiquen el estado desde ahí
+				startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
+	        	return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
+	}	
+	
+	
 }
