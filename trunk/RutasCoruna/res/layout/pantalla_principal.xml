@@ -12,37 +12,63 @@
         android:gravity="bottom"
         android:orientation="horizontal" >
 
-        <ImageButton
+        <Button style=""
             android:id="@+id/BtnRutas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
 	        android:layout_weight="1"
-            android:src="@drawable/ic_quever" />
+	        android:textColor="#ffffff"
+	        android:textStyle="bold"
+	        android:textSize="15dp"
+	        android:typeface="sans"
+	        android:text="Rutas"
+        	android:paddingTop="5dp"
+        	android:hapticFeedbackEnabled="true"
+        	android:soundEffectsEnabled="true"
+            android:drawableTop="@drawable/selector_boton_que_ver" />
 
-        <ImageButton
+        <Button
             android:id="@+id/BtnConfiguracion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
 	        android:layout_weight="1"
-            android:src="@drawable/ic_comer" />
+	        android:textColor="#ffffff"
+	        android:textStyle="bold"
+	        android:textSize="15dp"
+	        android:typeface="sans"
+	        android:text="Comer"
+        	android:paddingTop="5dp"
+            android:drawableTop="@drawable/selector_boton_comer" />
 
-        <ImageButton
+        <Button
             android:id="@+id/BtnHoteles"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
+	        android:textColor="#ffffff"
+	        android:textStyle="bold"
+	        android:textSize="15dp"
+	        android:typeface="sans"
+	        android:text="Dormir"
+        	android:paddingTop="5dp"
 	        android:layout_weight="1"
-            android:src="@drawable/ic_dormir" />
+            android:drawableTop="@drawable/selector_boton_dormir" />
 
-        <ImageButton
+        <Button
             android:id="@+id/BtnAcercaDe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"
 	        android:layout_weight="1"
-            android:src="@drawable/ic_nos" />
+	        android:textColor="#ffffff"
+	        android:textStyle="bold"
+	        android:textSize="15dp"
+	        android:typeface="sans"
+	        android:text="Nosotros"
+        	android:paddingTop="5dp"
+            android:drawableTop="@drawable/selector_boton_nosotros" />
     </LinearLayout>
 
 </LinearLayout>
