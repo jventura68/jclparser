@@ -20,10 +20,10 @@ import android.widget.Toast;
 public class ActividadPrincipal extends Activity{
 
 	private Context contexto = null;
-	private ImageButton btnRutas = null;
-	private ImageButton btnConfiguracion = null;
-	private ImageButton btnHoteles = null;
-	private ImageButton btnAcercaDe = null;
+	private Button btnRutas = null;
+	private Button btnConfiguracion = null;
+	private Button btnHoteles = null;
+	private Button btnAcercaDe = null;
 		
 	@Override
 	//-----------------------------------------------------------------------------------
@@ -40,10 +40,10 @@ public class ActividadPrincipal extends Activity{
 
     	//Toast.makeText(getBaseContext(), "Thread activado", Toast.LENGTH_LONG).show();
 
-        btnRutas = (ImageButton)findViewById(R.id.BtnRutas);
-        btnConfiguracion = (ImageButton)findViewById(R.id.BtnConfiguracion);
-        btnHoteles = (ImageButton)findViewById(R.id.BtnHoteles);
-        btnAcercaDe = (ImageButton)findViewById(R.id.BtnAcercaDe);
+        btnRutas = (Button)findViewById(R.id.BtnRutas);
+        btnConfiguracion = (Button)findViewById(R.id.BtnConfiguracion);
+        btnHoteles = (Button)findViewById(R.id.BtnHoteles);
+        btnAcercaDe = (Button)findViewById(R.id.BtnAcercaDe);
         
         btnRutas.getBackground().setAlpha(185);
         btnConfiguracion.getBackground().setAlpha(185);
@@ -69,6 +69,9 @@ public class ActividadPrincipal extends Activity{
 			@Override
 			public void onClick(View arg0) {
 
+				//btnRutas.setBackgroundColor(R.color.blue_base);
+				//btnRutas.setBackgroundColor(R.color.negro_avenue);
+				
 		    	Intent myIntent = new Intent(contexto, ActividadListaRutas.class);
 				contexto.startActivity(myIntent);
 			}
