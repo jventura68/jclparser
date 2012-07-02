@@ -112,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	   en la clase llamadora, pero quizá sea un trabajo inútil porque al final vamos a volcar
 	   los datos en el mapa y no volveremos a usarlos 
 	*/
-	public Cursor recuperarRuta(int idRuta){
+	public Cursor recuperarPoisRuta(int idRuta){
 
 		// Query para recuperar los pois de lar ruta completa
 		Cursor c = myDb.rawQuery("select a._id, a.latitud, a.longitud, a.nombrePoi, a.descPoi, a.categoria, a.direccion " +
@@ -120,6 +120,24 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 								"where c.idRuta = " + idRuta + " and " +
 								"c.idPoi = a._id " +
 								"order by descPoi", null); 
+
+		return c;
+		
+	}
+
+	
+	/**
+	 * Recupera los datos de un idRuta de la tabla de rutas
+	 * 
+	 * @param idRuta
+	 * @return
+	 */
+	public Cursor recuperarRuta(int idRuta){
+
+		// Query para recuperar los pois de lar ruta completa
+		Cursor c = myDb.rawQuery("select _id, nombreRuta, descRuta, default_latitude, default_longitude, default_zoom_level " +
+								"from ruta " +
+								"where _id = " + idRuta, null); 
 
 		return c;
 		

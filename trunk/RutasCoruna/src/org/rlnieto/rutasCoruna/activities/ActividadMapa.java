@@ -78,9 +78,15 @@ public class ActividadMapa extends MapActivity {
 	private MyItemizedBalloonOverlay overlayRestaurantes = null;
 	private MyItemizedBalloonOverlay overlayPubs = null;
 	private Menu menuActivity = null;
-	private Boolean gpsActivo = false;
-	
-	
+	private boolean gpsActivo = false;
+	private boolean modoSatelite = false;
+
+	// Los valores por defecto para latitud y longitud son aproximadamente el
+	// centro de Coruña
+	private Double latitudCentrarRuta = 43.371334 * 1E6;
+	private Double longitudCentrarRuta = -8.396001 * 1E6;
+	private int nivelZoomRuta = 15;
+
 	// private static final int CODIGO_RUTA_SACRA = 1;
 	// private static final int CODIGO_RUTA_COMPLETA = 1;
 
@@ -100,28 +106,25 @@ public class ActividadMapa extends MapActivity {
 
 		// Cargamos una referencia al controlador del mapa
 		controlMapa = mapa.getController();
+		mapa.setSatellite(false);
 
 		// Mostramos los controles de zoom sobre el mapa
 		mapa.setBuiltInZoomControls(true);
-
-		centrarMapa();
 
 		// Cargamos la ruta elegida en la actividad anterior
 		Bundle bundle = getIntent().getExtras();
 		mostrarPuntosDeInteres(mapa, bundle.getInt("idRuta"));
 
+		obtenerLatitudLongitudCentrarMapa(bundle.getInt("idRuta"));
+		centrarMapa();
+
+		
 		// Añadimos el overlay que muestra nuestra posicion
 		MyLocationOverlay locationOverlay = new MyLocationOverlay(this, mapa);
 		mapa.getOverlays().add(locationOverlay);
 		locationOverlay.enableCompass();
 		locationOverlay.enableMyLocation();
 		mapa.postInvalidate();
-
-		// --------------------------------------------------------------------------
-		//
-		// listeners
-		//
-		// --------------------------------------------------------------------------
 
 	} // onCreate
 
@@ -155,13 +158,13 @@ public class ActividadMapa extends MapActivity {
 	// --------------------------------------------------------------------------
 	private void centrarMapa() {
 
-		Double latitud = 43.371334 * 1E6;
-		Double longitud = -8.396001 * 1E6;
+		Double latitud = latitudCentrarRuta;
+		Double longitud = longitudCentrarRuta;
 
 		GeoPoint loc = new GeoPoint(latitud.intValue(), longitud.intValue());
 
 		controlMapa.animateTo(loc);
-		controlMapa.setZoom(15);
+		controlMapa.setZoom(nivelZoomRuta);
 
 	}
 
@@ -198,8 +201,7 @@ public class ActividadMapa extends MapActivity {
 	 */
 	protected void mostrarPubs(MapView mapa) {
 
-		Drawable marker = getResources().getDrawable(
-				R.drawable.ic_pin_bar);
+		Drawable marker = getResources().getDrawable(R.drawable.ic_pin_bar);
 		int markerWidth = marker.getIntrinsicWidth();
 		int markerHeight = marker.getIntrinsicHeight();
 
@@ -378,7 +380,7 @@ public class ActividadMapa extends MapActivity {
 		// Tenemos la bd disponible, recuperamos los pois de la ruta. Le pasamos
 		// el _id
 		// de la tabla ruta
-		Cursor c = dbh.recuperarRuta(codigoRuta);
+		Cursor c = dbh.recuperarPoisRuta(codigoRuta);
 
 		marker.setBounds(0, 0, markerHeight, markerWidth);
 		// MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker,
@@ -416,16 +418,20 @@ public class ActividadMapa extends MapActivity {
 																				// modernista
 				break;
 			case 1:
-				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // museo
+				marker = getResources()
+						.getDrawable(R.drawable.ic_pin_historica); // museo
 				break;
 			case 2:
-				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // iglesia
+				marker = getResources()
+						.getDrawable(R.drawable.ic_pin_historica); // iglesia
 				break;
 			case 3:
-				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // monumento
+				marker = getResources()
+						.getDrawable(R.drawable.ic_pin_historica); // monumento
 				break;
 			case 4:
-				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // paisaje
+				marker = getResources()
+						.getDrawable(R.drawable.ic_pin_historica); // paisaje
 				break;
 			case 100:
 				marker = getResources().getDrawable(R.drawable.ic_pin_dormir); // hotel
@@ -435,25 +441,29 @@ public class ActividadMapa extends MapActivity {
 				break;
 			case 102:
 				marker = getResources().getDrawable(R.drawable.ic_pin_bar); // ocio
-																		// nocturno
+				// nocturno
 				break;
 			case 103:
-				marker = getResources().getDrawable(R.drawable.ic_llamada_verde); // centro
-																				// comercial
+				marker = getResources()
+						.getDrawable(R.drawable.ic_llamada_verde); // centro
+																	// comercial
 				break;
 			case 104:
-				marker = getResources().getDrawable(R.drawable.ic_llamada_verde); // espectáculo
+				marker = getResources()
+						.getDrawable(R.drawable.ic_llamada_verde); // espectáculo
 				break;
 			case 105:
-				marker = getResources().getDrawable(R.drawable.ic_llamada_verde); // cafetería
+				marker = getResources()
+						.getDrawable(R.drawable.ic_llamada_verde); // cafetería
 				break;
 			case 106:
 				marker = getResources().getDrawable(R.drawable.ic_bar); // cervecería
 				break;
 			default:
-				marker = getResources().getDrawable(R.drawable.ic_pin_historica); // no
-																				// hay
-																				// coincidencia
+				marker = getResources()
+						.getDrawable(R.drawable.ic_pin_historica); // no
+																	// hay
+																	// coincidencia
 				break;
 			}
 
@@ -462,10 +472,11 @@ public class ActividadMapa extends MapActivity {
 			marker.setBounds(0, 0, markerHeight, markerWidth);
 
 			point = new GeoPoint(latitud.intValue(), longitud.intValue());
-//			myItemizedBalloonOverlay.addItem(point, nombrePoi + "\n" + direccion, datosPoi,
-//			marker, clavePoi, categoria);
+			// myItemizedBalloonOverlay.addItem(point, nombrePoi + "\n" +
+			// direccion, datosPoi,
+			// marker, clavePoi, categoria);
 			myItemizedBalloonOverlay.addItem(point, nombrePoi, direccion,
-			marker, clavePoi, categoria);
+					marker, clavePoi, categoria);
 
 		}
 
@@ -532,7 +543,7 @@ public class ActividadMapa extends MapActivity {
 		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			// mostramos el botón del gps como activado
 			gpsActivo = true;
-			
+
 			locationManager.requestLocationUpdates(
 					LocationManager.GPS_PROVIDER, 6000, 50, providerListener);
 
@@ -544,73 +555,114 @@ public class ActividadMapa extends MapActivity {
 
 	}
 
-	
-	
-	//----------------------------------------------------------------------------------------
+	// ----------------------------------------------------------------------------------------
 	//
 	// Tratamiento del menú
 	//
 	//
 	//
-	//----------------------------------------------------------------------------------------
-	
+	// ----------------------------------------------------------------------------------------
+
 	/**
-	 * Cargamos el menú. Esto es suficiente para "engancharlo" a la tecla de menú
+	 * Cargamos el menú. Esto es suficiente para "engancharlo" a la tecla de
+	 * menú
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-	    //Alternativa 1
-	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.menu_actividad_mapa, menu);
-	    
-	    this.menuActivity = menu;
+		// Alternativa 1
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_actividad_mapa, menu);
 
-	    return true;
+		this.menuActivity = menu;
+
+		return true;
 	}
-	
-	
+
 	/**
-	 * Cuando se muestra el menú comprobamos si el gps está activado o no para mostrar el mensaje adecuado
+	 * Cambiamos los textos de los botones del menú: - Modo satélite on/off -
+	 * Gps on/off
 	 */
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu){
-		// Comprobamos si el gps está o no activado y establecemos la etiqueta adecuada en el item del menú
-		MenuItem menuItem = menu.findItem(R.id.mnuGps);
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// Modo satélite
+		MenuItem menuItem = menu.findItem(R.id.mnuModoSatelite);
+		if (modoSatelite)
+			menuItem.setTitle("Modo mapa");
+		else
+			menuItem.setTitle("Modo satélite");
 
-Toast.makeText(contexto, String.valueOf(gpsActivo), Toast.LENGTH_SHORT).show();
-
-		if(gpsActivo)			
+		// Gps
+		menuItem = menu.findItem(R.id.mnuGps);
+		if (gpsActivo)
 			menuItem.setTitle("Desactivar GPS");
 		else
 			menuItem.setTitle("Activar GPS");
 
 		return true;
 	}
-	
-	
+
 	/**
 	 * Acciones asociadas a las opciones del menú
 	 * 
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	        case R.id.mnuCentrarMapa:
-	        	centrarMapa();
-	            return true;
-	        case R.id.mnuModoSatelite:
+		switch (item.getItemId()) {
+		case R.id.mnuCentrarMapa:
+			centrarMapa();
+			return true;
+		case R.id.mnuModoSatelite:
+			if (modoSatelite) {
+				mapa.setSatellite(false);
+				modoSatelite = false;
+			} else {
+				mapa.setSatellite(true);
+				modoSatelite = true;
+			}
 
-	            return true;
-	        case R.id.mnuGps:
-				// No podemos manipular directamente el gps => abrimos las
-				// opciones de seguridad esté o
-				// no habilitado para que modifiquen el estado desde ahí
-				startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
-	        	return true;
-	        default:
-	            return super.onOptionsItemSelected(item);
-	    }
-	}	
-	
-	
+			return true;
+		case R.id.mnuGps:
+			// No podemos manipular directamente el gps => abrimos las
+			// opciones de seguridad esté o
+			// no habilitado para que modifiquen el estado desde ahí
+			startActivity(new Intent(Settings.ACTION_SECURITY_SETTINGS));
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	/**
+	 * Recuperamos de la bd la latitud, longitud y nivel de zoom de la ruta
+	 * 
+	 */
+	private void obtenerLatitudLongitudCentrarMapa(int idRuta) {
+		// Abrimos la bd
+		DatabaseHelper dbh = new DatabaseHelper(this);
+
+		try {
+			dbh.openDataBase();
+
+		} catch (SQLException sqle) {
+			throw sqle;
+		}
+
+		// Recuperamos los datos de la ruta
+		Cursor c = dbh.recuperarRuta(idRuta);
+		c.moveToFirst();
+
+		latitudCentrarRuta = c.getDouble(c.getColumnIndex("default_latitude")) * 1E6;
+		longitudCentrarRuta = c.getDouble(c.getColumnIndex("default_longitude")) * 1E6;
+		nivelZoomRuta = c.getInt(c.getColumnIndex("default_zoom_level"));
+
+Log.w("idRuta", String.valueOf(idRuta));
+Log.w("latitud", String.valueOf(latitudCentrarRuta));
+Log.w("longitud", String.valueOf(longitudCentrarRuta));
+Log.w("nivel de zoom", String.valueOf(nivelZoomRuta));
+
+		c.close();
+		dbh.close();
+
+	}
+
 }
