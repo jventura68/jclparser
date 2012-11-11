@@ -21,7 +21,7 @@ public class ActividadPrincipal extends Activity{
 
 	private Context contexto = null;
 	private Button btnRutas = null;
-	private Button btnConfiguracion = null;
+	private Button btnRestaurantes = null;
 	private Button btnHoteles = null;
 	private Button btnAcercaDe = null;
 		
@@ -41,12 +41,12 @@ public class ActividadPrincipal extends Activity{
     	//Toast.makeText(getBaseContext(), "Thread activado", Toast.LENGTH_LONG).show();
 
         btnRutas = (Button)findViewById(R.id.BtnRutas);
-        btnConfiguracion = (Button)findViewById(R.id.BtnConfiguracion);
+        btnRestaurantes = (Button)findViewById(R.id.BtnRestaurantes);
         btnHoteles = (Button)findViewById(R.id.BtnHoteles);
         btnAcercaDe = (Button)findViewById(R.id.BtnAcercaDe);
         
         btnRutas.getBackground().setAlpha(185);
-        btnConfiguracion.getBackground().setAlpha(185);
+        btnRestaurantes.getBackground().setAlpha(185);
         btnHoteles.getBackground().setAlpha(185);
         btnAcercaDe.getBackground().setAlpha(185);
         
@@ -100,9 +100,9 @@ public class ActividadPrincipal extends Activity{
         	public void onClick(View arg0){
 //        		Toast.makeText(getBaseContext(), "En construcción!!", Toast.LENGTH_SHORT).show();
 
-        		//Intent myIntent = new Intent(contexto, ActividadListaHoteles.class);
+        		Intent myIntent = new Intent(contexto, ActividadListaHoteles.class);
         		
-        		Intent myIntent = new Intent(contexto, ActividadMapa.class);
+        		//Intent myIntent = new Intent(contexto, ActividadMapa.class);
         		myIntent.putExtra("idRuta", DatabaseHelper.LISTA_HOTELES);
         		contexto.startActivity(myIntent);
         		
@@ -116,7 +116,7 @@ public class ActividadPrincipal extends Activity{
          * Abre la pantalla de configuración
          * 
          */
-        btnConfiguracion.setOnClickListener(new OnClickListener(){
+        btnRestaurantes.setOnClickListener(new OnClickListener(){
         	
         	public void onClick(View arg0){
         		

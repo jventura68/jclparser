@@ -63,7 +63,7 @@
             android:layout_margin="10dip"
             android:text="Reservar en este restaurante vía Atrápalo"
             android:visibility="gone" />
-
+    
         <TableLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"

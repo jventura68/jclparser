@@ -146,7 +146,7 @@ public class ActividadFormularioContacto extends Activity {
 		// Atrápalo
 		switch (categoria) {
 		case DatabaseHelper.CODIGO_HOTEL:
-			btnReservarBooking.setVisibility(android.view.View.VISIBLE);
+			//btnReservarBooking.setVisibility(android.view.View.VISIBLE);
 			break;
 		case DatabaseHelper.CODIGO_RESTAURANTE:
 			btnReservarAtrapalo.setVisibility(android.view.View.VISIBLE);
@@ -228,7 +228,7 @@ public class ActividadFormularioContacto extends Activity {
 
 		myIntent.putExtra("url", url);
 		contexto.startActivity(myIntent);
-
+		
 	}
 
 	/**
