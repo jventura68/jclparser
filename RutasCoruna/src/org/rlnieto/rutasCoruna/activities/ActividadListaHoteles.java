@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class ActividadListaHoteles extends ListActivity {
 
 	private Context contexto = null;
-	ArrayList<Integer>claves = new ArrayList<Integer>();
+	private ArrayList<Integer>clavesPoi = new ArrayList<Integer>(20);
 
 
 	/**
@@ -36,12 +36,19 @@ public class ActividadListaHoteles extends ListActivity {
 	 * @author guig
 	 *
 	 */
-	private class MiAdaptador extends ArrayAdapter {
+	private class MiAdaptador extends ArrayAdapter<String> {
 
 		private ArrayList<String> etiquetas;
 		private ArrayList<String> descripciones;
-		private ArrayList<Integer>claves;
 
+		/**
+		 * Constructor 
+		 * 
+		 * @param context
+		 * @param textViewResourceId
+		 * @param etiquetas
+		 * @param descripciones
+		 */
 		public MiAdaptador(Context context, int textViewResourceId, ArrayList<String>etiquetas, ArrayList<String>descripciones) {
 			super(context, textViewResourceId, etiquetas);
 
@@ -49,12 +56,13 @@ public class ActividadListaHoteles extends ListActivity {
 			this.descripciones = descripciones;
 		}
 
+		
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			View v = convertView;
 			if (v == null) {
 				LayoutInflater vi = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				v = vi.inflate(R.layout.layout_fila_rutas, null);
+				v = vi.inflate(R.layout.layout_fila_hoteles, null);
 			}
 
 
@@ -63,7 +71,7 @@ public class ActividadListaHoteles extends ListActivity {
 
 			etiqueta.setText(etiquetas.get(position));
 			descripcion.setText(descripciones.get(position));
-
+			
 			return v;
 		}
 	}
@@ -77,8 +85,6 @@ public class ActividadListaHoteles extends ListActivity {
 
 		super.onCreate(savedInstanceState);
 
-		// TODO: cargar etiquetas, descripciones y códigos de ruta desde la base de datos y 
-		// eliminar hardcoding
 		ArrayList<String>etiquetas = new ArrayList<String>();
 		ArrayList<String>descripciones = new ArrayList<String>();
 
@@ -95,58 +101,45 @@ public class ActividadListaHoteles extends ListActivity {
 
 		Cursor c = dbh.recuperarHoteles();
 
+		// Componemos tantos asteriscos como estrellas tiene el hotel
+		// TODO: meter un gráfico en la lista en lugar de los asteriscos
 		while(c.moveToNext()){
-
-			etiquetas.add(c.getString(c.getColumnIndex("nombrePoi")));
+			
+			StringBuilder estrellas = new StringBuilder("");
+			
+			int numEstrellas = Integer.parseInt(c.getString(c.getColumnIndex("estrellas")));
+			for(int i=0;i<numEstrellas;i++){
+				estrellas.append("*");
+			}
+			
+			
+			etiquetas.add(c.getString(c.getColumnIndex("nombrePoi")) + " " + estrellas);
 			descripciones.add(c.getString(c.getColumnIndex("direccion")) + "\n " + c.getString(c.getColumnIndex("telefono")).trim());
-			claves.add(c.getInt(c.getColumnIndex("_id")));
+			clavesPoi.add(c.getInt(c.getColumnIndex("_id")));
+			
+Log.w("Clave poi añadida al array: ", String.valueOf(c.getInt(c.getColumnIndex("_id"))));			
+					
 		}
 
-		for(int numero: claves){
-			Log.w("elementos lista", String.valueOf(numero));
-		}
-
-
-		// Asignamos un adapter a la ListView
+		// Asignamos un adapter a la ListView (contexto, layout, datos etiquetas, datos descripciones)
 		setListAdapter(new MiAdaptador(this, R.layout.layout_fila_hoteles, etiquetas, descripciones));
 
 	}
 
 
+	/**
+	 * Evento click de la lista de hoteles: abrimos el formulario de contacto para que puedan
+	 * reservar por teléfono
+	 * 
+	 * 
+	 */
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 
-		String url = "";
-
-		switch(position){
-			case 0: url = "http://www.booking.com/hotel/es/hesperiafinisterre.es.html";
-					break;
-
-			case 1: url = "http://www.booking.com/hotel/es/acacoruna.es.html";
-					break;
-					
-			case 2: url = "http://www.booking.com/hotel/es/palace-a-coruna.es.html";
-					break;
-
-			case 3: url = "http://www.booking.com/hotel/es/carris-marineda.es.html";
-					break;
-					
-			case 4: url = "http://http://www.booking.com/hotel/es/ciudadcoruna.es.html";
-					break;
-			
-			case 5: url = "http://www.booking.com/hotel/es/husacenter.es.html";
-			break;
-	
-			case 6: url = "http://www.booking.com/hotel/es/hesperia-coruna.es.html";
-			break;
-	
-			case 7: url = "http://www.booking.com/hotel/es/meliamariapita.es.html";
-			break;
 		
-			default: url = "http://www.booking.com/searchresults.es.html?sid=557473cd40256c4cdd68c62783802c07;dcid=1;checkin=;checkout=;city=-386792";
-		}
+//Toast.makeText(this.contexto, this.clavesPoi.get(position), Toast.LENGTH_SHORT).show();
 
-		Intent myIntent = new Intent(contexto, ActividadNavegador.class);
-		myIntent.putExtra("url", url);
+		Intent myIntent = new Intent(contexto, ActividadFormularioContacto.class);
+		myIntent.putExtra("clave_poi", clavesPoi.get(position));
 
 		contexto.startActivity(myIntent);
 

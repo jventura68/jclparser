@@ -29,7 +29,7 @@
             android:drawableTop="@drawable/selector_boton_que_ver" />
 
         <Button
-            android:id="@+id/BtnConfiguracion"
+            android:id="@+id/BtnRestaurantes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/negro_avenue"

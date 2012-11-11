@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="10"
         android:gravity="top"
-        android:paddingTop="10px"
+        android:paddingTop="10dp"
         android:orientation="vertical" >
 
         <ImageView
@@ -23,7 +23,7 @@
             android:id="@+id/txPerfil"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-	        android:padding="10px"
+	        android:padding="10dp"
             android:text="Acerca de nosotros"
             android:textColor="#ffffff"
             android:textStyle="bold" />
@@ -39,8 +39,8 @@
             android:gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20px"
-            android:paddingRight="20px" >
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
 
             <ImageView
                 android:id="@+id/imageView1"

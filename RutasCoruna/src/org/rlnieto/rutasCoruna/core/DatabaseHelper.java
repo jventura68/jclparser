@@ -183,9 +183,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	 */
 	public Cursor recuperarHoteles(){
 
-		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria, direccion, telefono " +
-								"from poi " +
-								"where categoria = " + CODIGO_HOTEL, null); 
+		Cursor c = myDb.rawQuery("select poi._id, hotel._id, latitud, longitud, nombrePoi, descPoi, categoria, direccion, telefono, hotel.estrellas, hotel.url_booking " +
+								"from poi, hotel " +
+								"where categoria = " + CODIGO_HOTEL + " and " +
+								"      hotel._id = poi._id " +
+								"order by hotel.estrellas desc", null); 
 
 		return c;
 		

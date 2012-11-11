@@ -83,7 +83,7 @@ Log.w("ancho", String.valueOf(windowWidth));
 			// Volcamos el texto en el textView
 			nombreDescripcion =  recuperarDescripcionPoi2(clavePoi);
 			//html = uriImagenPoi + recuperarDescripcionPoi(clavePoi);
-			String titulo = "<h2>" + nombreDescripcion[0] + "</h2>";
+			String titulo = "<h1>" + nombreDescripcion[0] + "</h1>";
 			html = uriImagenPoi + titulo + nombreDescripcion[1];
 			
 			
