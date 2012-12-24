@@ -180,9 +180,6 @@ public class ActividadFormularioContacto extends Activity {
 
 		Cursor c = null;
 
-		Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG)
-				.show();
-
 		// Recuperamos los datos del hotel
 		DatabaseHelper dbh = new DatabaseHelper(this);
 

@@ -49,7 +49,7 @@ public class MyOverlay extends Overlay {
     	//List<Overlay> mapOverlays = map.getOverlays();
     	Overlay overlay1 = map.getOverlays().get(1);
     	
-    	Toast.makeText(contexto, overlay1.toString(), Toast.LENGTH_SHORT).show();
+//Toast.makeText(contexto, overlay1.toString(), Toast.LENGTH_SHORT).show();
 
     	
     	

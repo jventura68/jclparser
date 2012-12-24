@@ -56,6 +56,7 @@ public class ActividadDescripcionPoi extends Activity {
 		contexto = this;
 		TextView txt = (TextView) findViewById(R.id.txtDocumento);
 
+
 		// Consultamos la resolución de la pantalla para redimensionar las fotografías que 
 		// acompañan a la documentación. Lo hacemos aquí y no en el método que carga la fotografía
 		// para no repetir el cálculo para todas las fotografías
@@ -268,7 +269,7 @@ Log.w("ancho", String.valueOf(windowWidth));
 		Cursor c = null;
 
 		
-Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();			
+//Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();			
 		
 		
 		// Recuperamos los datos del poi
@@ -304,7 +305,7 @@ Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();
 
 		String[] nombreDescripcion = new String[2];
 		
-Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();			
+//Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();			
 		
 		
 		// Recuperamos los datos del poi
