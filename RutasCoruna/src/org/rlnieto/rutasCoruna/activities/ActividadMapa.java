@@ -366,7 +366,6 @@ public class ActividadMapa extends MapActivity {
 
 		MapController mapController = mapa.getController();
 		GeoPoint point = null;
-System.out.println("-------> Código ruta: " + codigoRuta);
 
 		// Abrimos la bd
 		DatabaseHelper dbh = new DatabaseHelper(this);
@@ -382,7 +381,6 @@ System.out.println("-------> Código ruta: " + codigoRuta);
 		// el _id
 		// de la tabla ruta
 		Cursor c = dbh.recuperarPoisRuta(codigoRuta);
-System.out.println("-------> Filas recuperadas: " + c.getCount());
 
 		marker.setBounds(0, 0, markerHeight, markerWidth);
 		// MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker,
@@ -656,11 +654,6 @@ System.out.println("-------> Filas recuperadas: " + c.getCount());
 		latitudCentrarRuta = c.getDouble(c.getColumnIndex("default_latitude")) * 1E6;
 		longitudCentrarRuta = c.getDouble(c.getColumnIndex("default_longitude")) * 1E6;
 		nivelZoomRuta = c.getInt(c.getColumnIndex("default_zoom_level"));
-
-Log.w("idRuta", String.valueOf(idRuta));
-Log.w("latitud", String.valueOf(latitudCentrarRuta));
-Log.w("longitud", String.valueOf(longitudCentrarRuta));
-Log.w("nivel de zoom", String.valueOf(nivelZoomRuta));
 
 		c.close();
 		dbh.close();

@@ -87,6 +87,8 @@ public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayIte
 		super.draw(canvas, mapView, shadow);
 	}
 	
+
+	
 	@Override
 	protected boolean onBalloonTap(int index, OverlayItem item) {
 
