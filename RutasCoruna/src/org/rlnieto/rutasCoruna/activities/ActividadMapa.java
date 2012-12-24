@@ -366,6 +366,7 @@ public class ActividadMapa extends MapActivity {
 
 		MapController mapController = mapa.getController();
 		GeoPoint point = null;
+System.out.println("-------> Código ruta: " + codigoRuta);
 
 		// Abrimos la bd
 		DatabaseHelper dbh = new DatabaseHelper(this);
@@ -381,13 +382,14 @@ public class ActividadMapa extends MapActivity {
 		// el _id
 		// de la tabla ruta
 		Cursor c = dbh.recuperarPoisRuta(codigoRuta);
+System.out.println("-------> Filas recuperadas: " + c.getCount());
 
 		marker.setBounds(0, 0, markerHeight, markerWidth);
 		// MyItemizedOverlay myItemizedOverlay = new MyItemizedOverlay(marker,
 		// Main.this);
 		MyItemizedBalloonOverlay myItemizedBalloonOverlay = new MyItemizedBalloonOverlay(
 				marker, mapa);
-
+ 
 		mapa.getOverlays().clear(); // borramos los overlays para limpiar el
 									// mapa
 		mapa.getOverlays().add(myItemizedBalloonOverlay);

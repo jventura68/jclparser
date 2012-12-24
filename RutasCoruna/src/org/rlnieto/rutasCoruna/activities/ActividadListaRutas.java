@@ -74,12 +74,12 @@ public class ActividadListaRutas extends ListActivity {
 
 		// TODO: cargar etiquetas, descripciones y códigos de ruta desde la base de datos y 
 		// eliminar hardcoding
-		String[] etiquetas = new String[] { "A Coruña monumental",
-											"La Coruña modernista", 
-											"El joven Picasso"};
+		String[] etiquetas = new String[] { "A Coruña histórica",
+											"Edificios emblemáticos", 
+											"Museos"};
 		String[] descripciones = new String[] { "Descubra los principales edificios religiosos y militares de parte antigua la ciudad",
 												"Un recorrido por los edificios emblemáticos de finales del siglo XIX", 
-												"Descubra los lugares que ayudaron a forjar el carácter de este genio durante su infancia"};
+												"Recorra los museos de la ciudad, desde la Domus hasta el dedicado a la vida del joven Picasso"};
 
 		 contexto = this;
 		 
@@ -88,21 +88,22 @@ public class ActividadListaRutas extends ListActivity {
 
 	}
 	
-	
+
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 
 		int idRuta = 0;
-		
+
+System.out.println("-------> Opción: " + position); 		
+
 		// Abrimos la pantalla del mapa cargando la ruta elegida
 		Toast.makeText(contexto, "Cargando datos ...", Toast.LENGTH_SHORT).show();
 
-		
 		switch(position){
-			case 0: idRuta = DatabaseHelper.RUTA_GENERICA;
+			case 0: idRuta = DatabaseHelper.RUTA_HISTORICA;
 					break;
 			case 1: idRuta = DatabaseHelper.RUTA_MODERNISTA;
 					break;
-			case 2: idRuta = DatabaseHelper.RUTA_PICASSO;
+			case 2: idRuta = DatabaseHelper.RUTA_MUSEOS;
 					break;
 			default: idRuta = 0;
 		}

@@ -26,12 +26,6 @@ public class Updater {
 	private Context contexto;
 
 	//private final String RUTA_DESTINO_HTML = "data/data/org.rlnieto.rutasCoruna/html"; // directorio
-																						// con
-																						// los
-																						// ficheros
-																						// html
-																						// en
-																						// la
 																						// sd
 
 	/*

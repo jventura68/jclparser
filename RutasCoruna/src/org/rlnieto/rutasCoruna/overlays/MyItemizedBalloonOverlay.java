@@ -7,8 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.widget.Toast;
+//import android.util.Log;
 //import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -16,13 +15,13 @@ import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
 
-import android.database.Cursor;
+//import android.database.Cursor;
 
 import org.rlnieto.rutasCoruna.activities.ActividadDescripcionPoi;
 import org.rlnieto.rutasCoruna.activities.ActividadFormularioContacto;
-import org.rlnieto.rutasCoruna.activities.ActividadNavegador;
-import org.rlnieto.rutasCoruna.activities.PageVisualizer;
-import org.rlnieto.rutasCoruna.core.*;
+//import org.rlnieto.rutasCoruna.activities.ActividadNavegador;
+//import org.rlnieto.rutasCoruna.activities.PageVisualizer;
+//import org.rlnieto.rutasCoruna.core.*;
 
 
 public class MyItemizedBalloonOverlay  extends BalloonItemizedOverlay<OverlayItem>{
