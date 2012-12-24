@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,9 @@ public class ActividadFormularioContacto extends Activity {
 	private ImageButton btnLlamarEstablecimiento = null;
 	private Button btnReservarBooking = null;
 	private Button btnReservarAtrapalo = null;
-
+	private ImageView imgMapa = null;
+	
+	
 	private int clavePoi = 0;
 
 	@Override
@@ -51,7 +54,8 @@ public class ActividadFormularioContacto extends Activity {
 		btnLlamarEstablecimiento = (ImageButton) findViewById(R.id.btnLlamarEstablecimiento);
 		btnReservarBooking = (Button) findViewById(R.id.btnReservarBooking);
 		btnReservarAtrapalo = (Button) findViewById(R.id.btnReservarAtrapalo);
-
+		imgMapa = (ImageView) findViewById(R.id.imgMapa);
+		
 		// Nos llega la clave de la tabla de pois
 		Bundle bundle = getIntent().getExtras();
 		clavePoi = Integer.valueOf(bundle.getInt("clave_poi"));
@@ -129,27 +133,35 @@ public class ActividadFormularioContacto extends Activity {
 
 		c = dbh.recuperarPoi(clavePoi);
 		c.moveToFirst();
-
+		
+		int idPoi = c.getInt(c.getColumnIndex("_id"));
 		String nombrePoi = c.getString(c.getColumnIndex("nombrePoi"));
 		String datosPoi = c.getString(c.getColumnIndex("descPoi"));
 		int categoria = c.getInt(c.getColumnIndex("categoria"));
 		String direccion = c.getString(c.getColumnIndex("direccion"));
 		int telefono = c.getInt(c.getColumnIndex("telefono"));
-
+		
 		nombreEstablecimiento.setText(nombrePoi);
 		descripcionEstablecimiento.setText(datosPoi);
 		direccionEstablecimiento.setText(direccion);
 		telefonoEstablecimiento.setText(String.valueOf(telefono));
+		
+/*		Cursor cursorRestaurante = dbh.detalleRestaurante(idPoi);
 
+		cursorRestaurante.moveToFirst();
+		txtOtrosDatos.setText(cursorRestaurante.getString(cursorRestaurante.getColumnIndex("especialidad")));
+		txtPrecioMedio.setText(cursorRestaurante.getString(cursorRestaurante.getColumnIndex("precio_medio"))); 
+		
+		cursorRestaurante.close();
+*/		
+		
 		// Si se trata de un hotel mostramos la opción de reservar vía Booking
-		// Si se trata de un restaurante mostramos la opción de reservar vía
-		// Atrápalo
+		// Si se trata de un restaurante mostramos la especialidad y el precio medio
 		switch (categoria) {
 		case DatabaseHelper.CODIGO_HOTEL:
 			//btnReservarBooking.setVisibility(android.view.View.VISIBLE);
 			break;
-		case DatabaseHelper.CODIGO_RESTAURANTE:
-			btnReservarAtrapalo.setVisibility(android.view.View.VISIBLE);
+		case DatabaseHelper.CODIGO_RESTAURANTE:  // mostramos la especialidad y el precio medio
 			break;
 		}
 

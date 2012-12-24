@@ -35,8 +35,7 @@ public class MyItemizedOverlay extends ItemizedOverlay<OverlayItem> {
 	// Manejador para el evento "tap"
 	//--------------------------------------------------------------------------------------------------
 	protected boolean onTap(int index) {
-		// TODO: se puede hacer que el toast desaparezca al tocar otro marcador del overlay?
-		
+	
 		OverlayItem overlaySeleccionado = overlayItemList.get(index);
 				
 		// Código para mostrar el texto del snippet en un toast

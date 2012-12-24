@@ -215,6 +215,25 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	
 	
 	
+	/**
+	 * Recupera los datos específicos de un restaurante desde la tabla "restaurante" a partir
+	 * de la clave
+	 * 
+	 * @param idRestaurante
+	 * @return
+	 */
+	public Cursor detalleRestaurante(int idRestaurante){
+		
+		Cursor c = myDb.rawQuery("select _id, tipo_cocina, precio_medio, url_reserva, especialidad " +
+				"from restaurante " +
+				"where _id = " + idRestaurante, null); 
+
+		return c;
+		
+	}
+	
+	
+	
 	//-----------------------------------------------------------------------------------
     // Crea una bd vacía en el dispositivo y copia la que tenemos en assets
 	//
