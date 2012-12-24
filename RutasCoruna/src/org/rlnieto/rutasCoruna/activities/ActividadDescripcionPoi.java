@@ -80,7 +80,8 @@ Log.w("ancho", String.valueOf(windowWidth));
 
 			// la imagen debe de ir con su tag html "img"
 			uriImagenPoi = "<img src=\"" + uriImagenPoi + "\"/>";		
-			
+Log.w("uri imagen poi", uriImagenPoi);
+
 			// Volcamos el texto en el textView
 			nombreDescripcion =  recuperarDescripcionPoi2(clavePoi);
 			//html = uriImagenPoi + recuperarDescripcionPoi(clavePoi);
