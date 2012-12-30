@@ -14,11 +14,14 @@ RUTA_HISTORICA = 4
 LISTA_RESTAURANTES = 5
 RUTA_MUSEOS = 6
 
-MUSEO = 1
-MONUMENTO = 3
-HOTEL = 100
-RESTAURANTE = 101
-
+POI_PICASSO = -2
+POI_MODERNISTA = -1 
+POI_MUSEO = 1
+POI_IGLESIA = 2
+POI_MONUMENTO = 3
+POI_PAISAJE = 4
+POI_HOTEL = 100
+POI_RESTAURANTE = 101
 
 # Conectamos con mysql 
 mySqlDb=MySQLdb.connect(host='localhost',user='root',passwd='alamierda',db='coruna',charset = "utf8", use_unicode = True)
@@ -104,7 +107,7 @@ for registro in resultado:
     columnas.append(str(registro[7]))
     columnas.append(registro[1])
     columnas.append(' ')
-    columnas.append(MONUMENTO)
+    columnas.append(POI_MONUMENTO)
     columnas.append(registro[9])
     columnas.append(registro[2])
     columnas.append(0)
@@ -196,7 +199,7 @@ for registro in resultado:
     columnas.append(str(registro[6]))
     columnas.append(registro[1])
     columnas.append(' ')
-    columnas.append(MONUMENTO)
+    columnas.append(POI_MONUMENTO)
     columnas.append(registro[4])
     columnas.append(registro[2])
     columnas.append(0)
@@ -289,7 +292,7 @@ for registro in resultado:
     columnas.append(str(registro[9]))
     columnas.append(registro[1])
     columnas.append(' ')
-    columnas.append(MUSEO)
+    columnas.append(POI_MUSEO)
     columnas.append(registro[6])
     columnas.append(registro[2])
     columnas.append(0)
@@ -384,7 +387,7 @@ for registro in resultado:
     columnas.append(str(registro[12]))
     columnas.append(registro[1])
     columnas.append(registro[8])
-    columnas.append(RESTAURANTE)
+    columnas.append(POI_RESTAURANTE)
     columnas.append(registro[2])
     columnas.append(registro[4])
     columnas.append(1)
@@ -497,7 +500,7 @@ for registro in resultado:
     columnas.append(str(registro[5]))
     columnas.append(registro[1])
     columnas.append('')
-    columnas.append(HOTEL)
+    columnas.append(POI_HOTEL)
     columnas.append('')
     columnas.append(registro[2])
     columnas.append(1)
