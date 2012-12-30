@@ -93,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	 */
 	public Cursor recuperarPoi(int idPoi){
 		
-		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria, direccion, telefono " +
+		Cursor c = myDb.rawQuery("select _id, latitud, longitud, nombrePoi, descPoi, categoria, direccion, telefono, uriImagen " +
 				"from poi " +
 				"where _id = " + idPoi, null); 
 

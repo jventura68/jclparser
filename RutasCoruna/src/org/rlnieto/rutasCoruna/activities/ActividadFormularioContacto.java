@@ -1,15 +1,23 @@
 package org.rlnieto.rutasCoruna.activities;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.rlnieto.rutasCoruna.R;
 import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.SQLException;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html.ImageGetter;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -55,7 +63,7 @@ public class ActividadFormularioContacto extends Activity {
 		btnReservarBooking = (Button) findViewById(R.id.btnReservarBooking);
 		btnReservarAtrapalo = (Button) findViewById(R.id.btnReservarAtrapalo);
 		imgMapa = (ImageView) findViewById(R.id.imgMapa);
-		
+
 		// Nos llega la clave de la tabla de pois
 		Bundle bundle = getIntent().getExtras();
 		clavePoi = Integer.valueOf(bundle.getInt("clave_poi"));
@@ -140,11 +148,25 @@ public class ActividadFormularioContacto extends Activity {
 		int categoria = c.getInt(c.getColumnIndex("categoria"));
 		String direccion = c.getString(c.getColumnIndex("direccion"));
 		int telefono = c.getInt(c.getColumnIndex("telefono"));
-		
+		String urlBitmapMapa = c.getString(c.getColumnIndex("uriImagen"));
+Log.v("Guarrin", urlBitmapMapa);
+
 		nombreEstablecimiento.setText(nombrePoi);
 		descripcionEstablecimiento.setText(datosPoi);
 		direccionEstablecimiento.setText(direccion);
 		telefonoEstablecimiento.setText(String.valueOf(telefono));
+
+		try{
+			InputStream is = this.contexto.getAssets().open(urlBitmapMapa);
+			Drawable d = Drawable.createFromStream(is, null);
+			imgMapa.setImageDrawable(d);
+		} catch (IOException e) {
+			Log.v("IOException", e.getMessage() + " Buscando: " + urlBitmapMapa);
+		}		
+		
+		
+		
+		
 		
 /*		Cursor cursorRestaurante = dbh.detalleRestaurante(idPoi);
 

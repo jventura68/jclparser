@@ -112,7 +112,8 @@ Log.w("uri imagen poi", uriImagenPoi);
 					//String rutaCompleta = ActividadDescripcionPoi.this.uriImagenPoi + source;
 
 					InputStream is = getAssets().open(source);
-					Drawable d = Drawable.createFromStream(is, "src name");
+
+					Drawable d = Drawable.createFromStream(is, null);
 					
 					//d.setBounds(0, 0, d.getIntrinsicWidth(),
 					//		d.getIntrinsicHeight());
@@ -150,7 +151,7 @@ Log.w("uri imagen poi", uriImagenPoi);
 	 * 
 	 * @return
 	 */
-	public ImageGetter getImageHTML_link() {
+	/*public ImageGetter getImageHTML_link() {
 		ImageGetter ig = new ImageGetter() {
 			public Drawable getDrawable(String source) {
 				try {
@@ -166,14 +167,14 @@ Log.w("uri imagen poi", uriImagenPoi);
 			}
 		};
 		return ig;
-	}
+	}*/
 
 	/**
 	 * Transforma las imagenes en objetos incrustables
 	 * 
 	 * @return
 	 */
-	public ImageGetter getImageHTML_drawable() {
+	/*public ImageGetter getImageHTML_drawable() {
 		ImageGetter ig = new ImageGetter() {
 			public Drawable getDrawable(String source) {
 				int resID = getResources().getIdentifier(source, "assets",
@@ -187,7 +188,7 @@ Log.w("uri imagen poi", uriImagenPoi);
 			}
 		};
 		return ig;
-	}
+	}*/
 
 	/**
 	 * Recupera la uri de la imagen del poi
@@ -221,7 +222,7 @@ Log.w("uri imagen poi", uriImagenPoi);
 	 *            a mostrar
 	 * @return
 	 */
-	private String leerDocumento(String carpetaDocs, String ficheroHtml) {
+	/*private String leerDocumento(String carpetaDocs, String ficheroHtml) {
 
 		String rutaFichero = carpetaDocs + ficheroHtml;
 		String textoHtml = "";
@@ -251,7 +252,7 @@ Log.w("uri imagen poi", uriImagenPoi);
 
 		return (textoHtml);
 
-	}
+	}*/
 
 	/**
 	 * Recupera datos de la bd y rellena los campos del formulario
@@ -260,7 +261,7 @@ Log.w("uri imagen poi", uriImagenPoi);
 	 *            : clave del poi en la tabla
 	 * 
 	 */
-	private String recuperarDescripcionPoi(int clavePoi) {
+	/*private String recuperarDescripcionPoi(int clavePoi) {
 
 		// TODO: ver si se puede eliminar el cursor y utilizar un objeto de tipo
 		// poi. Problema: ¿hacemos
@@ -293,7 +294,7 @@ Log.w("uri imagen poi", uriImagenPoi);
 
 		return datosPoi;
 
-	}
+	}*/
 
 	private String[] recuperarDescripcionPoi2(int clavePoi) {
 
