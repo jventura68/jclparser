@@ -8,6 +8,7 @@ import org.rlnieto.rutasCoruna.utils.Constantes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,10 +81,10 @@ public class ActividadPrincipal extends Activity{
         	@Override
         	public void onClick(View arg0) {
 //        		Intent myIntent = new Intent(contexto, ActividadAcercaDe.class);
-        		Intent myIntent = new Intent(contexto, ActividadNavegador.class);
-        		myIntent.putExtra("url", Constantes.URL_EMPRESA);
+        		//Intent myIntent = new Intent(contexto, ActividadNavegador.class);
         		
-        		contexto.startActivity(myIntent);
+       	       Intent myIntent = new Intent("android.intent.action.VIEW", Uri.parse(Constantes.URL_EMPRESA));
+       	       contexto.startActivity(myIntent);
         	
         	}
         	
