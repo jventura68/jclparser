@@ -1,16 +1,9 @@
 package org.rlnieto.rutasCoruna.activities;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 
 import org.rlnieto.rutasCoruna.R;
-import org.rlnieto.rutasCoruna.R.id;
-import org.rlnieto.rutasCoruna.R.layout;
 import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 
 import android.text.Html;
@@ -19,20 +12,14 @@ import android.text.Html.ImageGetter;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
-//import android.net.Uri;
-import android.net.Uri;
 import android.os.Bundle;
-//import android.content.Intent;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+
 
 public class ActividadDescripcionPoi extends Activity {
 
@@ -65,12 +52,6 @@ public class ActividadDescripcionPoi extends Activity {
         windowHeight = displaymetrics.heightPixels;
         windowWidth = displaymetrics.widthPixels;
         
-Log.w("alto", String.valueOf(windowHeight));
-Log.w("ancho", String.valueOf(windowWidth));
-
-		
-		
-		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			Integer clavePoi = (Integer) extras.get("clave_poi");
@@ -83,7 +64,7 @@ Log.w("ancho", String.valueOf(windowWidth));
 Log.w("uri imagen poi", uriImagenPoi);
 
 			// Volcamos el texto en el textView
-			nombreDescripcion =  recuperarDescripcionPoi2(clavePoi);
+			nombreDescripcion =  recuperarDescripcionPoi(clavePoi);
 			//html = uriImagenPoi + recuperarDescripcionPoi(clavePoi);
 			String titulo = "<h1>" + nombreDescripcion[0] + "</h1>";
 			html = uriImagenPoi + titulo + nombreDescripcion[1];
@@ -147,50 +128,6 @@ Log.w("uri imagen poi", uriImagenPoi);
 	}
 
 	/**
-	 * Manejador para imagenes por url
-	 * 
-	 * @return
-	 */
-	/*public ImageGetter getImageHTML_link() {
-		ImageGetter ig = new ImageGetter() {
-			public Drawable getDrawable(String source) {
-				try {
-					Drawable d = Drawable.createFromStream(
-							new URL(source).openStream(), "src name");
-					d.setBounds(0, 0, d.getIntrinsicWidth(),
-							d.getIntrinsicHeight());
-					return d;
-				} catch (IOException e) {
-					Log.v("IOException", e.getMessage());
-					return null;
-				}
-			}
-		};
-		return ig;
-	}*/
-
-	/**
-	 * Transforma las imagenes en objetos incrustables
-	 * 
-	 * @return
-	 */
-	/*public ImageGetter getImageHTML_drawable() {
-		ImageGetter ig = new ImageGetter() {
-			public Drawable getDrawable(String source) {
-				int resID = getResources().getIdentifier(source, "assets",
-						"org.rlnieto.rutasCoruna"); // nombre del paquete al
-													// final
-				Drawable d = new BitmapDrawable(BitmapFactory.decodeResource(
-						ActividadDescripcionPoi.this.getBaseContext()
-								.getResources(), resID));
-				d.setBounds(0, 0, d.getIntrinsicWidth(), d.getIntrinsicHeight());
-				return d;
-			}
-		};
-		return ig;
-	}*/
-
-	/**
 	 * Recupera la uri de la imagen del poi
 	 * 
 	 * @return
@@ -213,90 +150,8 @@ Log.w("uri imagen poi", uriImagenPoi);
 
 	}
 
-	/**
-	 * Lee el index.html de la carpeta que se le envía como parámetro. Esta
-	 * carpeta está colgando de "assets"
-	 * 
-	 * @param carpetaDocs
-	 *            : carpeta colgando de assets donde está el fichero index.html
-	 *            a mostrar
-	 * @return
-	 */
-	/*private String leerDocumento(String carpetaDocs, String ficheroHtml) {
 
-		String rutaFichero = carpetaDocs + ficheroHtml;
-		String textoHtml = "";
-
-		// Cargamos el texto desde el fichero
-		try {
-
-			InputStream is = getAssets().open(rutaFichero);
-			InputStreamReader isr = new InputStreamReader(is);
-
-			BufferedReader bf = new BufferedReader(isr);
-
-			StringBuffer textoFichero = new StringBuffer("");
-
-			String linea = bf.readLine();
-			while (linea != null) {
-				textoFichero.append(linea);
-				linea = bf.readLine();
-			}
-
-			textoHtml = textoFichero.toString();
-
-		} catch (Exception e) {
-			Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-		} // TODO: ¿qué hacemos si no encuentra el fichero? ¿sacar un mensaje y
-			// seguir?
-
-		return (textoHtml);
-
-	}*/
-
-	/**
-	 * Recupera datos de la bd y rellena los campos del formulario
-	 * 
-	 * @param idPoi
-	 *            : clave del poi en la tabla
-	 * 
-	 */
-	/*private String recuperarDescripcionPoi(int clavePoi) {
-
-		// TODO: ver si se puede eliminar el cursor y utilizar un objeto de tipo
-		// poi. Problema: ¿hacemos
-		// uno genérico para hoteles y restaurantes o uno distinto para cada
-		// categoría? Me inclino por la
-		// segunda opción
-		Cursor c = null;
-
-		
-//Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();			
-		
-		
-		// Recuperamos los datos del poi
-		DatabaseHelper dbh = new DatabaseHelper(this);
-
-		try {
-			dbh.openDataBase();
-
-		} catch (SQLException sqle) {
-			throw sqle;
-		}
-
-		c = dbh.recuperarPoi(clavePoi);
-		c.moveToFirst();
-
-		String datosPoi = c.getString(c.getColumnIndex("descPoi"));
-
-		c.close();
-		dbh.close();
-
-		return datosPoi;
-
-	}*/
-
-	private String[] recuperarDescripcionPoi2(int clavePoi) {
+	private String[] recuperarDescripcionPoi(int clavePoi) {
 
 		// TODO: ver si se puede eliminar el cursor y utilizar un objeto de tipo
 		// poi. Problema: ¿hacemos
@@ -306,9 +161,6 @@ Log.w("uri imagen poi", uriImagenPoi);
 		Cursor c = null;
 
 		String[] nombreDescripcion = new String[2];
-		
-//Toast.makeText(contexto, String.valueOf(clavePoi), Toast.LENGTH_LONG).show();			
-		
 		
 		// Recuperamos los datos del poi
 		DatabaseHelper dbh = new DatabaseHelper(this);
