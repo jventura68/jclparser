@@ -49,7 +49,13 @@ public class ActividadPrincipal extends Activity{
         btnAcercaDe.getBackground().setAlpha(185);
         
         contexto = this;
-       
+        
+        // Asignamos una imagen de fondo a la actividad
+    	Integer fondos[] = { R.drawable.tranvia, R.drawable.rosa, R.drawable.cruz, R.drawable.surf, 
+    			R.drawable.torre, R.drawable.torrecontrol2, R.drawable.mercado, R.drawable.mod };
+        
+    	int fondoAleatorio = (int)Math.floor(Math.random() * fondos.length);
+    	this.getWindow().setBackgroundDrawableResource(fondos[fondoAleatorio]);
         
         /**-------------------------------------------------------------------------
          * 
@@ -80,11 +86,11 @@ public class ActividadPrincipal extends Activity{
         btnAcercaDe.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View arg0) {
-//        		Intent myIntent = new Intent(contexto, ActividadAcercaDe.class);
-        		//Intent myIntent = new Intent(contexto, ActividadNavegador.class);
+
+//        		Intent myIntent = new Intent(contexto, PantallaPruebas.class);
         		
        	       Intent myIntent = new Intent("android.intent.action.VIEW", Uri.parse(Constantes.URL_EMPRESA));
-       	       contexto.startActivity(myIntent);
+       	       	contexto.startActivity(myIntent);
         	
         	}
         	
