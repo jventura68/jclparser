@@ -36,7 +36,7 @@
             android:id="@+id/txtDescripcionEstablecimiento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dip"
+            android:layout_margin="5dip"
             android:text="Descripción del establecimiento"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -44,7 +44,7 @@
             android:id="@+id/txtDireccionEstablecimiento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dip"
+            android:layout_margin="5dip"
             android:text="Dirección del establecimiento"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dip"
+            android:layout_margin="5dip"
             android:src="@drawable/ic_informacion" />
             
         <TableLayout
