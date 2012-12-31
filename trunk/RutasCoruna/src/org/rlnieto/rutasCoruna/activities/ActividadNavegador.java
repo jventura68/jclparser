@@ -14,18 +14,19 @@ public class ActividadNavegador extends Activity{
 	
 	
 	/**
-	 * Punto de entrada a la aplicaciÃ³n
+	 * Punto de entrada a la aplicacion
 	 * 
 	 */
 	public void onCreate(Bundle savedInstanceState){
 
-		String url = "http://www.google.com";
+		String url = "http://www.corunavenue.com";
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pantalla_navegador);
 
 		WebView wv = (WebView)findViewById(R.id.webView);
 		
+		// Recuperamos la url a mostrar
 		Bundle bundle = getIntent().getExtras();
 		if(bundle.getString("url") != null || bundle.getString("url") != "")
 			url = bundle.getString("url");

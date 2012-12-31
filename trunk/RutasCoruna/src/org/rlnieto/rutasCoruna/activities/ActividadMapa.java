@@ -419,7 +419,7 @@ public class ActividadMapa extends MapActivity {
 				break;
 			case 1:
 				marker = getResources()
-						.getDrawable(R.drawable.ic_pin_historica); // museo
+						.getDrawable(R.drawable.ic_pin_museo); // museo
 				break;
 			case 2:
 				marker = getResources()
