@@ -48,28 +48,13 @@
             android:text="Dirección del establecimiento"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <Button
-            android:id="@+id/btnReservarBooking"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dip"
-            android:text="Reservar en este hotel vía Booking"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/btnReservarAtrapalo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dip"
-            android:text="Reservar en este restaurante vía Atrápalo"
-            android:visibility="gone" />
-
         <ImageView
-                android:id="@+id/imgMapa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dip"
-                android:src="@drawable/ic_informacion" />
+            android:id="@+id/imgMapa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dip"
+            android:src="@drawable/ic_informacion" />
             
         <TableLayout
             xmlns:android="http://schemas.android.com/apk/res/android"

@@ -27,6 +27,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Actividad para mostrar el detalle de un hotel o un restaurante
+ * 
+ * @author guig
+ *
+ */
 public class ActividadFormularioContacto extends Activity {
 
 	private Context contexto = null;
@@ -36,8 +42,6 @@ public class ActividadFormularioContacto extends Activity {
 	private TextView direccionEstablecimiento = null;
 	private TextView telefonoEstablecimiento = null;
 	private ImageButton btnLlamarEstablecimiento = null;
-	private Button btnReservarBooking = null;
-	private Button btnReservarAtrapalo = null;
 	private ImageView imgMapa = null;
 	
 	
@@ -46,6 +50,7 @@ public class ActividadFormularioContacto extends Activity {
 	@Override
 	// -----------------------------------------------------------------------------------
 	// Punto de entrada a la aplicación
+	//
 	// -----------------------------------------------------------------------------------
 	public void onCreate(Bundle savedInstanceState) {
 
@@ -60,8 +65,6 @@ public class ActividadFormularioContacto extends Activity {
 		direccionEstablecimiento = (TextView) findViewById(R.id.txtDireccionEstablecimiento);
 		telefonoEstablecimiento = (TextView) findViewById(R.id.txtTelefonoEstablecimiento);
 		btnLlamarEstablecimiento = (ImageButton) findViewById(R.id.btnLlamarEstablecimiento);
-		btnReservarBooking = (Button) findViewById(R.id.btnReservarBooking);
-		btnReservarAtrapalo = (Button) findViewById(R.id.btnReservarAtrapalo);
 		imgMapa = (ImageView) findViewById(R.id.imgMapa);
 
 		// Nos llega la clave de la tabla de pois
@@ -89,30 +92,10 @@ public class ActividadFormularioContacto extends Activity {
 			}
 		});
 
-		/**
-		 * Abre una pantalla con un webview para hacer la reserva vía booking
-		 */
-		btnReservarBooking.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				reservarViaBooking(recuperarUrlBooking(ActividadFormularioContacto.this.clavePoi));
-
-			}
-		});
-
-		/**
-		 * Abre una pantalla con un webview para hacer la reserva vía atrápalo
-		 */
-		btnReservarAtrapalo.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				reservarViaAtrapalo(recuperarUrlAtrapalo(ActividadFormularioContacto.this.clavePoi));
-
-			}
-		});
 
 	} // onCreate
 
+	
 	/**
 	 * Recupera datos de la bd y rellena los campos del formulario
 	 * 
@@ -149,24 +132,17 @@ public class ActividadFormularioContacto extends Activity {
 		String direccion = c.getString(c.getColumnIndex("direccion"));
 		int telefono = c.getInt(c.getColumnIndex("telefono"));
 		String urlBitmapMapa = c.getString(c.getColumnIndex("uriImagen"));
-Log.v("Guarrin", urlBitmapMapa);
 
 		nombreEstablecimiento.setText(nombrePoi);
-		descripcionEstablecimiento.setText(datosPoi);
 		direccionEstablecimiento.setText(direccion);
 		telefonoEstablecimiento.setText(String.valueOf(telefono));
 
-		try{
-			InputStream is = this.contexto.getAssets().open(urlBitmapMapa);
-			Drawable d = Drawable.createFromStream(is, null);
-			imgMapa.setImageDrawable(d);
-		} catch (IOException e) {
-			Log.v("IOException", e.getMessage() + " Buscando: " + urlBitmapMapa);
-		}		
-		
-		
-		
-		
+		// Si no tenemos descripción, ocultamos el control de la pantalla
+		if(datosPoi.trim().length() == 0){
+			descripcionEstablecimiento.setVisibility(android.view.View.GONE);
+		}else{
+			descripcionEstablecimiento.setText(datosPoi);
+		}
 		
 /*		Cursor cursorRestaurante = dbh.detalleRestaurante(idPoi);
 
@@ -177,14 +153,28 @@ Log.v("Guarrin", urlBitmapMapa);
 		cursorRestaurante.close();
 */		
 		
-		// Si se trata de un hotel mostramos la opción de reservar vía Booking
-		// Si se trata de un restaurante mostramos la especialidad y el precio medio
+		// Si se trata de un hotel mostramos el mapa con la ubicación
 		switch (categoria) {
 		case DatabaseHelper.CODIGO_HOTEL:
 			//btnReservarBooking.setVisibility(android.view.View.VISIBLE);
+			
+			try{
+				InputStream is = this.contexto.getAssets().open(urlBitmapMapa);
+				Drawable d = Drawable.createFromStream(is, null);
+				imgMapa.setImageDrawable(d);
+			} catch (IOException e) {
+				Log.v("IOException", e.getMessage() + " Buscando: " + urlBitmapMapa);
+			}	
+			
+			
+			imgMapa.setVisibility(android.view.View.VISIBLE);
 			break;
 		case DatabaseHelper.CODIGO_RESTAURANTE:  // mostramos la especialidad y el precio medio
+			imgMapa.setVisibility(android.view.View.GONE);
 			break;
+
+		default:
+			imgMapa.setVisibility(android.view.View.GONE);
 		}
 
 		c.close();

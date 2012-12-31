@@ -5,6 +5,7 @@ import org.rlnieto.rutasCoruna.R.id;
 import org.rlnieto.rutasCoruna.R.layout;
 import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 import org.rlnieto.rutasCoruna.core.Updater;
+import org.rlnieto.rutasCoruna.utils.Constantes;
 
 import android.app.Activity;
 import android.content.Context;
@@ -85,7 +86,10 @@ public class ActividadPrincipal extends Activity{
         btnAcercaDe.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View arg0) {
-        		Intent myIntent = new Intent(contexto, ActividadAcercaDe.class);
+//        		Intent myIntent = new Intent(contexto, ActividadAcercaDe.class);
+        		Intent myIntent = new Intent(contexto, ActividadNavegador.class);
+        		myIntent.putExtra("url", Constantes.URL_EMPRESA);
+        		
         		contexto.startActivity(myIntent);
         	
         	}
