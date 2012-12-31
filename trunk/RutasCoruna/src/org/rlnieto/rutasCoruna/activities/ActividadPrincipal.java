@@ -1,8 +1,6 @@
 package org.rlnieto.rutasCoruna.activities;
 
 import org.rlnieto.rutasCoruna.R;
-import org.rlnieto.rutasCoruna.R.id;
-import org.rlnieto.rutasCoruna.R.layout;
 import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 import org.rlnieto.rutasCoruna.core.Updater;
 import org.rlnieto.rutasCoruna.utils.Constantes;
@@ -14,8 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 
 public class ActividadPrincipal extends Activity{
@@ -70,9 +66,6 @@ public class ActividadPrincipal extends Activity{
 			@Override
 			public void onClick(View arg0) {
 
-				//btnRutas.setBackgroundColor(R.color.blue_base);
-				//btnRutas.setBackgroundColor(R.color.negro_avenue);
-				
 		    	Intent myIntent = new Intent(contexto, ActividadListaRutas.class);
 				contexto.startActivity(myIntent);
 			}

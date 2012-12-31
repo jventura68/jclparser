@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 
-import org.rlnieto.entidades.*;
+import org.rlnieto.rutasCoruna.utils.Constantes;
 
 public class DatabaseHelper extends SQLiteOpenHelper{
 
@@ -47,17 +47,12 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public static final int CODIGO_CERVECERIA = 106;
 	
 	
-	
-	private static String DB_PATH = "/data/data/org.rlnieto.rutasCoruna/databases/";
-	private static final String DATABASE_NAME="rutasCoruna.sqlite";
-	//private static final int VERSION_BD = 1;
-	
 	private SQLiteDatabase myDb = null;
 	private Context miContexto = null;
 	
 	
 	public DatabaseHelper(Context contexto) {
-		super(contexto, DATABASE_NAME, null, 1);
+		super(contexto, Constantes.DATABASE_NAME, null, 1);
 		
 		miContexto = contexto;
 		
@@ -244,7 +239,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
  
     	if(dbExist){
     		// la borramos
-        	String outFileName = DB_PATH + DATABASE_NAME;
+        	String outFileName = Constantes.DB_PATH + Constantes.DATABASE_NAME;
         	File fichero = new File(outFileName);
         	fichero.delete();
     	}
@@ -269,7 +264,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     	SQLiteDatabase checkDB = null;
  
     	try{
-    		String myPath = DB_PATH + DATABASE_NAME;
+    		String myPath = Constantes.DB_PATH + Constantes.DATABASE_NAME;
     		checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
  
     	}catch(SQLiteException e){
@@ -293,10 +288,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     private void copyDataBase() throws IOException{
  
     	//Open your local db as the input stream
-    	InputStream myInput = miContexto.getAssets().open(DATABASE_NAME);
+    	InputStream myInput = miContexto.getAssets().open(Constantes.DATABASE_NAME);
  
     	// Path to the just created empty db
-    	String outFileName = DB_PATH + DATABASE_NAME;
+    	String outFileName = Constantes.DB_PATH + Constantes.DATABASE_NAME;
  
     	//Open the empty db as the output stream
     	OutputStream myOutput = new FileOutputStream(outFileName);
@@ -322,7 +317,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     public void openDataBase() throws SQLException{
     	 
     	//Open the database
-        String myPath = DB_PATH + DATABASE_NAME;
+        String myPath = Constantes.DB_PATH + Constantes.DATABASE_NAME;
     	myDb = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
  
     }    
@@ -348,73 +343,6 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-
-		// Tabla de rutas
-//		db.execSQL("CREATE TABLE ruta (_idRuta INTEGER PRIMARY KEY, nombreRuta TEXT, descripcionRuta TEXT);");
-//		ContentValues cv=new ContentValues();
-//		
-//		cv.put(ID_RUTA, 1);
-//		cv.put(NOMBRE_RUTA, "Ruta cultural");
-//		cv.put(DESCRIPCION_RUTA, "Visita de los monumentos típicos de A Coruña");
-//		db.insert("ruta", NOMBRE_RUTA, cv);
-//		
-//
-//		// Tabla de pois
-//		db.execSQL("CREATE TABLE poi (_idPoi INTEGER PRIMARY KEY, latitudPoi REAL, longitudPoi REAL, nombrePoi TEXT, descripcionPoi TEXT);");
-//		cv.clear();
-//		
-//		cv.put("_idPoi", 1);
-//		cv.put("latitudPoi", 43.367715);
-//		cv.put("longitudPoi", -8.407604);
-//		cv.put("nombrePoi", "Plaza de Pontevedra");
-//		cv.put("descripcionPoi", "Descripción de la plaza de Pontevedra");
-//		db.insert("poi", "nombrePoi", cv);
-//		
-//		
-//		cv.put("_idPoi", 2);
-//		cv.put("latitudPoi",  43.371334);
-//		cv.put("longitudPoi", -8.396001);
-//		cv.put("nombrePoi", "Plaza de María Pita");
-//		cv.put("descripcionPoi", "Descripción plaza de María Pita");
-//		db.insert("poi", "nombrePoi", cv);
-//		
-//		
-//		cv.put("_idPoi", 3);
-//		cv.put("latitudPoi", 43.385152);
-//		cv.put("longitudPoi", -8.398533);
-//		cv.put("nombrePoi", "Torre de Hércules");
-//		cv.put("descripcionPoi", "Descripción torre de Hércules");
-//		db.insert("poi", "nombrePoi", cv);
-//		
-//		
-//		cv.put("_idPoi", 4);
-//		cv.put("latitudPoi", 43.366062);
-//		cv.put("longitudPoi", -8.387547);
-//		cv.put("nombrePoi", "Castillo de San Antón");
-//		cv.put("descripcionPoi", "Descripción castillo de san Antón");
-//		db.insert("poi", "nombrePoi", cv);
-//		
-//
-//		// Tabla de relación rutas/pois
-//		db.execSQL("CREATE TABLE poiRuta (_idRuta INTEGER, _idPoi INTEGER);");
-//
-//		cv.clear();
-//		
-//		cv.put("_idRuta", 1);
-//		cv.put("_idPoi", 1);
-//		db.insert("poiRuta", "", cv);
-//		
-//		cv.put("_idRuta", 1);
-//		cv.put("_idPoi", 2);
-//		db.insert("poiRuta", "", cv);
-//		
-//		cv.put("_idRuta", 1);
-//		cv.put("_idPoi", 3);
-//		db.insert("poiRuta", "", cv);
-//		
-//		cv.put("_idRuta", 1);
-//		cv.put("_idPoi", 4);
-//		db.insert("poiRuta", "", cv);
 		
 	}
 
@@ -426,14 +354,4 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	}
 	
 }
-
-
-
-
-
-
-
-
-
-
 

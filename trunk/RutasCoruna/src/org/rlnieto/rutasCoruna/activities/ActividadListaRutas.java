@@ -1,13 +1,8 @@
 package org.rlnieto.rutasCoruna.activities;
 
-
-
-import java.util.ArrayList;
-
 import org.rlnieto.rutasCoruna.R;
 import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;

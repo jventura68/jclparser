@@ -1,26 +1,10 @@
 package org.rlnieto.rutasCoruna.activities;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
-//import android.app.Activity;
-//import android.content.Context;
-//import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
@@ -28,21 +12,12 @@ import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
-import com.google.android.maps.Overlay;
 
-//import com.google.android.maps.OverlayItem;
-
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-//import android.location.LocationProvider;
-
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
-//import android.database.sqlite.SQLiteDatabase;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -51,20 +26,10 @@ import android.content.Intent;
 import android.database.SQLException;
 import android.database.Cursor;
 
-//import android.os.Environment;
-import android.util.Log;
-
-//import java.io.File;
-//import java.io.InputStream;
-//import java.io.OutputStreamWriter;
-//import java.io.FileOutputStream;
-
 import org.rlnieto.rutasCoruna.R;
-import org.rlnieto.rutasCoruna.R.drawable;
-import org.rlnieto.rutasCoruna.R.id;
-import org.rlnieto.rutasCoruna.R.layout;
 import org.rlnieto.rutasCoruna.core.DatabaseHelper;
 import org.rlnieto.rutasCoruna.overlays.*;
+
 
 public class ActividadMapa extends MapActivity {
 
@@ -87,8 +52,6 @@ public class ActividadMapa extends MapActivity {
 	private Double longitudCentrarRuta = -8.396001 * 1E6;
 	private int nivelZoomRuta = 15;
 
-	// private static final int CODIGO_RUTA_SACRA = 1;
-	// private static final int CODIGO_RUTA_COMPLETA = 1;
 
 	@Override
 	// -----------------------------------------------------------------------------------
@@ -168,10 +131,6 @@ public class ActividadMapa extends MapActivity {
 
 	}
 
-	// --------------------------------------------------------------------------
-	// Al heredar de mapActivity hay que implementar el método isRouteDisplayed
-	//
-	// --------------------------------------------------------------------------
 
 	@Override
 	// --------------------------------------------------------------------------

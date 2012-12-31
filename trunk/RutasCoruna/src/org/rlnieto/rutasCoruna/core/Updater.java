@@ -12,10 +12,7 @@ import android.content.res.Resources;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
-//import android.content.res.AssetManager;
 import android.content.Context;
-
-//import android.widget.Toast;
 
 //------------------------------------------------------------------------------------------------------
 // Actualiza la base de datos y/o las páginas html con los datos de los pois
