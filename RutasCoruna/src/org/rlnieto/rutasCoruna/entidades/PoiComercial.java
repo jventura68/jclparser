@@ -1,4 +1,4 @@
-package org.rlnieto.entidades;
+package org.rlnieto.rutasCoruna.entidades;
 
 public class PoiComercial {
 
