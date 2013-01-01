@@ -26,7 +26,7 @@ import android.widget.ViewSwitcher.ViewFactory;
 public class PantallaPruebas extends Activity implements ViewFactory{
 	
 	Integer pics[] = { R.drawable.tranvia, R.drawable.rosa, R.drawable.cruz, R.drawable.surf, 
-			R.drawable.torre, R.drawable.torrecontrol2, R.drawable.mercado, R.drawable.mod };
+			R.drawable.torre, R.drawable.torrecontrol2, R.drawable.mercado };
 	
 	ImageSwitcher iSwitcher;
 	

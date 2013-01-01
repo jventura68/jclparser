@@ -51,8 +51,8 @@ public class ActividadPrincipal extends Activity{
         contexto = this;
         
         // Asignamos una imagen de fondo a la actividad
-    	Integer fondos[] = { R.drawable.tranvia, R.drawable.rosa, R.drawable.cruz, R.drawable.surf, 
-    			R.drawable.torre, R.drawable.torrecontrol2, R.drawable.mercado, R.drawable.mod };
+    	Integer fondos[] = {R.drawable.rosa, R.drawable.cruz, R.drawable.surf, 
+    			R.drawable.torre, R.drawable.torrecontrol2, R.drawable.mercado};
         
     	int fondoAleatorio = (int)Math.floor(Math.random() * fondos.length);
     	this.getWindow().setBackgroundDrawableResource(fondos[fondoAleatorio]);
