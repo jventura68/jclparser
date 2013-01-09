@@ -17,16 +17,24 @@
             android:id="@+id/imageView1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+	        android:paddingBottom="10dp"
             android:src="@drawable/logo" />
 
-        <TextView
-            android:id="@+id/txPerfil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-	        android:padding="10dp"
-            android:text="Acerca de nosotros"
-            android:textColor="#ffffff"
-            android:textStyle="bold" />
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    		android:id="@+id/scrollView1"
+    		android:layout_width="match_parent"
+    		android:layout_height="wrap_content" >
+        
+        	<TextView
+	            android:id="@+id/txtPerfil"
+            	android:layout_width="match_parent"
+            	android:layout_height="wrap_content"
+            	android:text="Acerca de nosotros"
+            	android:textColor="#ffffff"
+		        android:padding="20dp"
+            	android:textStyle="bold" />
+        
+		</ScrollView>
     </LinearLayout>
 
     <TableLayout
@@ -43,13 +51,13 @@
             android:paddingRight="20dp" >
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/imgFacebook"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_facebook_creatures_32x32" />
 
             <ImageView
-                android:id="@+id/imageView1"
+                android:id="@+id/imgTwitter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_twitter_creatures_32x32" />

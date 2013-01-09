@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,13 +23,19 @@ public class ActividadPrincipal extends Activity{
 	private Button btnRestaurantes = null;
 	private Button btnHoteles = null;
 	private Button btnAcercaDe = null;
+	
+	private Vibrator vibrador = null;
 		
+	
 	@Override
 	//-----------------------------------------------------------------------------------
 	// Punto de entrada a la aplicación
 	//-----------------------------------------------------------------------------------
 	public void onCreate(Bundle savedInstanceState){
-        
+    
+        contexto = this;
+		vibrador = (Vibrator) contexto.getSystemService(Context.VIBRATOR_SERVICE) ;
+		
 		// Comprobamos si hay que actualizar la bd
 		Updater updater = new Updater(this);
 		updater.actualizarBd();
@@ -42,13 +49,11 @@ public class ActividadPrincipal extends Activity{
         btnRestaurantes = (Button)findViewById(R.id.BtnRestaurantes);
         btnHoteles = (Button)findViewById(R.id.BtnHoteles);
         btnAcercaDe = (Button)findViewById(R.id.BtnAcercaDe);
-        
+
         btnRutas.getBackground().setAlpha(185);
         btnRestaurantes.getBackground().setAlpha(185);
         btnHoteles.getBackground().setAlpha(185);
         btnAcercaDe.getBackground().setAlpha(185);
-        
-        contexto = this;
         
         // Asignamos una imagen de fondo a la actividad
     	Integer fondos[] = {R.drawable.rosa, R.drawable.cruz, R.drawable.surf, 
@@ -73,6 +78,7 @@ public class ActividadPrincipal extends Activity{
 			@Override
 			public void onClick(View arg0) {
 
+				vibrador.vibrate(Constantes.TIEMPO_VIBRACION);
 		    	Intent myIntent = new Intent(contexto, ActividadListaRutas.class);
 				contexto.startActivity(myIntent);
 			}
@@ -86,10 +92,9 @@ public class ActividadPrincipal extends Activity{
         btnAcercaDe.setOnClickListener(new OnClickListener() {
         	@Override
         	public void onClick(View arg0) {
-
-//        		Intent myIntent = new Intent(contexto, PantallaPruebas.class);
-        		
-       	       Intent myIntent = new Intent("android.intent.action.VIEW", Uri.parse(Constantes.URL_EMPRESA));
+        		vibrador.vibrate(Constantes.TIEMPO_VIBRACION);
+//       	       	Intent myIntent = new Intent("android.intent.action.VIEW", Uri.parse(Constantes.URL_EMPRESA));
+        		Intent myIntent = new Intent(contexto, ActividadAcercaDe.class);
        	       	contexto.startActivity(myIntent);
         	
         	}
@@ -104,9 +109,8 @@ public class ActividadPrincipal extends Activity{
         	public void onClick(View arg0){
 //        		Toast.makeText(getBaseContext(), "En construcción!!", Toast.LENGTH_SHORT).show();
 
+				vibrador.vibrate(Constantes.TIEMPO_VIBRACION);
         		Intent myIntent = new Intent(contexto, ActividadListaHoteles.class);
-        		
-        		//Intent myIntent = new Intent(contexto, ActividadMapa.class);
         		myIntent.putExtra("idRuta", DatabaseHelper.LISTA_HOTELES);
         		contexto.startActivity(myIntent);
         		
@@ -117,13 +121,14 @@ public class ActividadPrincipal extends Activity{
         
         
         /**
-         * Abre la pantalla de configuración
+         * Abre la lista de los restaurantes
          * 
          */
         btnRestaurantes.setOnClickListener(new OnClickListener(){
         	
         	public void onClick(View arg0){
         		
+				vibrador.vibrate(Constantes.TIEMPO_VIBRACION);
         		Intent myIntent = new Intent(contexto, ActividadMapa.class);
         		myIntent.putExtra("idRuta", DatabaseHelper.LISTA_RESTAURANTES);
         		contexto.startActivity(myIntent);
